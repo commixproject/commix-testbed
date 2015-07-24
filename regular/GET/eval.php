@@ -4,15 +4,15 @@
     </head>
     <body>
         <form action="eval.php" method="GET">
-        Enter your name: <input type="text" name="name">
+        Enter your name: <input type="text" name="user">
         <input type="submit">
         </form>
     </body>
 </html>
 
 <?php
-if (isset($_GET["name"])){
+if (isset($_GET["user"])){
   # Execute command!
-  eval("echo \"Hello, ".$_GET['name']."!\";");
+  eval("echo \"Hello, ".$_GET['user']."!\";");
 }
 ?>

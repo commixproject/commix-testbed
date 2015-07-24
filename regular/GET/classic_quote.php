@@ -3,7 +3,7 @@
 	 <title>Command injection test environment</title>
     </head>
     <body>
-        <form action="eval.php" method="POST">
+        <form action="classic_quote.php" method="GET">
         Enter your name: <input type="text" name="user">
         <input type="submit">
         </form>
@@ -11,8 +11,8 @@
 </html>
 
 <?php
-if (isset($_POST["user"])){
-  # Execute command!
-  eval("echo \"Hello, ".$_POST['user']."!\";");
-}
+    # Execute command!
+    if (isset($_GET["user"])){
+        echo exec("echo Hello, '".$_GET["user"]."'!");
+    }
 ?>
