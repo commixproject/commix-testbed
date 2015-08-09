@@ -67,15 +67,16 @@
               <!-- User-Agent HTTP Header -->
               <div class="jumbotron hero-spacer">
                 <form action="classic_quote.php" method="POST">
-                Enter your name: <input type="text" name="user">
+                Enter your name: <input type="text" name="addr">
                 <input value="Submit!" type="submit">
                 </form>
                 <br>
                 <b>
                 <?php
                     # Execute command!
-                    if (isset($_POST["user"])){
-                        echo exec("echo Hello, '".$_POST["user"]."'!");
+                    $addr = $_POST['addr'];
+                    if (isset($addr)){
+                        echo exec("ping -c4 '".$addr."'");
                     }
                 ?>
                 </b>

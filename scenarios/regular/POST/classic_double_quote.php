@@ -66,7 +66,7 @@
           <div class="row">
               <!-- User-Agent HTTP Header -->
               <div class="jumbotron hero-spacer">
-                <form action="classic_quote.php" method="GET">
+                <form action="classic_double_quote.php" method="POST">
                 Enter your name: <input type="text" name="addr">
                 <input value="Submit!" type="submit">
                 </form>
@@ -74,9 +74,9 @@
                 <b>
                 <?php
                     # Execute command!
-                    $addr = $_GET['addr'];
+                    $addr = $_POST['addr'];
                     if (isset($addr)){
-                        echo exec("ping -c4 '".$addr."'");
+                        echo exec("ping -c4 \"".$addr."\"");
                     }
                 ?>
                 </b>
