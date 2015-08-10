@@ -80,6 +80,7 @@
                           <li class="list-group-item">Classic single-quote example<br>(<a href="scenarios/regular/GET/classic_quote.php">GET</a> | <a href="scenarios/regular/POST/classic_quote.php"> POST</a>)</li>       
                           <li class="list-group-item">Classic double-quote example<br>(<a href="scenarios/regular/GET/classic_double_quote.php">GET</a> | <a href="scenarios/regular/POST/classic_double_quote.php"> POST</a>)</li> 
                           <li class="list-group-item">Classic regexp example<br>(<a href="scenarios/regular/GET/classic_regexp.php">GET</a> | <a href="scenarios/regular/POST/classic_regexp.php"> POST</a>)</li>
+                          <li class="list-group-item">Classic hashing example<br>(<a href="scenarios/regular/GET/classic_hash.php">GET</a> | <a href="scenarios/regular/POST/classic_hash.php"> POST</a>)</li>
                           <li class="list-group-item">Blind regular example<br>(<a href="scenarios/regular/GET/blind.php">GET</a> | <a href="scenarios/regular/POST/blind.php"> POST</a>)</li>
                           <li class="list-group-item">Blind regexp example<br>(<a href="scenarios/regular/GET/blind_regexp.php">GET</a> | <a href="scenarios/regular/POST/blind_regexp.php"> POST </a>)</li>
                           <li class="list-group-item">Eval regular example<br>(<a href="scenarios/regular/GET/eval.php">GET</a> | <a href="scenarios/regular/POST/eval.php"> POST </a>)</li>
