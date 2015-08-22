@@ -78,7 +78,8 @@
                     $blacklisting = array(
                       ';' => '',
                       '&&'=> '',
-                      '|' => ''
+                      '|' => '',
+                      '`' => ''
                      );
                     $addr = str_replace(array_keys($blacklisting),$blacklisting,$addr);
                     # Execute command!
