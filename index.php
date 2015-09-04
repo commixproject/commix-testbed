@@ -85,6 +85,7 @@
                           <li class="list-group-item">Blind regular example<br>(<a href="scenarios/regular/GET/blind.php">GET</a> | <a href="scenarios/regular/POST/blind.php"> POST</a>)</li>
                           <li class="list-group-item">Blind regexp example<br>(<a href="scenarios/regular/GET/blind_regexp.php">GET</a> | <a href="scenarios/regular/POST/blind_regexp.php"> POST </a>)</li>
                           <li class="list-group-item">Eval regular example<br>(<a href="scenarios/regular/GET/eval.php">GET</a> | <a href="scenarios/regular/POST/eval.php"> POST </a>)</li>
+                          <li class="list-group-item">Preg_Replace() regular example<br>(<a href="scenarios/regular/GET/preg_replace.php?replace=/Hello/&with=Bye">GET</a>)</li>
                       </ul>
 
                   </div>
