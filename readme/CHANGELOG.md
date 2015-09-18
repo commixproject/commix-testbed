@@ -1,4 +1,5 @@
 ## Version 0.1 [2015]
+* Added Base64 regular example
 * Added Str_Replace() regular example
 * Added Preg_Replace() regular example.
 * Added backtick filtering examples.

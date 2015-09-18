@@ -77,6 +77,7 @@
                       </div>
                       <ul class="list-group">
                           <li class="list-group-item">Classic regular example<br>(<a href="scenarios/regular/GET/classic.php">GET</a> | <a href="scenarios/regular/POST/classic.php"> POST</a>)</li>
+                          <li class="list-group-item">Classic (Base64) regular example<br>(<a href="scenarios/regular/GET/classic_b64.php">GET</a> | <a href="scenarios/regular/POST/classic_b64.php"> POST</a>)</li>
                           <li class="list-group-item">Classic single-quote example<br>(<a href="scenarios/regular/GET/classic_quote.php">GET</a> | <a href="scenarios/regular/POST/classic_quote.php"> POST</a>)</li>       
                           <li class="list-group-item">Classic double-quote example<br>(<a href="scenarios/regular/GET/classic_double_quote.php">GET</a> | <a href="scenarios/regular/POST/classic_double_quote.php"> POST</a>)</li> 
                           <li class="list-group-item">Classic regexp example<br>(<a href="scenarios/regular/GET/classic_regexp.php">GET</a> | <a href="scenarios/regular/POST/classic_regexp.php"> POST</a>)</li>
@@ -85,6 +86,7 @@
                           <li class="list-group-item">Blind regular example<br>(<a href="scenarios/regular/GET/blind.php">GET</a> | <a href="scenarios/regular/POST/blind.php"> POST</a>)</li>
                           <li class="list-group-item">Blind regexp example<br>(<a href="scenarios/regular/GET/blind_regexp.php">GET</a> | <a href="scenarios/regular/POST/blind_regexp.php"> POST </a>)</li>
                           <li class="list-group-item">Eval regular example<br>(<a href="scenarios/regular/GET/eval.php">GET</a> | <a href="scenarios/regular/POST/eval.php"> POST </a>)</li>
+                          <li class="list-group-item">Eval (Base64) regular example<br>(<a href="scenarios/regular/GET/eval_b64.php">GET</a> | <a href="scenarios/regular/POST/eval_b64.php"> POST </a>)</li>
                           <li class="list-group-item">Preg_Replace() regular example<br>(<a href="scenarios/regular/GET/preg_replace.php?replace=/Hello/&with=Bye">GET</a>)</li>
                           <li class="list-group-item">Str_Replace() regular example<br>(<a href="scenarios/regular/GET/str_replace.php">GET</a> | <a href="scenarios/regular/POST/str_replace.php"> POST </a>)</li>
                       </ul>
