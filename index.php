@@ -114,6 +114,7 @@
                         </div>
                         <ul class="list-group">
                             <li class="list-group-item"><a href="scenarios/cookie/cookie(classic).php">Classic cookie-based example</a></li>
+                            <li class="list-group-item"><a href="scenarios/cookie/cookie(b64).php">Classic cookie-based (Base64) example</a></li>
                             <li class="list-group-item"><a href="scenarios/cookie/cookie(blind).php">Blind cookie-based example</a></li>        
                             <li class="list-group-item"><a href="scenarios/cookie/cookie(eval).php">Eval cookie-based example</a></li>
                         </ul>

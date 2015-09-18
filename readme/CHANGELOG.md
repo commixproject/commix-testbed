@@ -1,4 +1,5 @@
 ## Version 0.1 [2015]
+* Added Classic cookie-based (Base64) example.
 * Added Base64 regular example.
 * Added Str_Replace() regular example.
 * Added Preg_Replace() regular example.
@@ -12,3 +13,4 @@
 * Added user-agent based examples
 * Added cookie based examples.
 * The initial commit.
+
