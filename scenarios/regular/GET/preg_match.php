@@ -66,7 +66,7 @@
           <div class="row">
               <!-- User-Agent HTTP Header -->
               <div class="jumbotron hero-spacer">
-                <form action="classic_regexp.php" method="GET">
+                <form action="preg_match.php" method="GET">
                 Ping address: <input type="text" name="addr">
                 <input value="Submit!" type="submit">
                 </form>
