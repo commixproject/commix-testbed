@@ -1,4 +1,5 @@
 ## Version 0.1 [2015]
+* Added Classic/Eval/Blind JSON-based examples.
 * Added Classic cookie-based (Base64) example.
 * Added Base64 regular example.
 * Added Str_Replace() regular example.
