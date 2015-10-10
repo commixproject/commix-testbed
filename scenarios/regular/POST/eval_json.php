@@ -67,17 +67,17 @@
               <!-- User-Agent HTTP Header -->
               <div class="jumbotron hero-spacer">
                 <b>
-				<?php
-				// JSON request format:
-				// {"addr":"127.0.0.1"}
-				// read JSon input
-				$data_back = json_decode(file_get_contents('php://input'));
-				// set json string to php variables
-				$name = $data_back->{"name"};
-				// create json response
-				$responses = array("User" => array("Name", eval("echo \"Hello, ".$name."!\";")));
-				echo json_encode($responses);
-				?>
+		<?php
+		// JSON request format:
+		// {"addr":"127.0.0.1"}
+		// read JSon input
+		$data_back = json_decode(file_get_contents('php://input'));
+		// set json string to php variables
+		$name = $data_back->{"name"};
+		// create json response
+		$responses = array("User" => array("Name", eval("echo \"Hello, ".$name."!\";")));
+		echo json_encode($responses);
+		?>
                 </b>
               </div> 
           </div>
