@@ -72,10 +72,10 @@
               </form>
                 <br>
                 <b>
-		<?php 
-		$user = str_replace(array("\\","'", '"'), "", $_GET["user"]); 
-		eval("echo(\"$user\");"); 
-		?>
+		        <?php 
+		           $user = str_replace(array("\\","'", '"'), "", $_GET["user"]); 
+		           eval("echo(\"$user\");"); 
+		        ?>
                 </b>
               </div> 
           </div>

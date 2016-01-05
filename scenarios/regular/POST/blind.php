@@ -76,10 +76,16 @@
                     # Execute command!
                     $addr = $_POST['addr'];
                     if(isset($addr)){
-                      exec("/bin/ping -c 4 ".$addr, $output, $return);
+                      if( stristr(php_uname('s'), 'Windows NT')){
+                        # Windows-based command execution.
+                        echo exec('ping  '.$addr, $output, $return);
+                      } else {
+                        # Unix-based command execution.
+                        exec("/bin/ping -c 4 ".$addr, $output, $return);
+                      }
                       if (!$return) {
                         echo "The ip ".$addr." seems to be up and running!";
-                      }else{
+                      } else {
                         echo "The ip ".$addr." seems to be down!";
                       }
                     }

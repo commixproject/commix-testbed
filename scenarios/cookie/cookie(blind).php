@@ -76,12 +76,18 @@
                 if(!isset($_COOKIE[$cookie_name])) {
                     echo "Cookie named '" .$cookie_name. "' is not set!";
                 } else {
-                    exec("ping -c 3 " . $_COOKIE[$cookie_name], $output, $return);
-                    if (!$return) {
-                       echo "Hey ".$cookie_value.", you are alive!";
-                    } else {
-                       echo "Oops ".$cookie_value.", you are dead beef :/";
-                    }
+                  if( stristr(php_uname('s'), 'Windows NT')){ 
+                    # Windows-based command execution.
+                    exec("ping " . $_COOKIE[$cookie_name], $output, $return); 
+                  } else {
+                    # Unix-based command execution.
+                    exec("/bin/ping -c 4 " . $_COOKIE[$cookie_name], $output, $return);
+                  }
+                  if (!$return) {
+                      echo "Hey ".$cookie_value.", you are alive!";
+                  } else {
+                      echo "Oops ".$cookie_value.", you are dead beef :/";
+                  }
                 }
                 ?>
                 </b>
