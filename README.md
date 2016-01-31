@@ -5,6 +5,11 @@ A collection of web pages, vulnerable to command injection flaws, used to test [
 * [User-Agent](https://github.com/stasinopoulos/commix-testbed/tree/master/scenarios/user-agent) injection scenarios.
 * [Referer](https://github.com/stasinopoulos/commix-testbed/tree/master/scenarios/referer) injection scenarios.
 
-####Bugs and Enhancements
+#### Installation
+Download commix-testbed by cloning the Git repository:
+
+    git clone https://github.com/stasinopoulos/commix-testbed.git commix-testbed
+
+#### Bugs and Enhancements
 For bug reports or enhancements, please open an issue [here](https://github.com/stasinopoulos/commix-testbed/issues).
 
