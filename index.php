@@ -84,6 +84,7 @@
                           <li class="list-group-item">Classic hashing example<br>(<a href="scenarios/regular/GET/classic_hash.php">GET</a> | <a href="scenarios/regular/POST/classic_hash.php"> POST</a>)</li>
                           <li class="list-group-item">Classic (JSON) example<br>(<a href="scenarios/regular/POST/classic_json.php">POST</a>)</li>
                           <li class="list-group-item">Classic example & Basic HTTP Authentication<br>(<a href="scenarios/regular/GET/classic_basic_auth.php">GET</a> | <a href="scenarios/regular/POST/classic_basic_auth.php"> POST</a>)</li>
+                          <li class="list-group-item">Classic example & Digest HTTP Authentication<br>(<a href="scenarios/regular/GET/classic_digest_auth.php">GET</a> | <a href="scenarios/regular/POST/classic_digest_auth.php"> POST</a>)</li>
                           <li class="list-group-item">Blind regular example<br>(<a href="scenarios/regular/GET/blind.php">GET</a> | <a href="scenarios/regular/POST/blind.php"> POST</a>)</li>
                           <li class="list-group-item">Double Blind regular example<br>(<a href="scenarios/regular/GET/double_blind.php">GET</a> | <a href="scenarios/regular/POST/double_blind.php"> POST</a>)</li>
                           <li class="list-group-item">Blind (JSON) regular example<br>(<a href="scenarios/regular/POST/blind_json.php">POST</a>)</li>

@@ -1,4 +1,5 @@
 ## Version 0.1 
+* Added: Digest HTTP Authentication (Classic example)
 * Added: Basic HTTP Authentication (Classic example)
 * Added: Windows-based command execution examples.
 * Added: Double Blind examples (based on [that](https://github.com/stasinopoulos/commix/issues/17) issue).
