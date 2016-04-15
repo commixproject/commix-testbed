@@ -135,7 +135,7 @@
                         <ul class="list-group">
                             <li class="list-group-item"><a href="scenarios/referer/referer(classic).php">Classic referer-based example</a></li>
                             <li class="list-group-item"><a href="scenarios/referer/referer(blind).php">Blind referer-based example</a></li>       
-                            <li class="list-group-item"><a href="scenarios/referer/referer(eval).php">Eval cookie-based example</a></li>
+                            <li class="list-group-item"><a href="scenarios/referer/referer(eval).php">Eval referer-based example</a></li>
                         </ul>
                    </div>
               </div>
