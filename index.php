@@ -80,6 +80,7 @@
                           <li class="list-group-item">Classic (Base64) regular example<br>(<a href="scenarios/regular/GET/classic_b64.php">GET</a> | <a href="scenarios/regular/POST/classic_b64.php"> POST</a>)</li>
                           <li class="list-group-item">Classic single-quote example<br>(<a href="scenarios/regular/GET/classic_quote.php">GET</a> | <a href="scenarios/regular/POST/classic_quote.php"> POST</a>)</li>       
                           <li class="list-group-item">Classic double-quote example<br>(<a href="scenarios/regular/GET/classic_double_quote.php">GET</a> | <a href="scenarios/regular/POST/classic_double_quote.php"> POST</a>)</li> 
+                          <li class="list-group-item">Classic non-space example<br>(<a href="scenarios/regular/GET/classic_non_space.php">GET</a> | <a href="scenarios/regular/POST/classic_non_space.php"> POST</a>)</li> 
                           <li class="list-group-item">Classic blacklisting example<br>(<a href="scenarios/regular/GET/classic_blacklisting.php">GET</a> | <a href="scenarios/regular/POST/classic_blacklisting.php"> POST</a>)</li>
                           <li class="list-group-item">Classic hashing example<br>(<a href="scenarios/regular/GET/classic_hash.php">GET</a> | <a href="scenarios/regular/POST/classic_hash.php"> POST</a>)</li>
                           <li class="list-group-item">Classic (JSON) example<br>(<a href="scenarios/regular/POST/classic_json.php">POST</a>)</li>
