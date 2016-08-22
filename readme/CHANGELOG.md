@@ -1,4 +1,5 @@
 ## Version 0.1 
+* Added: Regex Filters
 * Added: Non-space example (Classic example)
 * Added: Digest HTTP Authentication (Classic example)
 * Added: Basic HTTP Authentication (Classic example)

@@ -100,11 +100,31 @@
 
                   </div>
               </div>
+              <!-- Shity filters -->
+              <div class="col-md-3 col-sm-6 hero-feature">
+                  <div class="panel panel-info">
+                      <div class="panel-heading">
+                        <h4>2. Regex Filters </h4>
+                      </div>
+                        <ul class="list-group">
+                            <li class="list-group-item"><a href="scenarios/filters/lax_domain_name.php">Regex for domain name validation</a></li>
+                            <li class="list-group-item"><a href="scenarios/filters/no_colon_no_pipe_no_ampersand_no_dollar.php">Regex filter for colon/pipe/ampersand/dollar</a></li>
+                            <li class="list-group-item"><a href="scenarios/filters/no_space.php">Regex filter for spaces</a></li>
+                            <li class="list-group-item"><a href="scenarios/filters/no_space_no_colon_no_pipe_no_ampersand.php">Regex filter for space/colon/pipe/ampersand</a></li>
+                            <li class="list-group-item"><a href="scenarios/filters/no_space_no_colon_no_pipe_no_ampersand_no_dollar.php">Regex filter for space/colon/pipe/ampersand/dollar</a></li> 
+                            <li class="list-group-item"><a href="scenarios/filters/no_white_chars.php">Regex filter for white chars</a></li> 
+                            <li class="list-group-item"><a href="scenarios/filters/simple_stop_alphanum.php">Alphanum for input end</a></li> 
+                            <li class="list-group-item"><a href="scenarios/filters/no_white_chars_stop_alnum.php">Alphanum for input end (filter for white chars)</a></li>
+                            <li class="list-group-item"><a href="scenarios/filters/simple_start_alphanum.php">Alphanum for input start</a></li>
+                            <li class="list-group-item"><a href="scenarios/filters/no_white_chars_start_alphanum.php">Alphanum for input start (filter for white chars)</a></li> 
+                        </ul>
+                  </div>
+              </div>
               <!-- User-Agent HTTP Header -->
               <div class="col-md-3 col-sm-6 hero-feature">
                   <div class="panel panel-info">
                       <div class="panel-heading">
-                        <h4>2. User-Agent HTTP Header </h4>
+                        <h4>3. User-Agent HTTP Header </h4>
                       </div>
                         <ul class="list-group">
                             <li class="list-group-item"><a href="scenarios/user-agent/ua(classic).php">Classic user-agent-based example</a></li>
@@ -117,7 +137,7 @@
               <div class="col-md-3 col-sm-6 hero-feature">
                   <div class="panel panel-info">
                         <div class="panel-heading">
-                          <h4>3. Cookie HTTP Header</h4>
+                          <h4>4. Cookie HTTP Header</h4>
                         </div>
                         <ul class="list-group">
                             <li class="list-group-item"><a href="scenarios/cookie/cookie(classic).php">Classic cookie-based example</a></li>
@@ -131,7 +151,7 @@
               <div class="col-md-3 col-sm-6 hero-feature">
                   <div class="panel panel-info">
                         <div class="panel-heading">
-                          <h4>4. Referer HTTP Header</h4>
+                          <h4>5. Referer HTTP Header</h4>
                         </div>
                         <ul class="list-group">
                             <li class="list-group-item"><a href="scenarios/referer/referer(classic).php">Classic referer-based example</a></li>
