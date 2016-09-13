@@ -96,6 +96,7 @@
                           <li class="list-group-item">Preg_match() blind example<br>(<a href="scenarios/regular/GET/preg_match_blind.php">GET</a> | <a href="scenarios/regular/POST/preg_match_blind.php"> POST </a>)</li>
                           <li class="list-group-item">Preg_Replace() regular example<br>(<a href="scenarios/regular/GET/preg_replace.php?replace=/Hello/&with=Bye">GET</a>)</li>
                           <li class="list-group-item">Str_Replace() regular example<br>(<a href="scenarios/regular/GET/str_replace.php">GET</a> | <a href="scenarios/regular/POST/str_replace.php"> POST </a>)</li>
+                          <li class="list-group-item">Create_Function() regular example<br>(<a href="scenarios/regular/GET/create_function.php">GET</a> | <a href="scenarios/regular/POST/create_function.php"> POST </a>)</li>
                       </ul>
 
                   </div>
