@@ -1,4 +1,5 @@
 ## Version 0.1 
+* Added: Hex regular example.
 * Added: Create_Function() regular example.
 * Added: Regex Filters.
 * Added: Non-space example (Classic example).
