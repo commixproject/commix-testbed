@@ -6,7 +6,7 @@
 * Added: Digest HTTP Authentication (Classic example).
 * Added: Basic HTTP Authentication (Classic example).
 * Added: Windows-based command execution examples.
-* Added: Double Blind examples (based on [that](https://github.com/stasinopoulos/commix/issues/17) .issue).
+* Added: Double Blind examples (based on [that](https://github.com/commixproject/commix/issues/17) .issue).
 * Added: Classic/Eval/Blind JSON-based examples.
 * Added: Classic cookie-based (Base64) example.
 * Added: Base64 regular example.

@@ -50,10 +50,10 @@
         <!-- Jumbotron Header -->
         <header class="jumbotron hero-spacer">
             <h2><b>Commix testbed - A command injection test environment!</b></h2>
-            <p>A collection of web pages, vulnerable to <b><a href="https://www.owasp.org/index.php/Command_Injection">command injection flaws</a></b>, used to test <b><a href="https://github.com/stasinopoulos/commix">commix</a></b>'s vulnerability <b>detection</b> and <b>exploitation</b> features.</p>
+            <p>A collection of web pages, vulnerable to <b><a href="https://www.owasp.org/index.php/Command_Injection">command injection flaws</a></b>, used to test <b><a href="https://github.com/commixproject/commix">commix</a></b>'s vulnerability <b>detection</b> and <b>exploitation</b> features.</p>
             <p>
             <a href="https://twitter.com/commixproject" class="twitter-follow-button" data-show-count="false">Follow @commixproject</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-            <iframe src="https://ghbtns.com/github-btn.html?user=stasinopoulos&repo=commix&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
+            <iframe src="https://ghbtns.com/github-btn.html?user=commixproject&repo=commix&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
         <div class="text-center"><!--You can add col-lg-12 if you want -->
         </div>
         </header>
