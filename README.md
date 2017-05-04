@@ -4,7 +4,7 @@ A collection of web pages, vulnerable to command injection flaws, used to test [
 * [Cookie](https://github.com/commixproject/commix-testbed/tree/master/scenarios/cookie) injection scenarios.
 * [User-Agent](https://github.com/commixproject/commix-testbed/tree/master/scenarios/user-agent) injection scenarios.
 * [Referer](https://github.com/commixproject/commix-testbed/tree/master/scenarios/referer) injection scenarios.
-
+* [Weak filters](https://github.com/commixproject/commix-testbed/tree/master/scenarios/filters) scenarios. ([Hints](https://github.com/commixproject/commix/wiki/Filters-Bypasses))
 #### Installation
 Download commix-testbed by cloning the Git repository:
 
