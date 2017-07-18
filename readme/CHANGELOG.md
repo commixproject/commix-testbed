@@ -1,4 +1,5 @@
 ## Version 0.1 
+* Added: Nested quotes example.
 * Added: Hex regular example.
 * Added: Create_Function() regular example.
 * Added: Regex Filters.

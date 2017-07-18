@@ -110,6 +110,7 @@
                       </div>
                         <ul class="list-group">
                             <li class="list-group-item"><a href="scenarios/filters/lax_domain_name.php">Regex for domain name validation</a></li>
+                            <li class="list-group-item"><a href="scenarios/filters/nested_quotes.php">Nested quotes</a></li>
                             <li class="list-group-item"><a href="scenarios/filters/no_colon_no_pipe_no_ampersand_no_dollar.php">Regex filter for colon/pipe/ampersand/dollar</a></li>
                             <li class="list-group-item"><a href="scenarios/filters/no_space.php">Regex filter for spaces</a></li>
                             <li class="list-group-item"><a href="scenarios/filters/no_space_no_colon_no_pipe_no_ampersand.php">Regex filter for space/colon/pipe/ampersand</a></li>
