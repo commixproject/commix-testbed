@@ -84,14 +84,14 @@
                           <li class="list-group-item">Classic non-space example<br>(<a href="scenarios/regular/GET/classic_non_space.php">GET</a> | <a href="scenarios/regular/POST/classic_non_space.php"> POST</a>)</li> 
                           <li class="list-group-item">Classic blacklisting example<br>(<a href="scenarios/regular/GET/classic_blacklisting.php">GET</a> | <a href="scenarios/regular/POST/classic_blacklisting.php"> POST</a>)</li>
                           <li class="list-group-item">Classic hashing example<br>(<a href="scenarios/regular/GET/classic_hash.php">GET</a> | <a href="scenarios/regular/POST/classic_hash.php"> POST</a>)</li>
-                          <li class="list-group-item">Classic (JSON) example<br>(<a href="scenarios/regular/POST/classic_json.php">POST</a>)</li>
                           <li class="list-group-item">Classic example & Basic HTTP Authentication<br>(<a href="scenarios/regular/GET/classic_basic_auth.php">GET</a> | <a href="scenarios/regular/POST/classic_basic_auth.php"> POST</a>)</li>
                           <li class="list-group-item">Classic example & Digest HTTP Authentication<br>(<a href="scenarios/regular/GET/classic_digest_auth.php">GET</a> | <a href="scenarios/regular/POST/classic_digest_auth.php"> POST</a>)</li>
                           <li class="list-group-item">Blind regular example<br>(<a href="scenarios/regular/GET/blind.php">GET</a> | <a href="scenarios/regular/POST/blind.php"> POST</a>)</li>
                           <li class="list-group-item">Double Blind regular example<br>(<a href="scenarios/regular/GET/double_blind.php">GET</a> | <a href="scenarios/regular/POST/double_blind.php"> POST</a>)</li>
-                          <li class="list-group-item">Blind (JSON) regular example<br>(<a href="scenarios/regular/POST/blind_json.php">POST</a>)</li>
                           <li class="list-group-item">Eval regular example<br>(<a href="scenarios/regular/GET/eval.php">GET</a> | <a href="scenarios/regular/POST/eval.php"> POST </a>)</li>
                           <li class="list-group-item">Eval (Base64) regular example<br>(<a href="scenarios/regular/GET/eval_b64.php">GET</a> | <a href="scenarios/regular/POST/eval_b64.php"> POST </a>)</li>
+                          <li class="list-group-item">Classic (JSON) regular example<br>(<a href="scenarios/regular/POST/classic_json.php">POST</a>)</li>
+                          <li class="list-group-item">Blind (JSON) regular example<br>(<a href="scenarios/regular/POST/blind_json.php">POST</a>)</li>
                           <li class="list-group-item">Eval (JSON) regular example<br>(<a href="scenarios/regular/POST/eval_json.php">POST</a>)</li>
                           <li class="list-group-item">Preg_match() regular example<br>(<a href="scenarios/regular/GET/preg_match.php">GET</a> | <a href="scenarios/regular/POST/preg_match.php"> POST</a>)</li>
                           <li class="list-group-item">Preg_match() blind example<br>(<a href="scenarios/regular/GET/preg_match_blind.php">GET</a> | <a href="scenarios/regular/POST/preg_match_blind.php"> POST </a>)</li>
