@@ -1,4 +1,5 @@
 ## Version 0.1 
+* Added: Classic/Blind (SOAP/XML) regular examples.
 * Added: Nested quotes example.
 * Added: Hex regular example.
 * Added: Create_Function() regular example.

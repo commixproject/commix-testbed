@@ -91,6 +91,7 @@
                           <li class="list-group-item">Eval regular example<br>(<a href="scenarios/regular/GET/eval.php">GET</a> | <a href="scenarios/regular/POST/eval.php"> POST </a>)</li>
                           <li class="list-group-item">Eval (Base64) regular example<br>(<a href="scenarios/regular/GET/eval_b64.php">GET</a> | <a href="scenarios/regular/POST/eval_b64.php"> POST </a>)</li>
                           <li class="list-group-item">Classic (SOAP/XML) regular example<br>(<a href="scenarios/regular/POST/classic_xml.php">POST</a>)</li>
+                          <li class="list-group-item">Blind (SOAP/XML) regular example<br>(<a href="scenarios/regular/POST/blind_xml.php">POST</a>)</li>
                           <li class="list-group-item">Classic (JSON) regular example<br>(<a href="scenarios/regular/POST/classic_json.php">POST</a>)</li>
                           <li class="list-group-item">Blind (JSON) regular example<br>(<a href="scenarios/regular/POST/blind_json.php">POST</a>)</li>
                           <li class="list-group-item">Eval (JSON) regular example<br>(<a href="scenarios/regular/POST/eval_json.php">POST</a>)</li>
