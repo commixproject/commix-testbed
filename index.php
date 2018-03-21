@@ -122,6 +122,7 @@
                             <li class="list-group-item"><a href="scenarios/filters/no_white_chars_stop_alnum.php">Alphanum for input end (filter for white chars)</a></li>
                             <li class="list-group-item"><a href="scenarios/filters/simple_start_alphanum.php">Alphanum for input start</a></li>
                             <li class="list-group-item"><a href="scenarios/filters/no_white_chars_start_alphanum.php">Alphanum for input start (filter for white chars)</a></li> 
+                            <li class="list-group-item"><a href="scenarios/filters/multiple_os_commands_blacklisting.php"> Regex filter for OS commands (Windows / *nix)</a></li> 
                         </ul>
                   </div>
               </div>

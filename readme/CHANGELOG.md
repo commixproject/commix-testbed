@@ -1,4 +1,5 @@
 ## Version 0.1 
+* Added: Regex filter for OS commands (Windows / *nix)
 * Added: Classic/Blind (SOAP/XML) regular examples.
 * Added: Nested quotes example.
 * Added: Hex regular example.
