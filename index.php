@@ -36,7 +36,7 @@
                 </button>
                <a class="navbar-brand">
                     <img style="max-width:43px; margin-top: -11px;"
-                         src="../commix-testbed/img/logo.png">
+                         src="/img/logo.png">
                 </a>
                 <a class="navbar-brand" href="index.php">commix-testbed (v0.1)</a>
 
