@@ -112,9 +112,8 @@ function http_digest_parse($txt)
         <!-- /.row -->
         <!-- Page Features -->
         <div class="container">
-          <div class="row">
-              <!-- User-Agent HTTP Header -->
-              <div class="jumbotron hero-spacer">
+          <div class="row">              
+            <div class="jumbotron hero-spacer">
                 <form action="classic_digest_auth.php" method="GET">
                 Ping address: <input type="text" name="addr">
                 <input value="Submit!" type="submit">

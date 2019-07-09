@@ -68,9 +68,8 @@
         <!-- /.row -->
         <!-- Page Features -->
         <div class="container">
-          <div class="row ">
-              <!-- User-Agent HTTP Header -->
-              <div class="col-md-3 col-sm-6 hero-feature">
+          <div class="row ">              
+            <div class="col-md-3 col-sm-6 hero-feature">
                   <div class="panel panel-info">
                       <div class="panel-heading">
                         <h4>1. Regular (GET / POST)  </h4>
@@ -125,8 +124,7 @@
                             <li class="list-group-item"><a href="scenarios/filters/multiple_os_commands_blacklisting.php"> Regex filter for OS commands (Windows / *nix)</a></li> 
                         </ul>
                   </div>
-              </div>
-              <!-- User-Agent HTTP Header -->
+              </div>              
               <div class="col-md-3 col-sm-6 hero-feature">
                   <div class="panel panel-info">
                       <div class="panel-heading">

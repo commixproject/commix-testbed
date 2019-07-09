@@ -64,7 +64,6 @@
         <!-- Page Features -->
         <div class="container">
           <div class="row">
-              <!-- User-Agent HTTP Header -->
               <div class="jumbotron hero-spacer">
                 <form action="preg_match.php" method="POST">
                 Ping address: <input type="text" name="addr">

@@ -63,9 +63,8 @@
         <!-- /.row -->
         <!-- Page Features -->
         <div class="container">
-          <div class="row">
-              <!-- User-Agent HTTP Header -->
-              <div class="jumbotron hero-spacer">
+          <div class="row">              
+            <div class="jumbotron hero-spacer">
                 <b>
                 <!-- XML request format:
                 <?xml version="1.0" encoding="UTF-8"?>

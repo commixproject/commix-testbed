@@ -63,9 +63,8 @@
         <!-- /.row -->
         <!-- Page Features -->
         <div class="container">
-          <div class="row">
-              <!-- User-Agent HTTP Header -->
-              <div class="jumbotron hero-spacer">
+          <div class="row">              
+            <div class="jumbotron hero-spacer">
                 <form action="classic_double_quote.php" method="POST">
                 Enter your name: <input type="text" name="addr">
                 <input value="Submit!" type="submit">

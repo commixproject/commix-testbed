@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -64,7 +63,6 @@
         <!-- Page Features -->
         <div class="container">
           <div class="row">
-              <!-- User-Agent HTTP Header -->
               <div class="jumbotron hero-spacer">
                 <br>
                 <b>

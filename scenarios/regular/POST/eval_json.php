@@ -64,7 +64,6 @@
         <!-- Page Features -->
         <div class="container">
           <div class="row">
-              <!-- User-Agent HTTP Header -->
               <div class="jumbotron hero-spacer">
                 <b>
                 <?php
