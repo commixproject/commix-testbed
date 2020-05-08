@@ -76,7 +76,6 @@
                 # Execute command!
                 $dyn_function = create_function('', "echo \"Hello, ".$_GET['user']."!\";");
                 $dyn_function(''); 
-
                 }
                 ?>
                 </b>
