@@ -13,7 +13,7 @@ Download commix testbed by cloning the official Git repository:
 
     git clone https://github.com/commixproject/commix-testbed.git commix-testbed
 
-...or use the dockerized version of commix testbed from [here](https://github.com/commixproject/commix-testbed/issues).
+... or use the [dockerized version](https://hub.docker.com/r/commixproject/commix-testbed) of commix testbed.
 
 ### Bugs and Enhancements
 For bug reports or enhancements regarding commix tesbed, please open an [issue](https://github.com/commixproject/commix-testbed/issues).
