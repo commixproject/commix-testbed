@@ -7,7 +7,7 @@
 
 
 ### Screenshot
-![Screenshot](https://i.imgur.com/FliP74b.png)
+![screenshot](https://user-images.githubusercontent.com/5289251/222951413-e8aabda4-6e73-4174-9365-7c631fa63b47.png)
 
 
 ### Installation
