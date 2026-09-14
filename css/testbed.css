@@ -1,0 +1,183 @@
+/* commix-testbed - shared styling for the index and every scenario page. */
+
+:root{
+  --ink:#1a1a1a; --red:#F10000; --bg:#f5f6f8; --surface:#fff;
+  --muted:#6b7280; --line:#e4e6ea; --code:#f3f4f6;
+  --get:#0b6bcb; --post:#7c3aed; --hdr:#b45309;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:15px/1.65 'Exo 2',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:1220px;margin:0 auto;padding:0 22px}
+
+/* ---------- navigation ---------- */
+.nav{position:sticky;top:0;z-index:50;background:var(--ink);border-bottom:1px solid #000}
+.nav .wrap{display:flex;align-items:center;gap:26px;height:68px}
+.brand{display:flex;align-items:center;text-decoration:none;flex:0 0 auto}
+.brand img{height:48px;display:block}
+.menu{display:flex;list-style:none;margin:0;padding:0;gap:4px;flex:1 1 auto}
+.dd{position:relative}
+.dd>button{display:flex;align-items:center;gap:7px;background:none;border:0;cursor:pointer;
+  color:#d6d8dc;font:inherit;font-weight:500;padding:9px 13px;border-radius:8px}
+.dd>button:hover,.dd.open>button{background:#1e1f22;color:#fff}
+.dd>button svg{width:10px;height:6px;fill:none;stroke:currentColor;stroke-width:1.8;
+  stroke-linecap:round;stroke-linejoin:round;transition:transform .15s}
+.dd.open>button svg{transform:rotate(180deg)}
+.dd>ul{display:none;position:absolute;top:calc(100% + 6px);left:0;min-width:300px;max-height:70vh;
+  overflow:auto;background:#fff;border:1px solid var(--line);border-radius:12px;
+  box-shadow:0 14px 40px rgba(0,0,0,.22);list-style:none;margin:0;padding:7px}
+.dd.open>ul{display:block}
+.dd>ul a{display:block;padding:8px 12px;border-radius:7px;text-decoration:none;font-size:14px;color:#26282c}
+.dd>ul a:hover{background:var(--code);color:#000}
+.gh,.back{flex:0 0 auto;color:#d6d8dc;text-decoration:none;font-weight:500;font-size:14px;
+  border:1px solid #34363a;padding:8px 15px;border-radius:8px}
+.gh:hover,.back:hover{background:#1e1f22;color:#fff}
+.gh,.back{margin-left:auto}
+
+/* ---------- index hero ---------- */
+.hero{padding:54px 0 30px}
+.hero h1{margin:0 0 12px;font-size:31px;letter-spacing:-.5px;line-height:1.25}
+.hero p{margin:0;max-width:70ch;color:#3d4148;font-size:16px}
+.stats{display:flex;gap:26px;margin-top:26px;flex-wrap:wrap}
+.stat b{display:block;font-size:25px;line-height:1.2}
+.stat span{color:var(--muted);font-size:13px}
+.warn{margin-top:26px;background:#fff7ed;border:1px solid #fed7aa;border-left:3px solid #ea580c;
+  padding:13px 16px;border-radius:9px;font-size:14px;color:#7c2d12}
+
+/* ---------- index toolbar ---------- */
+.bar{position:sticky;top:68px;z-index:40;background:var(--bg);padding:14px 0 16px;
+  display:flex;gap:12px;align-items:center;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+#q{flex:1 1 270px;min-width:210px;padding:11px 15px;border:1px solid var(--line);border-radius:10px;
+  font:inherit;background:#fff}
+#q:focus{outline:2px solid var(--ink);outline-offset:-1px}
+.chips{display:flex;gap:7px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 15px;
+  cursor:pointer;font:inherit;font-size:13.5px;color:#41454b}
+.chip:hover{border-color:#c3c7ce}
+.chip[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:#fff}
+
+/* ---------- index cards ---------- */
+.group{padding:34px 0 6px}
+.group h2{margin:0 0 16px}
+.fold{display:flex;align-items:center;gap:9px;background:none;border:0;padding:6px 0;cursor:pointer;
+  font:inherit;font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;
+  color:var(--muted)}
+.fold:hover{color:var(--ink)}
+.fold::before{content:"";width:0;height:0;border-left:5px solid currentColor;
+  border-top:4px solid transparent;border-bottom:4px solid transparent;
+  transform:rotate(90deg);transition:transform .15s}
+.group.folded .fold::before{transform:rotate(0deg)}
+.group.folded .grid{display:none}
+.count{background:#e8eaee;color:#4b5058;border-radius:999px;padding:2px 9px;font-size:12px;letter-spacing:0}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(330px,1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:16px 17px;
+  display:flex;flex-direction:column;gap:11px}
+.card:hover{border-color:#c9cdd4;box-shadow:0 2px 10px rgba(13,13,13,.05)}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.card h3{margin:0;font-size:15.5px;font-weight:600;line-height:1.4}
+.methods{display:flex;gap:7px}
+.m{text-decoration:none;font-size:12.5px;font-weight:600;letter-spacing:.4px;padding:5px 13px;
+  border-radius:7px;border:1px solid transparent}
+.m-get{background:#eaf2fd;color:var(--get);border-color:#cfe0f7}
+.m-post{background:#f3edfe;color:var(--post);border-color:#e0d2fb}
+.m-header,.m-put{background:#fdf3e3;color:var(--hdr);border-color:#f6e2c2}
+.m:hover{filter:brightness(.96)}
+.hint-toggle{align-self:flex-start;background:none;border:0;padding:0;cursor:pointer;font:inherit;
+  font-size:13px;font-weight:600;color:var(--muted);display:flex;align-items:center;gap:6px;text-align:left}
+.hint-toggle:hover{color:var(--ink)}
+.hint-toggle::before{content:"?";display:grid;place-items:center;width:16px;height:16px;border-radius:50%;
+  background:#e8eaee;color:#565b63;font-size:11px;font-weight:700;flex:0 0 auto}
+.hint{border-top:1px solid var(--line);padding-top:11px;font-size:13.5px;color:#40444b}
+.hint p{margin:0 0 10px}
+.empty{display:none;text-align:center;color:var(--muted);padding:50px 0}
+.empty.show{display:block}
+
+/* ---------- type badges ---------- */
+.badges{flex:0 0 auto;display:flex;gap:5px;align-items:center}
+.type{font-size:11px;font-weight:600;padding:3px 9px;border-radius:999px;white-space:nowrap;cursor:help}
+.t-classic{background:#e7f3ff;color:#0b4f9e}
+.t-blind{background:#f1edff;color:#5b2ec4}
+.tag{font-size:11px;font-weight:600;padding:3px 8px;border-radius:999px;white-space:nowrap;
+  background:#ffe9e6;color:#b21d12}
+.verdict{margin:0;padding-top:9px;border-top:1px dashed var(--line);color:var(--muted);font-size:12.5px}
+.verdict b{color:#40444b}
+
+/* ---------- scenario page ---------- */
+.page{padding-bottom:10px}
+.sc-head{padding:38px 0 22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.sc-head .crumb{width:100%;margin:0 0 2px;font-size:12.5px;letter-spacing:.9px;text-transform:uppercase;
+  color:var(--muted)}
+.sc-head h1{margin:0;font-size:27px;letter-spacing:-.4px}
+.cols{display:grid;gap:16px;grid-template-columns:1.15fr .85fr;align-items:start}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:20px 22px}
+.panel h2{margin:0 0 14px;font-size:12.5px;text-transform:uppercase;letter-spacing:.9px;color:var(--muted)}
+.explain{margin:0 0 12px;color:#3d4148}
+.explain code,.hint code{background:var(--code);padding:1px 5px;border-radius:4px;font-size:12.5px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.src{margin-top:14px}
+.src summary{cursor:pointer;font-size:13px;font-weight:600;color:var(--muted);
+  list-style:none;display:flex;align-items:center;gap:6px}
+.src summary::-webkit-details-marker{display:none}
+.src summary::before{content:"\203A";display:inline-block;transition:transform .15s;font-size:15px}
+.src[open] summary::before{transform:rotate(90deg)}
+.src summary:hover{color:var(--ink)}
+.src pre{margin:11px 0 0;background:var(--ink);color:#ff6b6b;border-radius:9px;padding:13px 15px;
+  overflow-x:auto;font-size:12px;line-height:1.55;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+
+/* The scenario's own markup, which is plain form HTML carried over from the original page. */
+.live form{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin:0 0 4px;
+  background:var(--code);border:1px solid var(--line);border-radius:10px;padding:14px 15px}
+.live input[type=text],.live input[type=search]{flex:1 1 220px;min-width:0;padding:9px 12px;
+  border:1px solid var(--line);border-radius:8px;font:inherit;background:#fff}
+.live input[type=text]:focus{outline:2px solid var(--ink);outline-offset:-1px}
+.live input[type=submit]{background:var(--ink);color:#fff;border:0;border-radius:8px;padding:10px 18px;
+  font:inherit;font-weight:600;cursor:pointer}
+.live input[type=submit]:hover{background:#26282c}
+.live b{font-weight:600}
+.live br{display:none}
+.live{overflow-wrap:anywhere}
+/* Whatever the page printed back, set apart from the form above it and coloured like a terminal:
+   green for output that came back, red where the page refused the value. */
+.live > b:last-of-type{display:block;margin-top:14px;padding:13px 15px;background:var(--ink);
+  color:#4ade80;border-radius:9px;font-weight:400;white-space:pre-wrap;text-align:left;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px}
+.live > b:last-of-type.refused{color:#ff6b6b}
+.live > b:last-of-type::before{content:"> ";color:#6b7280}
+
+/* ---------- footer ---------- */
+footer{margin-top:54px;border-top:1px solid var(--line);padding:28px 0 42px;color:var(--muted);font-size:14px}
+footer a{color:var(--ink)}
+.heart{color:var(--red)}
+
+@media(max-width:900px){
+  .cols{grid-template-columns:1fr}
+}
+@media(max-width:760px){
+  .nav .wrap{height:auto;padding-top:12px;padding-bottom:12px;flex-wrap:wrap;gap:12px}
+  .menu{order:3;width:100%}
+  .bar{position:static}
+  .hero{padding:34px 0 22px}
+}
+
+/* The second half of an explanation: what the mistake teaches. */
+.lesson{margin:0 0 10px;color:#4b5058}
+.panel .lesson{margin-bottom:12px}
+
+/* For pages that take no form input: what a request to them looks like. */
+.howto{background:#eef4fb;border:1px solid #d3e3f6;border-radius:10px;padding:14px 16px;margin:0 0 4px}
+.howto p{margin:0 0 9px;font-size:13.5px;color:#294a6d}
+.howto p.note{margin:9px 0 0;color:#4a6a8f;font-size:12.5px}
+.howto pre{margin:0;background:var(--ink);color:#e6e8ea;border-radius:8px;padding:12px 14px;
+  overflow-x:auto;font-size:12px;line-height:1.55;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.howto code{background:rgba(13,13,13,.06);padding:1px 5px;border-radius:4px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px}
+.howto pre code{background:none;padding:0;font-size:inherit}
+
+
+/* Second footer line: licence and years. */
+footer .copy{margin:6px 0 0;font-size:13px;color:#8a9099}
+.live > b:last-of-type.silent{color:#8a9099;font-style:italic}
