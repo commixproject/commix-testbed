@@ -13,7 +13,7 @@ $__tail = <<<'TESTBED_TAIL'
       <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
-        <pre><code>$addr = ($_POST[&#x27;addr&#x27;] ?? &#x27;&#x27;);
+        <pre><code>$addr = (isset($_POST[&#x27;addr&#x27;]) ? $_POST[&#x27;addr&#x27;] : &#x27;&#x27;);
 if(isset($addr)){
       if( stristr(php_uname(&#x27;s&#x27;), &#x27;Windows NT&#x27;)){
         # Matches the commands &quot;powershell&quot;,&quot;cmd&quot;
@@ -115,7 +115,7 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
                 </form>
                 <br>
                 <b><?php
-                $addr = ($_POST['addr'] ?? '');
+                $addr = (isset($_POST['addr']) ? $_POST['addr'] : '');
                 if(isset($addr)){
                       if( stristr(php_uname('s'), 'Windows NT')){
                         # Matches the commands "powershell","cmd"

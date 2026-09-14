@@ -13,7 +13,7 @@ $__tail = <<<'TESTBED_TAIL'
       <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
-        <pre><code>$client = isset($_SERVER[&#x27;HTTP_X_FORWARDED_FOR&#x27;]) ? ($_SERVER[&#x27;HTTP_X_FORWARDED_FOR&#x27;] ?? &#x27;&#x27;) : &#x27;127.0.0.1&#x27;;
+        <pre><code>$client = isset($_SERVER[&#x27;HTTP_X_FORWARDED_FOR&#x27;]) ? $_SERVER[&#x27;HTTP_X_FORWARDED_FOR&#x27;] : &#x27;127.0.0.1&#x27;;
 # The client address is resolved for the access log.
 echo exec(&quot;echo Request from: &quot;.$client);</code></pre>
       </details>
@@ -93,7 +93,7 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
     <section class="panel live">
       <h2>The page</h2>
       <?php
-                $client = isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? ($_SERVER['HTTP_X_FORWARDED_FOR'] ?? '') : '127.0.0.1';
+                $client = isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : '127.0.0.1';
                 # The client address is resolved for the access log.
                 echo exec("echo Request from: ".$client);
                 ?>

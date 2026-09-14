@@ -13,7 +13,7 @@ $__tail = <<<'TESTBED_TAIL'
       <p class="verdict">Reported by commix as <b>Classic code injection</b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
-        <pre><code>$user = str_replace(array(&quot;\\&quot;,&quot;&#x27;&quot;, &#x27;&quot;&#x27;), &quot;&quot;, ($_GET[&quot;user&quot;] ?? &#x27;&#x27;));
+        <pre><code>$user = str_replace(array(&quot;\\&quot;,&quot;&#x27;&quot;, &#x27;&quot;&#x27;), &quot;&quot;, (isset($_GET[&quot;user&quot;]) ? $_GET[&quot;user&quot;] : &#x27;&#x27;));
 eval(&quot;echo(\&quot;$user\&quot;);&quot;);</code></pre>
       </details>
     </aside>
@@ -97,6 +97,6 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
               </form>
                 <br>
                 <b><?php 
-		           $user = str_replace(array("\\","'", '"'), "", ($_GET["user"] ?? '')); 
+		           $user = str_replace(array("\\","'", '"'), "", (isset($_GET["user"]) ? $_GET["user"] : '')); 
 		           eval("echo(\"$user\");"); 
 		        ?></b>

@@ -13,7 +13,7 @@ $__tail = <<<'TESTBED_TAIL'
       <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
-        <pre><code>$referer = ($_SERVER[&#x27;HTTP_REFERER&#x27;] ?? &#x27;&#x27;);
+        <pre><code>$referer = (isset($_SERVER[&#x27;HTTP_REFERER&#x27;]) ? $_SERVER[&#x27;HTTP_REFERER&#x27;] : &#x27;&#x27;);
 if(isset($referer)){
 echo exec(&quot;echo It is always good to remember where you came from... \(Referer: &#x27;&quot;.$referer.&quot;&#x27;\)&quot;);
 }</code></pre>
@@ -96,7 +96,7 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
       <div class="howto"><p>There is nothing to type here: the value is taken from the <b>Referer</b> request header. Change that header and reload.</p><pre><code>GET /scenarios/referer/referer(classic).php
 Referer: https://commixproject.com/</code></pre></div><br>
                 <b><?php
-                $referer = ($_SERVER['HTTP_REFERER'] ?? '');
+                $referer = (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '');
                 if(isset($referer)){
                 echo exec("echo It is always good to remember where you came from... \(Referer: '".$referer."'\)");
                 }

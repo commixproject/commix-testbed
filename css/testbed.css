@@ -181,3 +181,7 @@ footer a{color:var(--ink)}
 /* Second footer line: licence and years. */
 footer .copy{margin:6px 0 0;font-size:13px;color:#8a9099}
 .live > b:last-of-type.silent{color:#8a9099;font-style:italic}
+
+/* Which language a scenario is written in. */
+.lang{font-size:11px;font-weight:600;padding:3px 8px;border-radius:999px;white-space:nowrap;
+  background:#e8eaee;color:#4b5058}

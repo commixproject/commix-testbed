@@ -14,8 +14,8 @@ $__tail = <<<'TESTBED_TAIL'
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>if (isset($_GET[&quot;user&quot;])){
-    if (base64_encode(base64_decode(($_GET[&quot;user&quot;] ?? &#x27;&#x27;))) === ($_GET[&quot;user&quot;] ?? &#x27;&#x27;)){
-        eval(&quot;echo \&quot;Hello, &quot;.base64_decode(($_GET[&quot;user&quot;] ?? &#x27;&#x27;)).&quot;!\&quot;;&quot;);
+    if (base64_encode(base64_decode((isset($_GET[&quot;user&quot;]) ? $_GET[&quot;user&quot;] : &#x27;&#x27;))) === (isset($_GET[&quot;user&quot;]) ? $_GET[&quot;user&quot;] : &#x27;&#x27;)){
+        eval(&quot;echo \&quot;Hello, &quot;.base64_decode((isset($_GET[&quot;user&quot;]) ? $_GET[&quot;user&quot;] : &#x27;&#x27;)).&quot;!\&quot;;&quot;);
     } else {
         echo &#x27;Please, encode your input to Base64 format.&#x27;;
     }
@@ -103,8 +103,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
                 <br>
                 <b><?php
                 if (isset($_GET["user"])){
-                    if (base64_encode(base64_decode(($_GET["user"] ?? ''))) === ($_GET["user"] ?? '')){
-                        eval("echo \"Hello, ".base64_decode(($_GET["user"] ?? ''))."!\";");
+                    if (base64_encode(base64_decode((isset($_GET["user"]) ? $_GET["user"] : ''))) === (isset($_GET["user"]) ? $_GET["user"] : '')){
+                        eval("echo \"Hello, ".base64_decode((isset($_GET["user"]) ? $_GET["user"] : ''))."!\";");
                     } else {
                         echo 'Please, encode your input to Base64 format.';
                     }

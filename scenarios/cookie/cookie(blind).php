@@ -14,17 +14,17 @@ $__tail = <<<'TESTBED_TAIL'
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$cookie_name = &quot;addr&quot;;
-$cookie_value = ($_SERVER[&#x27;REMOTE_ADDR&#x27;] ?? &#x27;&#x27;);
+$cookie_value = (isset($_SERVER[&#x27;REMOTE_ADDR&#x27;]) ? $_SERVER[&#x27;REMOTE_ADDR&#x27;] : &#x27;&#x27;);
 setcookie($cookie_name, $cookie_value, time() + (86400 * 30), &quot;/&quot;); // 86400 = 1 day
 if(!isset($_COOKIE[$cookie_name])) {
     echo &quot;Cookie named &#x27;&quot; .$cookie_name. &quot;&#x27; is not set!&quot;;
 } else {
   if( stristr(php_uname(&#x27;s&#x27;), &#x27;Windows NT&#x27;)){
     # Windows-based command execution.
-    exec(&quot;ping &quot; . ($_COOKIE[$cookie_name] ?? &#x27;&#x27;), $output, $return);
+    exec(&quot;ping &quot; . (isset($_COOKIE[$cookie_name]) ? $_COOKIE[$cookie_name] : &#x27;&#x27;), $output, $return);
   } else {
     # Unix-based command execution.
-    exec(&quot;/bin/ping -c 4 &quot; . ($_COOKIE[$cookie_name] ?? &#x27;&#x27;), $output, $return);
+    exec(&quot;/bin/ping -c 4 &quot; . (isset($_COOKIE[$cookie_name]) ? $_COOKIE[$cookie_name] : &#x27;&#x27;), $output, $return);
   }
   if (!$return) {
       echo &quot;Hey &quot;.$cookie_value.&quot;, you are alive!&quot;;
@@ -111,7 +111,7 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
       <div class="howto"><p>The value comes from a <b>cookie</b>, which the page sets for you on the first visit. Edit that cookie in your browser's developer tools - or send your own <code>Cookie</code> header - and reload.</p></div><br>
                 <b><?php
                 $cookie_name = "addr";
-                $cookie_value = ($_SERVER['REMOTE_ADDR'] ?? '');
+                $cookie_value = (isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '');
                 setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1 day
 
                 if(!isset($_COOKIE[$cookie_name])) {
@@ -119,10 +119,10 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
                 } else {
                   if( stristr(php_uname('s'), 'Windows NT')){ 
                     # Windows-based command execution.
-                    exec("ping " . ($_COOKIE[$cookie_name] ?? ''), $output, $return); 
+                    exec("ping " . (isset($_COOKIE[$cookie_name]) ? $_COOKIE[$cookie_name] : ''), $output, $return); 
                   } else {
                     # Unix-based command execution.
-                    exec("/bin/ping -c 4 " . ($_COOKIE[$cookie_name] ?? ''), $output, $return);
+                    exec("/bin/ping -c 4 " . (isset($_COOKIE[$cookie_name]) ? $_COOKIE[$cookie_name] : ''), $output, $return);
                   }
                   if (!$return) {
                       echo "Hey ".$cookie_value.", you are alive!";

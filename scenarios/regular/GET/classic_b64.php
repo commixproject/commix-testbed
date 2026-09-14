@@ -14,13 +14,13 @@ $__tail = <<<'TESTBED_TAIL'
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>if (isset($_GET[&quot;addr&quot;])){
-    if (base64_encode(base64_decode(($_GET[&quot;addr&quot;] ?? &#x27;&#x27;))) === ($_GET[&quot;addr&quot;] ?? &#x27;&#x27;)){
+    if (base64_encode(base64_decode((isset($_GET[&quot;addr&quot;]) ? $_GET[&quot;addr&quot;] : &#x27;&#x27;))) === (isset($_GET[&quot;addr&quot;]) ? $_GET[&quot;addr&quot;] : &#x27;&#x27;)){
       if( stristr(php_uname(&#x27;s&#x27;), &#x27;Windows NT&#x27;)){
         # Windows-based command execution.
-        echo exec(&#x27;ping &#x27;.base64_decode(($_GET[&quot;addr&quot;] ?? &#x27;&#x27;)));
+        echo exec(&#x27;ping &#x27;.base64_decode((isset($_GET[&quot;addr&quot;]) ? $_GET[&quot;addr&quot;] : &#x27;&#x27;)));
       } else {
         # Execute command!
-        echo exec(&quot;/bin/ping -c 4 &quot;.base64_decode(($_GET[&quot;addr&quot;] ?? &#x27;&#x27;)));
+        echo exec(&quot;/bin/ping -c 4 &quot;.base64_decode((isset($_GET[&quot;addr&quot;]) ? $_GET[&quot;addr&quot;] : &#x27;&#x27;)));
       }
     } else {
         echo &#x27;Please, encode your input to Base64 format.&#x27;;
@@ -109,13 +109,13 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
                 <br>
                 <b><?php
                 if (isset($_GET["addr"])){
-                    if (base64_encode(base64_decode(($_GET["addr"] ?? ''))) === ($_GET["addr"] ?? '')){
+                    if (base64_encode(base64_decode((isset($_GET["addr"]) ? $_GET["addr"] : ''))) === (isset($_GET["addr"]) ? $_GET["addr"] : '')){
                       if( stristr(php_uname('s'), 'Windows NT')){
                         # Windows-based command execution.
-                        echo exec('ping '.base64_decode(($_GET["addr"] ?? '')));
+                        echo exec('ping '.base64_decode((isset($_GET["addr"]) ? $_GET["addr"] : '')));
                       } else {
                         # Execute command!
-                        echo exec("/bin/ping -c 4 ".base64_decode(($_GET["addr"] ?? '')));
+                        echo exec("/bin/ping -c 4 ".base64_decode((isset($_GET["addr"]) ? $_GET["addr"] : '')));
                       }
                     } else {
                         echo 'Please, encode your input to Base64 format.';

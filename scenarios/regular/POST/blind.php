@@ -14,7 +14,7 @@ $__tail = <<<'TESTBED_TAIL'
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code># Execute command!
-$addr = ($_POST[&#x27;addr&#x27;] ?? &#x27;&#x27;);
+$addr = (isset($_POST[&#x27;addr&#x27;]) ? $_POST[&#x27;addr&#x27;] : &#x27;&#x27;);
 if(isset($addr)){
   if( stristr(php_uname(&#x27;s&#x27;), &#x27;Windows NT&#x27;)){
     # Windows-based command execution.
@@ -112,7 +112,7 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
                 <br>
                 <b><?php
                     # Execute command!
-                    $addr = ($_POST['addr'] ?? '');
+                    $addr = (isset($_POST['addr']) ? $_POST['addr'] : '');
                     if(isset($addr)){
                       if( stristr(php_uname('s'), 'Windows NT')){
                         # Windows-based command execution.

@@ -15,7 +15,7 @@ $__tail = <<<'TESTBED_TAIL'
         <summary>The vulnerable code</summary>
         <pre><code>if (isset($_GET[&quot;user&quot;])){
   # Execute command!
-  eval(&quot;echo \&quot;Hello, &quot;.($_GET[&#x27;user&#x27;] ?? &#x27;&#x27;).&quot;!\&quot;;&quot;);
+  eval(&quot;echo \&quot;Hello, &quot;.(isset($_GET[&#x27;user&#x27;]) ? $_GET[&#x27;user&#x27;] : &#x27;&#x27;).&quot;!\&quot;;&quot;);
 }</code></pre>
       </details>
     </aside>
@@ -101,6 +101,6 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
                 <b><?php
                 if (isset($_GET["user"])){
                   # Execute command!
-                  eval("echo \"Hello, ".($_GET['user'] ?? '')."!\";");
+                  eval("echo \"Hello, ".(isset($_GET['user']) ? $_GET['user'] : '')."!\";");
                 }
                 ?></b>

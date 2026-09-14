@@ -30,7 +30,7 @@
       <a href="https://github.com/commixproject/commix">commix</a>. Open a hint when you want to know
       what a page is doing wrong.</p>
     <div class="stats">
-      <div class="stat"><b>74</b><span>vulnerable pages</span></div>
+      <div class="stat"><b>77</b><span>vulnerable pages</span></div>
       <div class="stat"><b>28</b><span>parameter scenarios</span></div>
       <div class="stat"><b>12</b><span>filter bypasses</span></div>
       <div class="stat"><b>15</b><span>injectable headers</span></div>
@@ -47,6 +47,8 @@
       <button class="chip" data-k="kind" data-v="blind" aria-pressed="false">Blind</button>
       <button class="chip" data-k="sink" data-v="code" aria-pressed="false">Code injection</button>
       <button class="chip" data-k="group" data-v="filters" aria-pressed="false">Filter bypass</button>
+      <button class="chip" data-k="lang" data-v="php" aria-pressed="false">PHP</button>
+      <button class="chip" data-k="lang" data-v="python" aria-pressed="false">Python</button>
     </div>
   </div>
 
@@ -54,10 +56,10 @@
     <section class="group" id="regular">
       <h2><button class="fold" type="button" aria-expanded="true">Regular parameters <span class="count">28</span></button></h2>
       <div class="grid">
-        <article class="card" data-kind="classic" data-sink="command" data-group="regular" data-text="unfiltered parameter exec(&quot;/bin/ping -c 4 &quot;.$addr) with the output echoed straight back. nothing is filtered and nothing is quoted, so this is the plainest case there is. classic command injection">
+        <article class="card" data-kind="classic" data-sink="command" data-group="regular" data-lang="php" data-text="unfiltered parameter exec(&quot;/bin/ping -c 4 &quot;.$addr) with the output echoed straight back. nothing is filtered and nothing is quoted, so this is the plainest case there is. classic command injection php">
           <div class="card-top">
             <h3>Unfiltered parameter</h3>
-            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-get" href="scenarios/regular/GET/classic.php">GET</a><a class="m m-post" href="scenarios/regular/POST/classic.php">POST</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -67,10 +69,10 @@
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="classic" data-sink="command" data-group="regular" data-text="base64-encoded parameter the value is only accepted when base64_encode(base64_decode($x)) === $x, so a raw payload is rejected before it ever reaches the shell. it has to arrive base64-encoded. classic command injection">
+        <article class="card" data-kind="classic" data-sink="command" data-group="regular" data-lang="php" data-text="base64-encoded parameter the value is only accepted when base64_encode(base64_decode($x)) === $x, so a raw payload is rejected before it ever reaches the shell. it has to arrive base64-encoded. classic command injection php">
           <div class="card-top">
             <h3>Base64-encoded parameter</h3>
-            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-get" href="scenarios/regular/GET/classic_b64.php">GET</a><a class="m m-post" href="scenarios/regular/POST/classic_b64.php">POST</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -80,10 +82,10 @@
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="classic" data-sink="command" data-group="regular" data-text="hex-encoded parameter the same idea in hex: the value must satisfy bin2hex(pack(&#x27;h*&#x27;, $x)) === $x before it is unpacked into the command. classic command injection">
+        <article class="card" data-kind="classic" data-sink="command" data-group="regular" data-lang="php" data-text="hex-encoded parameter the same idea in hex: the value must satisfy bin2hex(pack(&#x27;h*&#x27;, $x)) === $x before it is unpacked into the command. classic command injection php">
           <div class="card-top">
             <h3>Hex-encoded parameter</h3>
-            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-get" href="scenarios/regular/GET/classic_hex.php">GET</a><a class="m m-post" href="scenarios/regular/POST/classic_hex.php">POST</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -93,10 +95,10 @@
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="classic" data-sink="command" data-group="regular" data-text="value inside single quotes the value lands inside single quotes: exec(&quot;ping &#x27;&quot;.$addr.&quot;&#x27;&quot;). a single-quoted word expands nothing, so the quote has to be closed before the shell reads any of it. classic command injection">
+        <article class="card" data-kind="classic" data-sink="command" data-group="regular" data-lang="php" data-text="value inside single quotes the value lands inside single quotes: exec(&quot;ping &#x27;&quot;.$addr.&quot;&#x27;&quot;). a single-quoted word expands nothing, so the quote has to be closed before the shell reads any of it. classic command injection php">
           <div class="card-top">
             <h3>Value inside single quotes</h3>
-            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-get" href="scenarios/regular/GET/classic_quote.php">GET</a><a class="m m-post" href="scenarios/regular/POST/classic_quote.php">POST</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -106,10 +108,10 @@
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="classic" data-sink="command" data-group="regular" data-text="value inside double quotes as above but with double quotes - and a double-quoted word still expands $(...), so command substitution works here without closing anything first. classic command injection">
+        <article class="card" data-kind="classic" data-sink="command" data-group="regular" data-lang="php" data-text="value inside double quotes as above but with double quotes - and a double-quoted word still expands $(...), so command substitution works here without closing anything first. classic command injection php">
           <div class="card-top">
             <h3>Value inside double quotes</h3>
-            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-get" href="scenarios/regular/GET/classic_double_quote.php">GET</a><a class="m m-post" href="scenarios/regular/POST/classic_double_quote.php">POST</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -119,10 +121,10 @@
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="classic" data-sink="command" data-group="regular" data-text="whitespace rejected preg_match(&#x27;/\s/&#x27;) throws the value out if it contains any whitespace at all, so the payload has to separate its words some other way. classic command injection">
+        <article class="card" data-kind="classic" data-sink="command" data-group="regular" data-lang="php" data-text="whitespace rejected preg_match(&#x27;/\s/&#x27;) throws the value out if it contains any whitespace at all, so the payload has to separate its words some other way. classic command injection php">
           <div class="card-top">
             <h3>Whitespace rejected</h3>
-            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-get" href="scenarios/regular/GET/classic_non_space.php">GET</a><a class="m m-post" href="scenarios/regular/POST/classic_non_space.php">POST</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -132,10 +134,10 @@
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="classic" data-sink="command" data-group="regular" data-text="metacharacter blacklist a str_replace() strips ;, &amp;amp;&amp;amp;, | and backticks. it never looks at a single &amp;amp; or at a newline, and it only passes over the value once, so a stripped sequence can also be rebuilt around itself. classic command injection">
+        <article class="card" data-kind="classic" data-sink="command" data-group="regular" data-lang="php" data-text="metacharacter blacklist a str_replace() strips ;, &amp;amp;&amp;amp;, | and backticks. it never looks at a single &amp;amp; or at a newline, and it only passes over the value once, so a stripped sequence can also be rebuilt around itself. classic command injection php">
           <div class="card-top">
             <h3>Metacharacter blacklist</h3>
-            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-get" href="scenarios/regular/GET/classic_blacklisting.php">GET</a><a class="m m-post" href="scenarios/regular/POST/classic_blacklisting.php">POST</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -145,10 +147,10 @@
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="classic" data-sink="command" data-group="regular" data-text="piped into md5sum the parameter is string rather than addr, and it is injected ahead of a pipe: exec(&#x27;echo &#x27;.$string.&#x27; | md5sum&#x27;). unix-only - the page refuses to run on windows. classic command injection">
+        <article class="card" data-kind="classic" data-sink="command" data-group="regular" data-lang="php" data-text="piped into md5sum the parameter is string rather than addr, and it is injected ahead of a pipe: exec(&#x27;echo &#x27;.$string.&#x27; | md5sum&#x27;). unix-only - the page refuses to run on windows. classic command injection php">
           <div class="card-top">
             <h3>Piped into md5sum</h3>
-            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-get" href="scenarios/regular/GET/classic_hash.php">GET</a><a class="m m-post" href="scenarios/regular/POST/classic_hash.php">POST</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -158,10 +160,10 @@
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="classic" data-sink="command" data-group="regular" data-text="behind basic authentication the injection point sits behind http basic authentication. the credentials are admin:admin; without them every request comes back 401 and nothing is tested. classic command injection">
+        <article class="card" data-kind="classic" data-sink="command" data-group="regular" data-lang="php" data-text="behind basic authentication the injection point sits behind http basic authentication. the credentials are admin:admin; without them every request comes back 401 and nothing is tested. classic command injection php">
           <div class="card-top">
             <h3>Behind Basic authentication</h3>
-            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-get" href="scenarios/regular/GET/classic_basic_auth.php">GET</a><a class="m m-post" href="scenarios/regular/POST/classic_basic_auth.php">POST</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -171,10 +173,10 @@
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="classic" data-sink="command" data-group="regular" data-text="behind digest authentication the same injection point behind http digest authentication, again admin:admin. digest needs the challenge answered per request rather than one static header. classic command injection">
+        <article class="card" data-kind="classic" data-sink="command" data-group="regular" data-lang="php" data-text="behind digest authentication the same injection point behind http digest authentication, again admin:admin. digest needs the challenge answered per request rather than one static header. classic command injection php">
           <div class="card-top">
             <h3>Behind Digest authentication</h3>
-            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-get" href="scenarios/regular/GET/classic_digest_auth.php">GET</a><a class="m m-post" href="scenarios/regular/POST/classic_digest_auth.php">POST</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -184,10 +186,10 @@
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="blind" data-sink="command" data-group="regular" data-text="output never reflected the command runs, but all the page says is whether the host seems to be up. with nothing to read, execution has to be proven some other way - a delay, a file, or a request to a server of your own. blind command injection">
+        <article class="card" data-kind="blind" data-sink="command" data-group="regular" data-lang="php" data-text="output never reflected the command runs, but all the page says is whether the host seems to be up. with nothing to read, execution has to be proven some other way - a delay, a file, or a request to a server of your own. blind command injection php">
           <div class="card-top">
             <h3>Output never reflected</h3>
-            <span class="badges"><span class="type t-blind" title="Blind command injection">Blind</span></span>
+            <span class="badges"><span class="type t-blind" title="Blind command injection">Blind</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-get" href="scenarios/regular/GET/blind.php">GET</a><a class="m m-post" href="scenarios/regular/POST/blind.php">POST</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -197,10 +199,10 @@
             <p class="verdict">Reported by commix as <b>Blind command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="blind" data-sink="command" data-group="regular" data-text="output and exit status discarded output goes to /dev/null and the command is backgrounded with &amp;amp;, so not even the exit status reaches the page. it looks identical whatever you send it. blind command injection">
+        <article class="card" data-kind="blind" data-sink="command" data-group="regular" data-lang="php" data-text="output and exit status discarded output goes to /dev/null and the command is backgrounded with &amp;amp;, so not even the exit status reaches the page. it looks identical whatever you send it. blind command injection php">
           <div class="card-top">
             <h3>Output and exit status discarded</h3>
-            <span class="badges"><span class="type t-blind" title="Blind command injection">Blind</span></span>
+            <span class="badges"><span class="type t-blind" title="Blind command injection">Blind</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-get" href="scenarios/regular/GET/double_blind.php">GET</a><a class="m m-post" href="scenarios/regular/POST/double_blind.php">POST</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -210,10 +212,10 @@
             <p class="verdict">Reported by commix as <b>Blind command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="classic" data-sink="code" data-group="regular" data-text="eval() on the value eval(&quot;echo \&quot;hello, &quot;.$user.&quot;!\&quot;;&quot;) - the value is evaluated as php, never handed to a shell. a shell separator means nothing here; the payload has to be valid php. classic code injection">
+        <article class="card" data-kind="classic" data-sink="code" data-group="regular" data-lang="php" data-text="eval() on the value eval(&quot;echo \&quot;hello, &quot;.$user.&quot;!\&quot;;&quot;) - the value is evaluated as php, never handed to a shell. a shell separator means nothing here; the payload has to be valid php. classic code injection php">
           <div class="card-top">
             <h3>eval() on the value</h3>
-            <span class="badges"><span class="type t-classic" title="Classic code injection">Classic</span><span class="tag">code</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic code injection">Classic</span><span class="tag">code</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-get" href="scenarios/regular/GET/eval.php">GET</a><a class="m m-post" href="scenarios/regular/POST/eval.php">POST</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -223,10 +225,10 @@
             <p class="verdict">Reported by commix as <b>Classic code injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="classic" data-sink="code" data-group="regular" data-text="eval() on a base64 value the same evaluated sink, except the value must be valid base64 before it is decoded into the eval(). classic code injection">
+        <article class="card" data-kind="classic" data-sink="code" data-group="regular" data-lang="php" data-text="eval() on a base64 value the same evaluated sink, except the value must be valid base64 before it is decoded into the eval(). classic code injection php">
           <div class="card-top">
             <h3>eval() on a Base64 value</h3>
-            <span class="badges"><span class="type t-classic" title="Classic code injection">Classic</span><span class="tag">code</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic code injection">Classic</span><span class="tag">code</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-get" href="scenarios/regular/GET/eval_b64.php">GET</a><a class="m m-post" href="scenarios/regular/POST/eval_b64.php">POST</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -236,10 +238,10 @@
             <p class="verdict">Reported by commix as <b>Classic code injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="classic" data-sink="command" data-group="regular" data-text="json request body the body is json read from php://input and its addr member goes into exec(). the payload has to sit inside the json rather than be appended to it. classic command injection">
+        <article class="card" data-kind="classic" data-sink="command" data-group="regular" data-lang="php" data-text="json request body the body is json read from php://input and its addr member goes into exec(). the payload has to sit inside the json rather than be appended to it. classic command injection php">
           <div class="card-top">
             <h3>JSON request body</h3>
-            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-post" href="scenarios/regular/POST/classic_json.php">POST</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -249,10 +251,10 @@
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="blind" data-sink="command" data-group="regular" data-text="json request body, nothing returned the json case with no output in the response. blind command injection">
+        <article class="card" data-kind="blind" data-sink="command" data-group="regular" data-lang="php" data-text="json request body, nothing returned the json case with no output in the response. blind command injection php">
           <div class="card-top">
             <h3>JSON request body, nothing returned</h3>
-            <span class="badges"><span class="type t-blind" title="Blind command injection">Blind</span></span>
+            <span class="badges"><span class="type t-blind" title="Blind command injection">Blind</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-post" href="scenarios/regular/POST/blind_json.php">POST</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -262,10 +264,10 @@
             <p class="verdict">Reported by commix as <b>Blind command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="classic" data-sink="code" data-group="regular" data-text="json request body, evaluated an evaluated sink reached through a json member rather than a form field. classic code injection">
+        <article class="card" data-kind="classic" data-sink="code" data-group="regular" data-lang="php" data-text="json request body, evaluated an evaluated sink reached through a json member rather than a form field. classic code injection php">
           <div class="card-top">
             <h3>JSON request body, evaluated</h3>
-            <span class="badges"><span class="type t-classic" title="Classic code injection">Classic</span><span class="tag">code</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic code injection">Classic</span><span class="tag">code</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-post" href="scenarios/regular/POST/eval_json.php">POST</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -275,10 +277,10 @@
             <p class="verdict">Reported by commix as <b>Classic code injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="classic" data-sink="command" data-group="regular" data-text="soap/xml request body the body is xml parsed with libxml_noent | libxml_dtdload, and both &amp;lt;addr&amp;gt; and &amp;lt;count&amp;gt; are concatenated into the command - two injection points on one page, not one. classic command injection">
+        <article class="card" data-kind="classic" data-sink="command" data-group="regular" data-lang="php" data-text="soap/xml request body the body is xml parsed with libxml_noent | libxml_dtdload, and both &amp;lt;addr&amp;gt; and &amp;lt;count&amp;gt; are concatenated into the command - two injection points on one page, not one. classic command injection php">
           <div class="card-top">
             <h3>SOAP/XML request body</h3>
-            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-post" href="scenarios/regular/POST/classic_xml.php">POST</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -288,10 +290,10 @@
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="blind" data-sink="command" data-group="regular" data-text="soap/xml request body, nothing returned the xml case with no output reflected back. blind command injection">
+        <article class="card" data-kind="blind" data-sink="command" data-group="regular" data-lang="php" data-text="soap/xml request body, nothing returned the xml case with no output reflected back. blind command injection php">
           <div class="card-top">
             <h3>SOAP/XML request body, nothing returned</h3>
-            <span class="badges"><span class="type t-blind" title="Blind command injection">Blind</span></span>
+            <span class="badges"><span class="type t-blind" title="Blind command injection">Blind</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-post" href="scenarios/regular/POST/blind_xml.php">POST</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -301,10 +303,10 @@
             <p class="verdict">Reported by commix as <b>Blind command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="classic" data-sink="command" data-group="regular" data-text="ip-format validation the value has to look like an ip address - but the pattern is /^\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}$/m, and that m flag makes ^ and $ match at every line rather than once. a second line walks straight past it. classic command injection">
+        <article class="card" data-kind="classic" data-sink="command" data-group="regular" data-lang="php" data-text="ip-format validation the value has to look like an ip address - but the pattern is /^\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}$/m, and that m flag makes ^ and $ match at every line rather than once. a second line walks straight past it. classic command injection php">
           <div class="card-top">
             <h3>IP-format validation</h3>
-            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-get" href="scenarios/regular/GET/preg_match.php">GET</a><a class="m m-post" href="scenarios/regular/POST/preg_match.php">POST</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -314,10 +316,10 @@
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="blind" data-sink="command" data-group="regular" data-text="ip-format validation, nothing returned the same multiline-anchor mistake, this time with nothing readable in the response. blind command injection">
+        <article class="card" data-kind="blind" data-sink="command" data-group="regular" data-lang="php" data-text="ip-format validation, nothing returned the same multiline-anchor mistake, this time with nothing readable in the response. blind command injection php">
           <div class="card-top">
             <h3>IP-format validation, nothing returned</h3>
-            <span class="badges"><span class="type t-blind" title="Blind command injection">Blind</span></span>
+            <span class="badges"><span class="type t-blind" title="Blind command injection">Blind</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-get" href="scenarios/regular/GET/preg_match_blind.php">GET</a><a class="m m-post" href="scenarios/regular/POST/preg_match_blind.php">POST</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -327,36 +329,10 @@
             <p class="verdict">Reported by commix as <b>Blind command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="classic" data-sink="code" data-group="regular" data-text="attacker-controlled regex both the pattern and the replacement come from the query string, so the pattern&#x27;s own modifiers belong to the attacker - and the e modifier evaluates the replacement as php. needs a php older than 7, where that modifier still exists. classic code injection">
-          <div class="card-top">
-            <h3>Attacker-controlled regex</h3>
-            <span class="badges"><span class="type t-classic" title="Classic code injection">Classic</span><span class="tag">code</span></span>
-          </div>
-          <div class="methods"><a class="m m-get" href="scenarios/regular/GET/preg_replace.php">GET</a></div>
-          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
-          <div class="hint" hidden>
-            <p>Both the pattern and the replacement come from the query string, so the pattern's own modifiers belong to the attacker - and the <code>e</code> modifier evaluates the replacement as PHP. Needs a PHP older than 7, where that modifier still exists.</p>
-            <p class="lesson">The pattern itself is user input, which hands over far more than the text being matched: a regex carries modifiers, and PHP's e modifier evaluated the replacement as code. It was removed in PHP 7, so this page needs an older interpreter - but the shape of the mistake outlives the feature. Never let a request supply the pattern to a matching function.</p>
-            <p class="verdict">Reported by commix as <b>Classic code injection</b>.</p>
-          </div>
-        </article>
-        <article class="card" data-kind="classic" data-sink="code" data-group="regular" data-text="assert() on the value assert(trim(&quot;&#x27;&quot;.$_get[&#x27;user&#x27;].&quot;&#x27;&quot;)) evaluates its argument as php. the value is wrapped in single quotes, so those have to be closed first. classic code injection">
-          <div class="card-top">
-            <h3>assert() on the value</h3>
-            <span class="badges"><span class="type t-classic" title="Classic code injection">Classic</span><span class="tag">code</span></span>
-          </div>
-          <div class="methods"><a class="m m-get" href="scenarios/regular/GET/assert.php">GET</a></div>
-          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
-          <div class="hint" hidden>
-            <p><code>assert(trim("'".$_GET['user']."'"))</code> evaluates its argument as PHP. The value is wrapped in single quotes, so those have to be closed first.</p>
-            <p class="lesson">assert() took a string and evaluated it as PHP, which makes it a code-execution sink that reads like a sanity check. The value is wrapped in quotes, so those have to be closed first. PHP 7 deprecated the string form and PHP 8 removed it; the lesson is that any function that takes code as a string is a sink, however harmless its name sounds.</p>
-            <p class="verdict">Reported by commix as <b>Classic code injection</b>.</p>
-          </div>
-        </article>
-        <article class="card" data-kind="classic" data-sink="code" data-group="regular" data-text="quotes stripped, then evaluated backslashes and both kinds of quote are removed, then the value is dropped into a double-quoted eval(&quot;echo(\&quot;$user\&quot;);&quot;). quotes are not needed: php expands ${...} inside a double-quoted string. classic code injection">
+        <article class="card" data-kind="classic" data-sink="code" data-group="regular" data-lang="php" data-text="quotes stripped, then evaluated backslashes and both kinds of quote are removed, then the value is dropped into a double-quoted eval(&quot;echo(\&quot;$user\&quot;);&quot;). quotes are not needed: php expands ${...} inside a double-quoted string. classic code injection php">
           <div class="card-top">
             <h3>Quotes stripped, then evaluated</h3>
-            <span class="badges"><span class="type t-classic" title="Classic code injection">Classic</span><span class="tag">code</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic code injection">Classic</span><span class="tag">code</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-get" href="scenarios/regular/GET/str_replace.php">GET</a><a class="m m-post" href="scenarios/regular/POST/str_replace.php">POST</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -366,23 +342,10 @@
             <p class="verdict">Reported by commix as <b>Classic code injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="classic" data-sink="code" data-group="regular" data-text="create_function() on the value the value is concatenated into the body of a create_function(), which compiles it as php. removed in php 8, so this one needs an older interpreter. classic code injection">
-          <div class="card-top">
-            <h3>create_function() on the value</h3>
-            <span class="badges"><span class="type t-classic" title="Classic code injection">Classic</span><span class="tag">code</span></span>
-          </div>
-          <div class="methods"><a class="m m-get" href="scenarios/regular/GET/create_function.php">GET</a><a class="m m-post" href="scenarios/regular/POST/create_function.php">POST</a></div>
-          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
-          <div class="hint" hidden>
-            <p>The value is concatenated into the body of a <code>create_function()</code>, which compiles it as PHP. Removed in PHP 8, so this one needs an older interpreter.</p>
-            <p class="lesson">create_function() built a function by compiling a string, so anything concatenated into its body became code. It was deprecated in PHP 7.2 and removed in 8. Like assert(), it is worth seeing because the dangerous part is not the syntax but the idea: text that becomes code.</p>
-            <p class="verdict">Reported by commix as <b>Classic code injection</b>.</p>
-          </div>
-        </article>
-        <article class="card" data-kind="blind" data-sink="code" data-group="regular" data-text="eval() with nothing printed back the value is evaluated as php - eval(&#x27;$greeting = &quot;hello, &#x27; . $user . &#x27;!&quot;;&#x27;) - but the greeting it builds is never printed. the page answers with the same fixed sentence whatever you send it. blind code injection">
+        <article class="card" data-kind="blind" data-sink="code" data-group="regular" data-lang="php" data-text="eval() with nothing printed back the value is evaluated as php - eval(&#x27;$greeting = &quot;hello, &#x27; . $user . &#x27;!&quot;;&#x27;) - but the greeting it builds is never printed. the page answers with the same fixed sentence whatever you send it. blind code injection php">
           <div class="card-top">
             <h3>eval() with nothing printed back</h3>
-            <span class="badges"><span class="type t-blind" title="Blind code injection">Blind</span><span class="tag">code</span></span>
+            <span class="badges"><span class="type t-blind" title="Blind code injection">Blind</span><span class="tag">code</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-get" href="scenarios/regular/GET/eval_blind.php">GET</a><a class="m m-post" href="scenarios/regular/POST/eval_blind.php">POST</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -392,10 +355,49 @@
             <p class="verdict">Reported by commix as <b>Blind code injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="classic" data-sink="command" data-group="regular" data-text="only one of three parameters is validated three values are submitted and two of them are checked - addr against a host pattern and label against word characters. count is concatenated into the command with no check at all. classic command injection">
+        <article class="card" data-kind="classic" data-sink="code" data-group="regular" data-lang="php" data-text="attacker-controlled regex both the pattern and the replacement come from the query string, so the pattern&#x27;s own modifiers belong to the attacker - and the e modifier evaluates the replacement as php. classic code injection php">
+          <div class="card-top">
+            <h3>Attacker-controlled regex</h3>
+            <span class="badges"><span class="type t-classic" title="Classic code injection">Classic</span><span class="tag">code</span><span class="lang">PHP</span></span>
+          </div>
+          <div class="methods"><a class="m m-get" href="scenarios/regular/GET/preg_replace.php">GET</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>Both the pattern and the replacement come from the query string, so the pattern's own modifiers belong to the attacker - and the <code>e</code> modifier evaluates the replacement as PHP.</p>
+            <p class="lesson">The pattern itself is user input, which hands over far more than the text being matched: a regex carries modifiers, and PHP's e modifier evaluated the replacement as code. It was removed in PHP 7, so this page needs an older interpreter - but the shape of the mistake outlives the feature. Never let a request supply the pattern to a matching function.</p>
+            <p class="verdict">Reported by commix as <b>Classic code injection</b>.</p>
+          </div>
+        </article>
+        <article class="card" data-kind="classic" data-sink="code" data-group="regular" data-lang="php" data-text="assert() on the value assert(trim(&quot;&#x27;&quot;.$_get[&#x27;user&#x27;].&quot;&#x27;&quot;)) evaluates its argument as php. the value is wrapped in single quotes, so those have to be closed first. classic code injection php">
+          <div class="card-top">
+            <h3>assert() on the value</h3>
+            <span class="badges"><span class="type t-classic" title="Classic code injection">Classic</span><span class="tag">code</span><span class="lang">PHP</span></span>
+          </div>
+          <div class="methods"><a class="m m-get" href="scenarios/regular/GET/assert.php">GET</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p><code>assert(trim("'".$_GET['user']."'"))</code> evaluates its argument as PHP. The value is wrapped in single quotes, so those have to be closed first.</p>
+            <p class="lesson">assert() took a string and evaluated it as PHP, which makes it a code-execution sink that reads like a sanity check. PHP 7 deprecated the string form and PHP 8 stopped evaluating it; the lesson is that any function taking code as a string is a sink, however harmless its name sounds.</p>
+            <p class="verdict">Reported by commix as <b>Classic code injection</b>.</p>
+          </div>
+        </article>
+        <article class="card" data-kind="classic" data-sink="code" data-group="regular" data-lang="php" data-text="create_function() on the value the value is concatenated into the body of a create_function(), which compiles it as php. classic code injection php">
+          <div class="card-top">
+            <h3>create_function() on the value</h3>
+            <span class="badges"><span class="type t-classic" title="Classic code injection">Classic</span><span class="tag">code</span><span class="lang">PHP</span></span>
+          </div>
+          <div class="methods"><a class="m m-get" href="scenarios/regular/GET/create_function.php">GET</a><a class="m m-post" href="scenarios/regular/POST/create_function.php">POST</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>The value is concatenated into the body of a <code>create_function()</code>, which compiles it as PHP.</p>
+            <p class="lesson">create_function() built a function by compiling a string, so anything concatenated into its body became code. It was deprecated in PHP 7.2 and removed in 8. Like assert(), the dangerous part is not the syntax but the idea: text that becomes code.</p>
+            <p class="verdict">Reported by commix as <b>Classic code injection</b>.</p>
+          </div>
+        </article>
+        <article class="card" data-kind="classic" data-sink="command" data-group="regular" data-lang="php" data-text="only one of three parameters is validated three values are submitted and two of them are checked - addr against a host pattern and label against word characters. count is concatenated into the command with no check at all. classic command injection php">
           <div class="card-top">
             <h3>Only one of three parameters is validated</h3>
-            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-get" href="scenarios/regular/GET/multiple_params.php">GET</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -405,10 +407,10 @@
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="classic" data-sink="command" data-group="regular" data-text="put requests only the endpoint turns away anything that is not a put, and reads its body with parse_str() rather than from $_post. classic command injection">
+        <article class="card" data-kind="classic" data-sink="command" data-group="regular" data-lang="php" data-text="put requests only the endpoint turns away anything that is not a put, and reads its body with parse_str() rather than from $_post. classic command injection php">
           <div class="card-top">
             <h3>PUT requests only</h3>
-            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-put" href="scenarios/regular/PUT/classic.php">PUT</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -424,10 +426,10 @@
     <section class="group" id="filters">
       <h2><button class="fold" type="button" aria-expanded="true">Weak filters <span class="count">12</span></button></h2>
       <div class="grid">
-        <article class="card" data-kind="classic" data-sink="command" data-group="filters" data-text="lax domain validation /^\w+\..*\w+\.\w+$/ looks like it demands a domain name, but the .* in the middle accepts anything at all. keep a domain-shaped head and tail and the middle is yours. classic command injection">
+        <article class="card" data-kind="classic" data-sink="command" data-group="filters" data-lang="php" data-text="lax domain validation /^\w+\..*\w+\.\w+$/ looks like it demands a domain name, but the .* in the middle accepts anything at all. keep a domain-shaped head and tail and the middle is yours. classic command injection php">
           <div class="card-top">
             <h3>Lax domain validation</h3>
-            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-post" href="scenarios/filters/lax_domain_name.php">POST</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -437,10 +439,10 @@
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="classic" data-sink="command" data-group="filters" data-text="value inside nested quotes exec(&quot;/bin/ping -c 4 \&quot;{$addr}\&quot;&quot;) - the value sits inside double quotes that are themselves inside a php double-quoted string. classic command injection">
+        <article class="card" data-kind="classic" data-sink="command" data-group="filters" data-lang="php" data-text="value inside nested quotes exec(&quot;/bin/ping -c 4 \&quot;{$addr}\&quot;&quot;) - the value sits inside double quotes that are themselves inside a php double-quoted string. classic command injection php">
           <div class="card-top">
             <h3>Value inside nested quotes</h3>
-            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-post" href="scenarios/filters/nested_quotes.php">POST</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -450,10 +452,10 @@
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="classic" data-sink="command" data-group="filters" data-text="separators blocked: ; | &amp;amp; $ four metacharacters are blacklisted. a newline is not one of them, and it ends a command just as well as a semicolon does. classic command injection">
+        <article class="card" data-kind="classic" data-sink="command" data-group="filters" data-lang="php" data-text="separators blocked: ; | &amp;amp; $ four metacharacters are blacklisted. a newline is not one of them, and it ends a command just as well as a semicolon does. classic command injection php">
           <div class="card-top">
             <h3>Separators blocked: ; | &amp; $</h3>
-            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-post" href="scenarios/filters/no_colon_no_pipe_no_ampersand_no_dollar.php">POST</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -463,10 +465,10 @@
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="classic" data-sink="command" data-group="filters" data-text="spaces blocked only the literal space is rejected. a tab, a newline or ${ifs} all still separate one word from the next. classic command injection">
+        <article class="card" data-kind="classic" data-sink="command" data-group="filters" data-lang="php" data-text="spaces blocked only the literal space is rejected. a tab, a newline or ${ifs} all still separate one word from the next. classic command injection php">
           <div class="card-top">
             <h3>Spaces blocked</h3>
-            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-post" href="scenarios/filters/no_space.php">POST</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -476,10 +478,10 @@
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="classic" data-sink="command" data-group="filters" data-text="spaces and three separators blocked whitespace and ; | &amp;amp; are gone, which leaves the newline to chain with and ${ifs} to separate words. classic command injection">
+        <article class="card" data-kind="classic" data-sink="command" data-group="filters" data-lang="php" data-text="spaces and three separators blocked whitespace and ; | &amp;amp; are gone, which leaves the newline to chain with and ${ifs} to separate words. classic command injection php">
           <div class="card-top">
             <h3>Spaces and three separators blocked</h3>
-            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-post" href="scenarios/filters/no_space_no_colon_no_pipe_no_ampersand.php">POST</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -489,10 +491,10 @@
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="classic" data-sink="command" data-group="filters" data-text="spaces, separators and $ blocked with $ gone too, ${ifs} is out - but a tab is still whitespace to the shell and it is not a space. classic command injection">
+        <article class="card" data-kind="classic" data-sink="command" data-group="filters" data-lang="php" data-text="spaces, separators and $ blocked with $ gone too, ${ifs} is out - but a tab is still whitespace to the shell and it is not a space. classic command injection php">
           <div class="card-top">
             <h3>Spaces, separators and $ blocked</h3>
-            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-post" href="scenarios/filters/no_space_no_colon_no_pipe_no_ampersand_no_dollar.php">POST</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -502,10 +504,10 @@
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="classic" data-sink="command" data-group="filters" data-text="all whitespace blocked /\s+/ covers the tab and the newline as well as the space, so the word separator has to be something that expands into whitespace rather than something that is it. classic command injection">
+        <article class="card" data-kind="classic" data-sink="command" data-group="filters" data-lang="php" data-text="all whitespace blocked /\s+/ covers the tab and the newline as well as the space, so the word separator has to be something that expands into whitespace rather than something that is it. classic command injection php">
           <div class="card-top">
             <h3>All whitespace blocked</h3>
-            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-post" href="scenarios/filters/no_white_chars.php">POST</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -515,10 +517,10 @@
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="classic" data-sink="command" data-group="filters" data-text="must start with alphanumerics /^\w+/ - the value only has to begin with word characters. everything after that first run goes unchecked. classic command injection">
+        <article class="card" data-kind="classic" data-sink="command" data-group="filters" data-lang="php" data-text="must start with alphanumerics /^\w+/ - the value only has to begin with word characters. everything after that first run goes unchecked. classic command injection php">
           <div class="card-top">
             <h3>Must start with alphanumerics</h3>
-            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-post" href="scenarios/filters/simple_start_alphanum.php">POST</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -528,10 +530,10 @@
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="classic" data-sink="command" data-group="filters" data-text="must end with alphanumerics /\w+$/ - the value only has to end with word characters, so the payload goes in front and a harmless word closes it. classic command injection">
+        <article class="card" data-kind="classic" data-sink="command" data-group="filters" data-lang="php" data-text="must end with alphanumerics /\w+$/ - the value only has to end with word characters, so the payload goes in front and a harmless word closes it. classic command injection php">
           <div class="card-top">
             <h3>Must end with alphanumerics</h3>
-            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-post" href="scenarios/filters/simple_stop_alphanum.php">POST</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -541,10 +543,10 @@
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="classic" data-sink="command" data-group="filters" data-text="must start with alphanumerics, no whitespace both conditions at once: begin with word characters, and carry no whitespace anywhere. classic command injection">
+        <article class="card" data-kind="classic" data-sink="command" data-group="filters" data-lang="php" data-text="must start with alphanumerics, no whitespace both conditions at once: begin with word characters, and carry no whitespace anywhere. classic command injection php">
           <div class="card-top">
             <h3>Must start with alphanumerics, no whitespace</h3>
-            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-post" href="scenarios/filters/no_white_chars_start_alphanum.php">POST</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -554,10 +556,10 @@
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="classic" data-sink="command" data-group="filters" data-text="must end with alphanumerics, no whitespace end with word characters and carry no whitespace - so the suffix has to satisfy the anchor without putting a space back. classic command injection">
+        <article class="card" data-kind="classic" data-sink="command" data-group="filters" data-lang="php" data-text="must end with alphanumerics, no whitespace end with word characters and carry no whitespace - so the suffix has to satisfy the anchor without putting a space back. classic command injection php">
           <div class="card-top">
             <h3>Must end with alphanumerics, no whitespace</h3>
-            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-post" href="scenarios/filters/no_white_chars_stop_alnum.php">POST</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -567,10 +569,10 @@
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="classic" data-sink="command" data-group="filters" data-text="command names blacklisted the command names themselves are matched: echo|wget|nc|whoami|cat|ncat on unix and powershell|cmd on windows. the match is on literal text, so anything that hides the letters from the regex without hiding them from the shell gets through. classic command injection">
+        <article class="card" data-kind="classic" data-sink="command" data-group="filters" data-lang="php" data-text="command names blacklisted the command names themselves are matched: echo|wget|nc|whoami|cat|ncat on unix and powershell|cmd on windows. the match is on literal text, so anything that hides the letters from the regex without hiding them from the shell gets through. classic command injection php">
           <div class="card-top">
             <h3>Command names blacklisted</h3>
-            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-post" href="scenarios/filters/multiple_os_commands_blacklisting.php">POST</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -583,13 +585,58 @@
       </div>
     </section>
 
+    <section class="group" id="python">
+      <h2><button class="fold" type="button" aria-expanded="true">Python scenarios <span class="count">3</span></button></h2>
+      <div class="grid">
+        <article class="card" data-kind="classic" data-sink="command" data-group="python" data-lang="python" data-text="unfiltered parameter subprocess.check_output(cmd, shell=true) builds the command by concatenation, so the value is parsed by a shell before anything runs, and the output comes back on the page. classic command injection python">
+          <div class="card-top">
+            <h3>Unfiltered parameter</h3>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">Python</span></span>
+          </div>
+          <div class="methods"><a class="m m-post" href="scenarios/python/classic.py">POST</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p><code>subprocess.check_output(cmd, shell=True)</code> builds the command by concatenation, so the value is parsed by a shell before anything runs, and the output comes back on the page.</p>
+            <p class="lesson">Concatenating a request value into a shell command is the whole bug - there is no clever trick to find here. Every other scenario on this site is this same mistake with something placed in the way, so it is worth seeing what the undefended case looks like first. The fix is not to escape the value but to stop invoking a shell: pass the address as an argument to the program, never as part of a string the shell will parse.</p>
+            <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+          </div>
+        </article>
+        <article class="card" data-kind="blind" data-sink="command" data-group="python" data-lang="python" data-text="output never reflected the same shell concatenation with the output sent to os.devnull. only the exit status is reported, which is a single bit. blind command injection python">
+          <div class="card-top">
+            <h3>Output never reflected</h3>
+            <span class="badges"><span class="type t-blind" title="Blind command injection">Blind</span><span class="lang">Python</span></span>
+          </div>
+          <div class="methods"><a class="m m-post" href="scenarios/python/blind.py">POST</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>The same shell concatenation with the output sent to <code>os.devnull</code>. Only the exit status is reported, which is a single bit.</p>
+            <p class="lesson">The command runs exactly as in the classic case; only the evidence is missing. This is the usual real-world situation and the reason blind techniques exist - an application that prints a tidy status message instead of raw output is not safer, it is just quieter. Proof has to come from something other than the page body: how long the reply takes, a file that appears, or a request arriving at a server you control.</p>
+            <p class="verdict">Reported by commix as <b>Blind command injection</b>.</p>
+          </div>
+        </article>
+        <article class="card" data-kind="classic" data-sink="code" data-group="python" data-lang="python" data-text="eval() on the value the value is concatenated into a string that python evaluates as an expression, so the payload has to be valid python rather than a shell separator - and because it lands inside a quoted literal, the quote has to be closed and reopened around it. classic code injection python">
+          <div class="card-top">
+            <h3>eval() on the value</h3>
+            <span class="badges"><span class="type t-classic" title="Classic code injection">Classic</span><span class="tag">code</span><span class="lang">Python</span></span>
+          </div>
+          <div class="methods"><a class="m m-post" href="scenarios/python/eval.py">POST</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>The value is concatenated into a string that Python evaluates as an expression, so the payload has to be valid Python rather than a shell separator - and because it lands inside a quoted literal, the quote has to be closed and reopened around it.</p>
+            <p class="lesson">A different sink with the same consequence. Nothing here reaches a shell, so shell metacharacters are meaningless - a semicolon does not chain anything, it is just a semicolon in a PHP statement. The payload has to be valid code in the language doing the evaluating, which is why commix treats this as a separate kind of injection rather than a variant of the command case.</p>
+            <p class="verdict">Reported by commix as <b>Classic code injection</b>.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
       <section class="group" id="user-agent">
         <h2><button class="fold" type="button" aria-expanded="true">User-Agent header <span class="count">3</span></button></h2>
         <div class="grid">
-        <article class="card" data-kind="classic" data-sink="command" data-group="headers" data-text="echoed through a shell exec(&quot;echo &#x27;&quot;.$user_agent.&quot;&#x27;&quot;) - the header goes through a shell inside single quotes, and the output comes back on the page. classic command injection">
+        <article class="card" data-kind="classic" data-sink="command" data-group="headers" data-lang="php" data-text="echoed through a shell exec(&quot;echo &#x27;&quot;.$user_agent.&quot;&#x27;&quot;) - the header goes through a shell inside single quotes, and the output comes back on the page. classic command injection php">
           <div class="card-top">
             <h3>Echoed through a shell</h3>
-            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-header" href="scenarios/user-agent/ua(classic).php">HEADER</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -598,10 +645,10 @@
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="blind" data-sink="command" data-group="headers" data-text="nothing returned the same injection with the output thrown away. unix-only. blind command injection">
+        <article class="card" data-kind="blind" data-sink="command" data-group="headers" data-lang="php" data-text="nothing returned the same injection with the output thrown away. unix-only. blind command injection php">
           <div class="card-top">
             <h3>Nothing returned</h3>
-            <span class="badges"><span class="type t-blind" title="Blind command injection">Blind</span></span>
+            <span class="badges"><span class="type t-blind" title="Blind command injection">Blind</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-header" href="scenarios/user-agent/ua(blind).php">HEADER</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -610,10 +657,10 @@
             <p class="verdict">Reported by commix as <b>Blind command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="classic" data-sink="code" data-group="headers" data-text="evaluated as php the header reaches an eval() rather than a shell. classic code injection">
+        <article class="card" data-kind="classic" data-sink="code" data-group="headers" data-lang="php" data-text="evaluated as php the header reaches an eval() rather than a shell. classic code injection php">
           <div class="card-top">
             <h3>Evaluated as PHP</h3>
-            <span class="badges"><span class="type t-classic" title="Classic code injection">Classic</span><span class="tag">code</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic code injection">Classic</span><span class="tag">code</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-header" href="scenarios/user-agent/ua(eval).php">HEADER</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -627,10 +674,10 @@
       <section class="group" id="cookie">
         <h2><button class="fold" type="button" aria-expanded="true">Cookie header <span class="count">5</span></button></h2>
         <div class="grid">
-        <article class="card" data-kind="classic" data-sink="command" data-group="headers" data-text="echoed through a shell the addr cookie is concatenated into a ping and the output is returned. classic command injection">
+        <article class="card" data-kind="classic" data-sink="command" data-group="headers" data-lang="php" data-text="echoed through a shell the addr cookie is concatenated into a ping and the output is returned. classic command injection php">
           <div class="card-top">
             <h3>Echoed through a shell</h3>
-            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-header" href="scenarios/cookie/cookie(classic).php">HEADER</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -639,10 +686,10 @@
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="classic" data-sink="command" data-group="headers" data-text="cookie inside single quotes the user cookie lands inside single quotes in an echo, so the quote has to be closed first. classic command injection">
+        <article class="card" data-kind="classic" data-sink="command" data-group="headers" data-lang="php" data-text="cookie inside single quotes the user cookie lands inside single quotes in an echo, so the quote has to be closed first. classic command injection php">
           <div class="card-top">
             <h3>Cookie inside single quotes</h3>
-            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-header" href="scenarios/cookie/cookie(classic_quote).php">HEADER</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -651,10 +698,10 @@
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="classic" data-sink="command" data-group="headers" data-text="base64 cookie value the cookie is base64 and is decoded before it reaches the command, so the payload has to be encoded to survive the round trip. classic command injection">
+        <article class="card" data-kind="classic" data-sink="command" data-group="headers" data-lang="php" data-text="base64 cookie value the cookie is base64 and is decoded before it reaches the command, so the payload has to be encoded to survive the round trip. classic command injection php">
           <div class="card-top">
             <h3>Base64 cookie value</h3>
-            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-header" href="scenarios/cookie/cookie(b64).php">HEADER</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -663,10 +710,10 @@
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="blind" data-sink="command" data-group="headers" data-text="nothing returned the cookie-borne command runs with nothing reflected back. blind command injection">
+        <article class="card" data-kind="blind" data-sink="command" data-group="headers" data-lang="php" data-text="nothing returned the cookie-borne command runs with nothing reflected back. blind command injection php">
           <div class="card-top">
             <h3>Nothing returned</h3>
-            <span class="badges"><span class="type t-blind" title="Blind command injection">Blind</span></span>
+            <span class="badges"><span class="type t-blind" title="Blind command injection">Blind</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-header" href="scenarios/cookie/cookie(blind).php">HEADER</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -675,10 +722,10 @@
             <p class="verdict">Reported by commix as <b>Blind command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="classic" data-sink="code" data-group="headers" data-text="evaluated as php the cookie reaches an eval() rather than a shell. classic code injection">
+        <article class="card" data-kind="classic" data-sink="code" data-group="headers" data-lang="php" data-text="evaluated as php the cookie reaches an eval() rather than a shell. classic code injection php">
           <div class="card-top">
             <h3>Evaluated as PHP</h3>
-            <span class="badges"><span class="type t-classic" title="Classic code injection">Classic</span><span class="tag">code</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic code injection">Classic</span><span class="tag">code</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-header" href="scenarios/cookie/cookie(eval).php">HEADER</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -692,10 +739,10 @@
       <section class="group" id="referer">
         <h2><button class="fold" type="button" aria-expanded="true">Referer header <span class="count">3</span></button></h2>
         <div class="grid">
-        <article class="card" data-kind="classic" data-sink="command" data-group="headers" data-text="echoed through a shell the referer header is concatenated into an echo and its output comes back on the page. classic command injection">
+        <article class="card" data-kind="classic" data-sink="command" data-group="headers" data-lang="php" data-text="echoed through a shell the referer header is concatenated into an echo and its output comes back on the page. classic command injection php">
           <div class="card-top">
             <h3>Echoed through a shell</h3>
-            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-header" href="scenarios/referer/referer(classic).php">HEADER</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -704,10 +751,10 @@
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="blind" data-sink="command" data-group="headers" data-text="nothing returned the same header injection with no output reflected. unix-only. blind command injection">
+        <article class="card" data-kind="blind" data-sink="command" data-group="headers" data-lang="php" data-text="nothing returned the same header injection with no output reflected. unix-only. blind command injection php">
           <div class="card-top">
             <h3>Nothing returned</h3>
-            <span class="badges"><span class="type t-blind" title="Blind command injection">Blind</span></span>
+            <span class="badges"><span class="type t-blind" title="Blind command injection">Blind</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-header" href="scenarios/referer/referer(blind).php">HEADER</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -716,10 +763,10 @@
             <p class="verdict">Reported by commix as <b>Blind command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="classic" data-sink="code" data-group="headers" data-text="evaluated as php the header reaches an eval(). classic code injection">
+        <article class="card" data-kind="classic" data-sink="code" data-group="headers" data-lang="php" data-text="evaluated as php the header reaches an eval(). classic code injection php">
           <div class="card-top">
             <h3>Evaluated as PHP</h3>
-            <span class="badges"><span class="type t-classic" title="Classic code injection">Classic</span><span class="tag">code</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic code injection">Classic</span><span class="tag">code</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-header" href="scenarios/referer/referer(eval).php">HEADER</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -733,10 +780,10 @@
       <section class="group" id="host">
         <h2><button class="fold" type="button" aria-expanded="true">X-Forwarded-Host header <span class="count">2</span></button></h2>
         <div class="grid">
-        <article class="card" data-kind="classic" data-sink="command" data-group="headers" data-text="echoed through a shell x-forwarded-host is read to build the canonical url and reaches a shell. a proxy is supposed to set it, but nothing stops a client sending it directly. classic command injection">
+        <article class="card" data-kind="classic" data-sink="command" data-group="headers" data-lang="php" data-text="echoed through a shell x-forwarded-host is read to build the canonical url and reaches a shell. a proxy is supposed to set it, but nothing stops a client sending it directly. classic command injection php">
           <div class="card-top">
             <h3>Echoed through a shell</h3>
-            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-header" href="scenarios/host/host(classic).php">HEADER</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -745,10 +792,10 @@
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="blind" data-sink="command" data-group="headers" data-text="nothing returned the same forwarded-host sink with nothing reflected. unix-only. blind command injection">
+        <article class="card" data-kind="blind" data-sink="command" data-group="headers" data-lang="php" data-text="nothing returned the same forwarded-host sink with nothing reflected. unix-only. blind command injection php">
           <div class="card-top">
             <h3>Nothing returned</h3>
-            <span class="badges"><span class="type t-blind" title="Blind command injection">Blind</span></span>
+            <span class="badges"><span class="type t-blind" title="Blind command injection">Blind</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-header" href="scenarios/host/host(blind).php">HEADER</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -762,10 +809,10 @@
       <section class="group" id="custom-header">
         <h2><button class="fold" type="button" aria-expanded="true">Custom header <span class="count">2</span></button></h2>
         <div class="grid">
-        <article class="card" data-kind="classic" data-sink="command" data-group="headers" data-text="x-forwarded-for echoed through a shell x-forwarded-for is read for the access log and concatenated into a command. it is an ordinary request header: anyone can send it and set it to anything. classic command injection">
+        <article class="card" data-kind="classic" data-sink="command" data-group="headers" data-lang="php" data-text="x-forwarded-for echoed through a shell x-forwarded-for is read for the access log and concatenated into a command. it is an ordinary request header: anyone can send it and set it to anything. classic command injection php">
           <div class="card-top">
             <h3>X-Forwarded-For echoed through a shell</h3>
-            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span></span>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-header" href="scenarios/custom-header/xff(classic).php">HEADER</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
@@ -774,10 +821,10 @@
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
-        <article class="card" data-kind="blind" data-sink="command" data-group="headers" data-text="x-forwarded-for, nothing returned the same custom-header sink with no output reflected. unix-only. blind command injection">
+        <article class="card" data-kind="blind" data-sink="command" data-group="headers" data-lang="php" data-text="x-forwarded-for, nothing returned the same custom-header sink with no output reflected. unix-only. blind command injection php">
           <div class="card-top">
             <h3>X-Forwarded-For, nothing returned</h3>
-            <span class="badges"><span class="type t-blind" title="Blind command injection">Blind</span></span>
+            <span class="badges"><span class="type t-blind" title="Blind command injection">Blind</span><span class="lang">PHP</span></span>
           </div>
           <div class="methods"><a class="m m-header" href="scenarios/custom-header/xff(blind).php">HEADER</a></div>
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>

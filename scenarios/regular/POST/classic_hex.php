@@ -14,14 +14,14 @@ $__tail = <<<'TESTBED_TAIL'
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>if (isset($_POST[&quot;addr&quot;])){
-    if (bin2hex(pack(&#x27;H*&#x27;, ($_POST[&quot;addr&quot;] ?? &#x27;&#x27;))) === ($_POST[&quot;addr&quot;] ?? &#x27;&#x27;)){
+    if (bin2hex(pack(&#x27;H*&#x27;, (isset($_POST[&quot;addr&quot;]) ? $_POST[&quot;addr&quot;] : &#x27;&#x27;))) === (isset($_POST[&quot;addr&quot;]) ? $_POST[&quot;addr&quot;] : &#x27;&#x27;)){
       if(stristr(php_uname(&#x27;s&#x27;), &#x27;Windows NT&#x27;)){
         # Windows-based command execution.
-        echo exec(&quot;ping &quot;.pack(&#x27;H*&#x27;, ($_POST[&quot;addr&quot;] ?? &#x27;&#x27;)));
+        echo exec(&quot;ping &quot;.pack(&#x27;H*&#x27;, (isset($_POST[&quot;addr&quot;]) ? $_POST[&quot;addr&quot;] : &#x27;&#x27;)));
       }
       else {
         # Execute command!
-        echo exec(&quot;/bin/ping -c 4 &quot;.pack(&#x27;H*&#x27;, ($_POST[&quot;addr&quot;] ?? &#x27;&#x27;)));
+        echo exec(&quot;/bin/ping -c 4 &quot;.pack(&#x27;H*&#x27;, (isset($_POST[&quot;addr&quot;]) ? $_POST[&quot;addr&quot;] : &#x27;&#x27;)));
         }
     }
     else {
@@ -111,14 +111,14 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
                 <br>
                 <b><?php
                 if (isset($_POST["addr"])){
-                    if (bin2hex(pack('H*', ($_POST["addr"] ?? ''))) === ($_POST["addr"] ?? '')){
+                    if (bin2hex(pack('H*', (isset($_POST["addr"]) ? $_POST["addr"] : ''))) === (isset($_POST["addr"]) ? $_POST["addr"] : '')){
                       if(stristr(php_uname('s'), 'Windows NT')){
                         # Windows-based command execution.
-                        echo exec("ping ".pack('H*', ($_POST["addr"] ?? '')));
+                        echo exec("ping ".pack('H*', (isset($_POST["addr"]) ? $_POST["addr"] : '')));
                       } 
                       else {
                         # Execute command!
-                        echo exec("/bin/ping -c 4 ".pack('H*', ($_POST["addr"] ?? '')));
+                        echo exec("/bin/ping -c 4 ".pack('H*', (isset($_POST["addr"]) ? $_POST["addr"] : '')));
                         }
                     } 
                     else {

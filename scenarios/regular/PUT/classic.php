@@ -14,7 +14,7 @@ $__tail = <<<'TESTBED_TAIL'
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code># Only PUT is accepted here; anything else is turned away.
-if(($_SERVER[&#x27;REQUEST_METHOD&#x27;] ?? &#x27;&#x27;) !== &#x27;PUT&#x27;){
+if((isset($_SERVER[&#x27;REQUEST_METHOD&#x27;]) ? $_SERVER[&#x27;REQUEST_METHOD&#x27;] : &#x27;&#x27;) !== &#x27;PUT&#x27;){
   echo &quot;This endpoint accepts PUT requests only.&quot;;
 } else {
   parse_str(file_get_contents(&#x27;php://input&#x27;), $body);
@@ -99,7 +99,7 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
       <h2>The page</h2>
       <?php
                 # Only PUT is accepted here; anything else is turned away.
-                if(($_SERVER['REQUEST_METHOD'] ?? '') !== 'PUT'){
+                if((isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : '') !== 'PUT'){
                   echo "This endpoint accepts PUT requests only.";
                 } else {
                   parse_str(file_get_contents('php://input'), $body);

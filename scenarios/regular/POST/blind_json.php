@@ -18,7 +18,7 @@ $__tail = <<<'TESTBED_TAIL'
 // read JSon input
 $data_back = json_decode(file_get_contents(&#x27;php://input&#x27;));
 // set json string to php variables
-$addr = ($data_back-&gt;{&quot;addr&quot;} ?? &#x27;&#x27;);
+$addr = (isset($data_back-&gt;{&quot;addr&quot;}) ? $data_back-&gt;{&quot;addr&quot;} : &#x27;&#x27;);
 // create json response
 $responses = array(&quot;Execution Result&quot; =&gt; array(&quot;Address&quot; =&gt; array(&quot;IP&quot;, $addr),
                    &quot;Result&quot; =&gt; array(&quot;Result&quot;, exec(&quot;/bin/ping -c 4 &quot;.$addr, $output, $return))
@@ -115,7 +115,7 @@ Content-Type: application/json
                 // read JSon input
                 $data_back = json_decode(file_get_contents('php://input'));
                 // set json string to php variables
-                $addr = ($data_back->{"addr"} ?? '');
+                $addr = (isset($data_back->{"addr"}) ? $data_back->{"addr"} : '');
                 // create json response
                 $responses = array("Execution Result" => array("Address" => array("IP", $addr),
                                    "Result" => array("Result", exec("/bin/ping -c 4 ".$addr, $output, $return))

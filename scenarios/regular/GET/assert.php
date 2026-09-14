@@ -9,12 +9,12 @@ $__tail = <<<'TESTBED_TAIL'
     <aside class="panel">
       <h2>What this page does</h2>
       <p class="explain"><code>assert(trim("'".$_GET['user']."'"))</code> evaluates its argument as PHP. The value is wrapped in single quotes, so those have to be closed first.</p>
-      <p class="lesson">assert() took a string and evaluated it as PHP, which makes it a code-execution sink that reads like a sanity check. The value is wrapped in quotes, so those have to be closed first. PHP 7 deprecated the string form and PHP 8 removed it; the lesson is that any function that takes code as a string is a sink, however harmless its name sounds.</p>
+      <p class="lesson">assert() took a string and evaluated it as PHP, which makes it a code-execution sink that reads like a sanity check. PHP 7 deprecated the string form and PHP 8 stopped evaluating it; the lesson is that any function taking code as a string is a sink, however harmless its name sounds.</p>
       <p class="verdict">Reported by commix as <b>Classic code injection</b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
-        <pre><code>assert(trim(&quot;&#x27;&quot;.($_GET[&#x27;user&#x27;] ?? &#x27;&#x27;).&quot;&#x27;&quot;));
-echo &quot;Hello &quot;.htmlentities(($_GET[&#x27;user&#x27;] ?? &#x27;&#x27;));</code></pre>
+        <pre><code>assert(trim(&quot;&#x27;&quot;.(isset($_GET[&#x27;user&#x27;]) ? $_GET[&#x27;user&#x27;] : &#x27;&#x27;).&quot;&#x27;&quot;));
+echo &quot;Hello &quot;.htmlentities((isset($_GET[&#x27;user&#x27;]) ? $_GET[&#x27;user&#x27;] : &#x27;&#x27;));</code></pre>
       </details>
     </aside>
   </div>
@@ -97,6 +97,6 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
               </form>
                 <br>
                 <b><?php 
-                assert(trim("'".($_GET['user'] ?? '')."'"));
-                echo "Hello ".htmlentities(($_GET['user'] ?? ''));
+                assert(trim("'".(isset($_GET['user']) ? $_GET['user'] : '')."'"));
+                echo "Hello ".htmlentities((isset($_GET['user']) ? $_GET['user'] : ''));
 		        ?></b>

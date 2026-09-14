@@ -13,7 +13,7 @@ $__tail = <<<'TESTBED_TAIL'
       <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
-        <pre><code>$host = ($_SERVER[&#x27;HTTP_X_FORWARDED_HOST&#x27;] ?? &#x27;&#x27;);
+        <pre><code>$host = (isset($_SERVER[&#x27;HTTP_X_FORWARDED_HOST&#x27;]) ? $_SERVER[&#x27;HTTP_X_FORWARDED_HOST&#x27;] : &#x27;&#x27;);
 if(isset($host)){
   # The forwarded host is trusted for building the canonical URL.
   echo exec(&quot;echo Serving virtual host: &quot;.$host);
@@ -95,7 +95,7 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
     <section class="panel live">
       <h2>The page</h2>
       <?php
-                $host = ($_SERVER['HTTP_X_FORWARDED_HOST'] ?? '');
+                $host = (isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : '');
                 if(isset($host)){
                   # The forwarded host is trusted for building the canonical URL.
                   echo exec("echo Serving virtual host: ".$host);

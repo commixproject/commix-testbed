@@ -14,8 +14,8 @@ $__tail = <<<'TESTBED_TAIL'
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>if (isset($_POST[&quot;user&quot;])){
-    if (base64_encode(base64_decode(($_POST[&quot;user&quot;] ?? &#x27;&#x27;))) === ($_POST[&quot;user&quot;] ?? &#x27;&#x27;)){
-        eval(&quot;echo \&quot;Hello, &quot;.base64_decode(($_POST[&quot;user&quot;] ?? &#x27;&#x27;)).&quot;!\&quot;;&quot;);
+    if (base64_encode(base64_decode((isset($_POST[&quot;user&quot;]) ? $_POST[&quot;user&quot;] : &#x27;&#x27;))) === (isset($_POST[&quot;user&quot;]) ? $_POST[&quot;user&quot;] : &#x27;&#x27;)){
+        eval(&quot;echo \&quot;Hello, &quot;.base64_decode((isset($_POST[&quot;user&quot;]) ? $_POST[&quot;user&quot;] : &#x27;&#x27;)).&quot;!\&quot;;&quot;);
     } else {
         echo &#x27;Please, encode your input to Base64 format.&#x27;;
     }
@@ -103,8 +103,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
                 <br>
                 <b><?php
                 if (isset($_POST["user"])){
-                    if (base64_encode(base64_decode(($_POST["user"] ?? ''))) === ($_POST["user"] ?? '')){
-                        eval("echo \"Hello, ".base64_decode(($_POST["user"] ?? ''))."!\";");
+                    if (base64_encode(base64_decode((isset($_POST["user"]) ? $_POST["user"] : ''))) === (isset($_POST["user"]) ? $_POST["user"] : '')){
+                        eval("echo \"Hello, ".base64_decode((isset($_POST["user"]) ? $_POST["user"] : ''))."!\";");
                     } else {
                         echo 'Please, encode your input to Base64 format.';
                     }

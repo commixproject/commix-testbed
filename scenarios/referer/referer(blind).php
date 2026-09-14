@@ -16,8 +16,8 @@ $__tail = <<<'TESTBED_TAIL'
         <pre><code>if( stristr(php_uname(&#x27;s&#x27;), &#x27;Windows NT&#x27;)){
   die(&quot;Invalid operating system.&quot;);
 } else {
-  $server_name = ($_SERVER[&quot;SERVER_NAME&quot;] ?? &#x27;&#x27;);
-  $referer = ($_SERVER[&#x27;HTTP_REFERER&#x27;] ?? &#x27;&#x27;);
+  $server_name = (isset($_SERVER[&quot;SERVER_NAME&quot;]) ? $_SERVER[&quot;SERVER_NAME&quot;] : &#x27;&#x27;);
+  $referer = (isset($_SERVER[&#x27;HTTP_REFERER&#x27;]) ? $_SERVER[&#x27;HTTP_REFERER&#x27;] : &#x27;&#x27;);
   exec(&quot;echo &#x27;&quot;.$referer.&quot;&#x27; | grep &#x27;&quot;.$server_name.&quot;&#x27;&quot;, $output, $return);
 }
 if (!$return) {
@@ -107,8 +107,8 @@ Referer: https://commixproject.com/</code></pre></div><br>
                 if( stristr(php_uname('s'), 'Windows NT')){
                   die("Invalid operating system.");
                 } else {
-                  $server_name = ($_SERVER["SERVER_NAME"] ?? '');
-                  $referer = ($_SERVER['HTTP_REFERER'] ?? '');
+                  $server_name = (isset($_SERVER["SERVER_NAME"]) ? $_SERVER["SERVER_NAME"] : '');
+                  $referer = (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '');
                   exec("echo '".$referer."' | grep '".$server_name."'", $output, $return);
                 }
                 if (!$return) {

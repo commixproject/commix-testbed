@@ -13,9 +13,9 @@ $__tail = <<<'TESTBED_TAIL'
       <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
-        <pre><code>$addr  = isset($_GET[&#x27;addr&#x27;])  ? ($_GET[&#x27;addr&#x27;] ?? &#x27;&#x27;)  : &#x27;&#x27;;
-$count = isset($_GET[&#x27;count&#x27;]) ? ($_GET[&#x27;count&#x27;] ?? &#x27;&#x27;) : &#x27;4&#x27;;
-$label = isset($_GET[&#x27;label&#x27;]) ? ($_GET[&#x27;label&#x27;] ?? &#x27;&#x27;) : &#x27;&#x27;;
+        <pre><code>$addr  = isset($_GET[&#x27;addr&#x27;])  ? $_GET[&#x27;addr&#x27;]  : &#x27;&#x27;;
+$count = isset($_GET[&#x27;count&#x27;]) ? $_GET[&#x27;count&#x27;] : &#x27;4&#x27;;
+$label = isset($_GET[&#x27;label&#x27;]) ? $_GET[&#x27;label&#x27;] : &#x27;&#x27;;
 if(isset($_GET[&#x27;addr&#x27;])){
   # &#x27;addr&#x27; and &#x27;label&#x27; are validated; &#x27;count&#x27; is not.
   if(!preg_match(&#x27;/^[\w.\-]+$/&#x27;, $addr)){ die(&quot;Invalid host.&quot;); }
@@ -106,9 +106,9 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
                 </form>
                 <br>
                 <b><?php
-                  $addr  = isset($_GET['addr'])  ? ($_GET['addr'] ?? '')  : '';
-                  $count = isset($_GET['count']) ? ($_GET['count'] ?? '') : '4';
-                  $label = isset($_GET['label']) ? ($_GET['label'] ?? '') : '';
+                  $addr  = isset($_GET['addr'])  ? $_GET['addr']  : '';
+                  $count = isset($_GET['count']) ? $_GET['count'] : '4';
+                  $label = isset($_GET['label']) ? $_GET['label'] : '';
                   if(isset($_GET['addr'])){
                     # 'addr' and 'label' are validated; 'count' is not.
                     if(!preg_match('/^[\w.\-]+$/', $addr)){ die("Invalid host."); }

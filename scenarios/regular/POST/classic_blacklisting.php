@@ -13,7 +13,7 @@ $__tail = <<<'TESTBED_TAIL'
       <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
-        <pre><code>$addr = ($_POST[&quot;addr&quot;] ?? &#x27;&#x27;);
+        <pre><code>$addr = (isset($_POST[&quot;addr&quot;]) ? $_POST[&quot;addr&quot;] : &#x27;&#x27;);
 # Blacklisting command injection separators.
 $blacklisting = array(
   &#x27;;&#x27; =&gt; &#x27;&#x27;,
@@ -111,7 +111,7 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
                 </form>
                 <br>
                 <b><?php
-                    $addr = ($_POST["addr"] ?? '');
+                    $addr = (isset($_POST["addr"]) ? $_POST["addr"] : '');
                     # Blacklisting command injection separators.
                     $blacklisting = array(
                       ';' => '',

@@ -18,7 +18,7 @@ $__tail = <<<'TESTBED_TAIL'
 // read JSon input
 $data_back = json_decode(file_get_contents(&#x27;php://input&#x27;));
 // set json string to php variables
-$name = ($data_back-&gt;{&quot;name&quot;} ?? &#x27;&#x27;);
+$name = (isset($data_back-&gt;{&quot;name&quot;}) ? $data_back-&gt;{&quot;name&quot;} : &#x27;&#x27;);
 // create json response
 $responses = array(&quot;User&quot; =&gt; array(&quot;Name&quot;, eval(&quot;echo \&quot;Hello, &quot;.$name.&quot;!\&quot;;&quot;)));
 echo json_encode($responses);</code></pre>
@@ -107,7 +107,7 @@ Content-Type: application/json
                 // read JSon input
                 $data_back = json_decode(file_get_contents('php://input'));
                 // set json string to php variables
-                $name = ($data_back->{"name"} ?? '');
+                $name = (isset($data_back->{"name"}) ? $data_back->{"name"} : '');
                 // create json response
                 $responses = array("User" => array("Name", eval("echo \"Hello, ".$name."!\";")));
                 echo json_encode($responses);

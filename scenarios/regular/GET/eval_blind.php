@@ -15,7 +15,7 @@ $__tail = <<<'TESTBED_TAIL'
         <summary>The vulnerable code</summary>
         <pre><code>if (isset($_GET[&quot;user&quot;])){
   # The greeting is built as code, and then thrown away.
-  eval(&#x27;$greeting = &quot;Hello, &#x27; . ($_GET[&#x27;user&#x27;] ?? &#x27;&#x27;) . &#x27;!&quot;;&#x27;);
+  eval(&#x27;$greeting = &quot;Hello, &#x27; . (isset($_GET[&#x27;user&#x27;]) ? $_GET[&#x27;user&#x27;] : &#x27;&#x27;) . &#x27;!&quot;;&#x27;);
   echo &quot;Your preferences have been saved.&quot;;
 }</code></pre>
       </details>
@@ -102,7 +102,7 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
                 <b><?php
                 if (isset($_GET["user"])){
                   # The greeting is built as code, and then thrown away.
-                  eval('$greeting = "Hello, ' . ($_GET['user'] ?? '') . '!";');
+                  eval('$greeting = "Hello, ' . (isset($_GET['user']) ? $_GET['user'] : '') . '!";');
                   echo "Your preferences have been saved.";
                 }
                 ?></b>

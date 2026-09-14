@@ -16,7 +16,7 @@ $__tail = <<<'TESTBED_TAIL'
         <pre><code>if(stristr(php_uname(&#x27;s&#x27;), &#x27;Windows NT&#x27;)){
   die(&quot;Invalid operating system.&quot;);
 } else {
-  $client = isset($_SERVER[&#x27;HTTP_X_FORWARDED_FOR&#x27;]) ? ($_SERVER[&#x27;HTTP_X_FORWARDED_FOR&#x27;] ?? &#x27;&#x27;) : &#x27;127.0.0.1&#x27;;
+  $client = isset($_SERVER[&#x27;HTTP_X_FORWARDED_FOR&#x27;]) ? $_SERVER[&#x27;HTTP_X_FORWARDED_FOR&#x27;] : &#x27;127.0.0.1&#x27;;
   exec(&quot;echo Request from: &quot;.$client, $output, $return);
   echo &quot;Request logged.&quot;;
 }</code></pre>
@@ -100,7 +100,7 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
                 if(stristr(php_uname('s'), 'Windows NT')){
                   die("Invalid operating system.");
                 } else {
-                  $client = isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? ($_SERVER['HTTP_X_FORWARDED_FOR'] ?? '') : '127.0.0.1';
+                  $client = isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : '127.0.0.1';
                   exec("echo Request from: ".$client, $output, $return);
                   echo "Request logged.";
                 }

@@ -16,7 +16,7 @@ $__tail = <<<'TESTBED_TAIL'
         <pre><code>if(stristr(php_uname(&#x27;s&#x27;), &#x27;Windows NT&#x27;)){
   die(&quot;Invalid operating system.&quot;);
 } else {
-  $host = ($_SERVER[&#x27;HTTP_X_FORWARDED_HOST&#x27;] ?? &#x27;&#x27;);
+  $host = (isset($_SERVER[&#x27;HTTP_X_FORWARDED_HOST&#x27;]) ? $_SERVER[&#x27;HTTP_X_FORWARDED_HOST&#x27;] : &#x27;&#x27;);
   if(isset($host)){
     exec(&quot;echo Serving virtual host: &quot;.$host, $output, $return);
     echo &quot;Virtual host resolved.&quot;;
@@ -102,7 +102,7 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
                 if(stristr(php_uname('s'), 'Windows NT')){
                   die("Invalid operating system.");
                 } else {
-                  $host = ($_SERVER['HTTP_X_FORWARDED_HOST'] ?? '');
+                  $host = (isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : '');
                   if(isset($host)){
                     exec("echo Serving virtual host: ".$host, $output, $return);
                     echo "Virtual host resolved.";

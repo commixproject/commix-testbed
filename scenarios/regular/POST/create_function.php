@@ -8,14 +8,14 @@ $__tail = <<<'TESTBED_TAIL'
 
     <aside class="panel">
       <h2>What this page does</h2>
-      <p class="explain">The value is concatenated into the body of a <code>create_function()</code>, which compiles it as PHP. Removed in PHP 8, so this one needs an older interpreter.</p>
-      <p class="lesson">create_function() built a function by compiling a string, so anything concatenated into its body became code. It was deprecated in PHP 7.2 and removed in 8. Like assert(), it is worth seeing because the dangerous part is not the syntax but the idea: text that becomes code.</p>
+      <p class="explain">The value is concatenated into the body of a <code>create_function()</code>, which compiles it as PHP.</p>
+      <p class="lesson">create_function() built a function by compiling a string, so anything concatenated into its body became code. It was deprecated in PHP 7.2 and removed in 8. Like assert(), the dangerous part is not the syntax but the idea: text that becomes code.</p>
       <p class="verdict">Reported by commix as <b>Classic code injection</b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>if (isset($_POST[&quot;user&quot;])){
 # Execute command!
-$dyn_function = create_function(&#x27;&#x27;, &quot;echo \&quot;Hello, &quot;.($_POST[&#x27;user&#x27;] ?? &#x27;&#x27;).&quot;!\&quot;;&quot;);
+$dyn_function = create_function(&#x27;&#x27;, &quot;echo \&quot;Hello, &quot;.(isset($_POST[&#x27;user&#x27;]) ? $_POST[&#x27;user&#x27;] : &#x27;&#x27;).&quot;!\&quot;;&quot;);
 $dyn_function(&#x27;&#x27;);
 }</code></pre>
       </details>
@@ -102,7 +102,7 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
                 <b><?php
                 if (isset($_POST["user"])){
                 # Execute command!
-                $dyn_function = create_function('', "echo \"Hello, ".($_POST['user'] ?? '')."!\";");
+                $dyn_function = create_function('', "echo \"Hello, ".(isset($_POST['user']) ? $_POST['user'] : '')."!\";");
                 $dyn_function(''); 
 
                 }

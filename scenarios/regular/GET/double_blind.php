@@ -14,7 +14,7 @@ $__tail = <<<'TESTBED_TAIL'
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code># Execute command!
-$addr = ($_GET[&#x27;addr&#x27;] ?? &#x27;&#x27;);
+$addr = (isset($_GET[&#x27;addr&#x27;]) ? $_GET[&#x27;addr&#x27;] : &#x27;&#x27;);
 if(isset($addr)){
   exec(&quot;/bin/ping -c 4 &quot;.$addr.&quot;&gt; /dev/null &amp;&quot;, $output, $return);
   if (!$return) {
@@ -106,7 +106,7 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
                 <br>
                 <b><?php
         	    # Execute command!
-        	    $addr = ($_GET['addr'] ?? '');
+        	    $addr = (isset($_GET['addr']) ? $_GET['addr'] : '');
         	    if(isset($addr)){
         	      exec("/bin/ping -c 4 ".$addr."> /dev/null &", $output, $return);
         	      if (!$return) {

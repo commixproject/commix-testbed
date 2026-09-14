@@ -18,8 +18,8 @@ $__tail = <<<'TESTBED_TAIL'
 // read JSon input
 $data_back = json_decode(file_get_contents(&#x27;php://input&#x27;));
 // set json string to php variables
-$addr = ($data_back-&gt;{&quot;addr&quot;} ?? &#x27;&#x27;);
-$name = ($data_back-&gt;{&quot;name&quot;} ?? &#x27;&#x27;);
+$addr = (isset($data_back-&gt;{&quot;addr&quot;}) ? $data_back-&gt;{&quot;addr&quot;} : &#x27;&#x27;);
+$name = (isset($data_back-&gt;{&quot;name&quot;}) ? $data_back-&gt;{&quot;name&quot;} : &#x27;&#x27;);
 // create json response
 $responses = array(&quot;Execution Result&quot; =&gt; array(&quot;Address&quot; =&gt; array(&quot;IP&quot;, $addr),
            &quot;Done by&quot; =&gt; array(&quot;User&quot;, $name),
@@ -111,8 +111,8 @@ Content-Type: application/json
                 // read JSon input
                 $data_back = json_decode(file_get_contents('php://input'));
                 // set json string to php variables
-                $addr = ($data_back->{"addr"} ?? '');
-                $name = ($data_back->{"name"} ?? '');
+                $addr = (isset($data_back->{"addr"}) ? $data_back->{"addr"} : '');
+                $name = (isset($data_back->{"name"}) ? $data_back->{"name"} : '');
                 // create json response
                 $responses = array("Execution Result" => array("Address" => array("IP", $addr),
                            "Done by" => array("User", $name),

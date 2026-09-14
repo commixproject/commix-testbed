@@ -13,7 +13,7 @@ $__tail = <<<'TESTBED_TAIL'
       <p class="verdict">Reported by commix as <b>Classic code injection</b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
-        <pre><code>$user_agent = ($_SERVER[&#x27;HTTP_USER_AGENT&#x27;] ?? &#x27;&#x27;);
+        <pre><code>$user_agent = (isset($_SERVER[&#x27;HTTP_USER_AGENT&#x27;]) ? $_SERVER[&#x27;HTTP_USER_AGENT&#x27;] : &#x27;&#x27;);
 eval(&quot;echo &#x27;&quot;.$user_agent.&quot;&#x27;;&quot;);</code></pre>
       </details>
     </aside>
@@ -94,6 +94,6 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
       <div class="howto"><p>There is nothing to type here: the value is taken from the <b>User-Agent</b> request header. Change that header and reload.</p><pre><code>GET /scenarios/user-agent/ua(eval).php
 User-Agent: Mozilla/5.0</code></pre></div><br>
                 <b><?php
-                $user_agent = ($_SERVER['HTTP_USER_AGENT'] ?? '');
+                $user_agent = (isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '');
                 eval("echo '".$user_agent."';");
                 ?></b>

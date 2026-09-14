@@ -14,14 +14,14 @@ $__tail = <<<'TESTBED_TAIL'
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>if (isset($_GET[&quot;addr&quot;])){
-    if (bin2hex(pack(&#x27;H*&#x27;, ($_GET[&quot;addr&quot;] ?? &#x27;&#x27;))) === ($_GET[&quot;addr&quot;] ?? &#x27;&#x27;)){
+    if (bin2hex(pack(&#x27;H*&#x27;, (isset($_GET[&quot;addr&quot;]) ? $_GET[&quot;addr&quot;] : &#x27;&#x27;))) === (isset($_GET[&quot;addr&quot;]) ? $_GET[&quot;addr&quot;] : &#x27;&#x27;)){
       if(stristr(php_uname(&#x27;s&#x27;), &#x27;Windows NT&#x27;)){
         # Windows-based command execution.
-        echo exec(&quot;ping &quot;.pack(&#x27;H*&#x27;, ($_GET[&quot;addr&quot;] ?? &#x27;&#x27;)));
+        echo exec(&quot;ping &quot;.pack(&#x27;H*&#x27;, (isset($_GET[&quot;addr&quot;]) ? $_GET[&quot;addr&quot;] : &#x27;&#x27;)));
       }
       else {
         # Execute command!
-        echo exec(&quot;/bin/ping -c 4 &quot;.pack(&#x27;H*&#x27;, ($_GET[&quot;addr&quot;] ?? &#x27;&#x27;)));
+        echo exec(&quot;/bin/ping -c 4 &quot;.pack(&#x27;H*&#x27;, (isset($_GET[&quot;addr&quot;]) ? $_GET[&quot;addr&quot;] : &#x27;&#x27;)));
         }
     }
     else {
@@ -111,14 +111,14 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
                 <br>
                 <b><?php
                 if (isset($_GET["addr"])){
-                    if (bin2hex(pack('H*', ($_GET["addr"] ?? ''))) === ($_GET["addr"] ?? '')){
+                    if (bin2hex(pack('H*', (isset($_GET["addr"]) ? $_GET["addr"] : ''))) === (isset($_GET["addr"]) ? $_GET["addr"] : '')){
                       if(stristr(php_uname('s'), 'Windows NT')){
                         # Windows-based command execution.
-                        echo exec("ping ".pack('H*', ($_GET["addr"] ?? '')));
+                        echo exec("ping ".pack('H*', (isset($_GET["addr"]) ? $_GET["addr"] : '')));
                       } 
                       else {
                         # Execute command!
-                        echo exec("/bin/ping -c 4 ".pack('H*', ($_GET["addr"] ?? '')));
+                        echo exec("/bin/ping -c 4 ".pack('H*', (isset($_GET["addr"]) ? $_GET["addr"] : '')));
                         }
                     } 
                     else {

@@ -13,7 +13,7 @@ $__tail = <<<'TESTBED_TAIL'
       <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
-        <pre><code>$addr = ($_POST[&#x27;addr&#x27;] ?? &#x27;&#x27;);
+        <pre><code>$addr = (isset($_POST[&#x27;addr&#x27;]) ? $_POST[&#x27;addr&#x27;] : &#x27;&#x27;);
 if(isset($addr)){
   echo &quot;&lt;b&gt;Ping Results:&lt;/b&gt;&lt;br&gt;&quot;.exec(&quot;/bin/ping -c 4 \&quot;{$addr}\&quot;&quot;);
 }</code></pre>
@@ -99,7 +99,7 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
                 </form>
                 <br>
                 <b><?php
-                $addr = ($_POST['addr'] ?? '');
+                $addr = (isset($_POST['addr']) ? $_POST['addr'] : '');
                 if(isset($addr)){
                   echo "<b>Ping Results:</b><br>".exec("/bin/ping -c 4 \"{$addr}\"");
                 }

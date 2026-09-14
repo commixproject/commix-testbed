@@ -13,7 +13,7 @@ $__tail = <<<'TESTBED_TAIL'
       <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
-        <pre><code>$string = ($_GET[&#x27;string&#x27;] ?? &#x27;&#x27;);
+        <pre><code>$string = (isset($_GET[&#x27;string&#x27;]) ? $_GET[&#x27;string&#x27;] : &#x27;&#x27;);
 if(stristr(php_uname(&#x27;s&#x27;), &#x27;Windows NT&#x27;)){
   die(&quot;Invalid operating system.&quot;);
 } else {
@@ -102,7 +102,7 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
             <br>
             <b>
             <b>MD5 Hash:  </b><?php
-              $string = ($_GET['string'] ?? '');
+              $string = (isset($_GET['string']) ? $_GET['string'] : '');
               if(stristr(php_uname('s'), 'Windows NT')){
                 die("Invalid operating system.");
               } else {  

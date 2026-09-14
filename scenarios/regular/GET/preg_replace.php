@@ -8,14 +8,14 @@ $__tail = <<<'TESTBED_TAIL'
 
     <aside class="panel">
       <h2>What this page does</h2>
-      <p class="explain">Both the pattern and the replacement come from the query string, so the pattern's own modifiers belong to the attacker - and the <code>e</code> modifier evaluates the replacement as PHP. Needs a PHP older than 7, where that modifier still exists.</p>
+      <p class="explain">Both the pattern and the replacement come from the query string, so the pattern's own modifiers belong to the attacker - and the <code>e</code> modifier evaluates the replacement as PHP.</p>
       <p class="lesson">The pattern itself is user input, which hands over far more than the text being matched: a regex carries modifiers, and PHP's e modifier evaluated the replacement as code. It was removed in PHP 7, so this page needs an older interpreter - but the shape of the mistake outlives the feature. Never let a request supply the pattern to a matching function.</p>
       <p class="verdict">Reported by commix as <b>Classic code injection</b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$msg = &#x27;Hello, World!&#x27;;
-$replace = ($_GET[&#x27;replace&#x27;] ?? &#x27;&#x27;);
-$with = ($_GET[&#x27;with&#x27;] ?? &#x27;&#x27;);
+$replace = (isset($_GET[&#x27;replace&#x27;]) ? $_GET[&#x27;replace&#x27;] : &#x27;&#x27;);
+$with = (isset($_GET[&#x27;with&#x27;]) ? $_GET[&#x27;with&#x27;] : &#x27;&#x27;);
 if (isset($replace, $with) &amp;&amp; $replace !== &#x27;&#x27;){
   # Execute command!
   echo preg_replace($replace, $with, $msg);
@@ -105,8 +105,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
                 <br>
                 <b><?php
                   $msg = 'Hello, World!';
-                  $replace = ($_GET['replace'] ?? '');
-                  $with = ($_GET['with'] ?? '');
+                  $replace = (isset($_GET['replace']) ? $_GET['replace'] : '');
+                  $with = (isset($_GET['with']) ? $_GET['with'] : '');
                   if (isset($replace, $with) && $replace !== ''){
                     # Execute command!
                     echo preg_replace($replace, $with, $msg);

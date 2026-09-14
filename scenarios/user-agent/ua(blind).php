@@ -16,7 +16,7 @@ $__tail = <<<'TESTBED_TAIL'
         <pre><code>if(stristr(php_uname(&#x27;s&#x27;), &#x27;Windows NT&#x27;)){
   die(&quot;Invalid operating system.&quot;);
 } else {
-  $user_agent = ($_SERVER[&#x27;HTTP_USER_AGENT&#x27;] ?? &#x27;&#x27;);
+  $user_agent = (isset($_SERVER[&#x27;HTTP_USER_AGENT&#x27;]) ? $_SERVER[&#x27;HTTP_USER_AGENT&#x27;] : &#x27;&#x27;);
   exec(&quot;echo &#x27;&quot;.$user_agent.&quot;&#x27; | grep Firefox&quot;, $output, $return);
   if (!$return) {
       echo &quot;Viva La Mozilla Firefox!&quot;;
@@ -106,7 +106,7 @@ User-Agent: Mozilla/5.0</code></pre></div><br>
                   if(stristr(php_uname('s'), 'Windows NT')){
                     die("Invalid operating system.");
                   } else {
-                    $user_agent = ($_SERVER['HTTP_USER_AGENT'] ?? '');
+                    $user_agent = (isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '');
                     exec("echo '".$user_agent."' | grep Firefox", $output, $return);
                     if (!$return) {
                         echo "Viva La Mozilla Firefox!";

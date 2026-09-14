@@ -19,7 +19,7 @@ setcookie($cookie_name, $cookie_value, time() + (86400 * 30), &quot;/&quot;); //
 if(!isset($_COOKIE[$cookie_name])) {
     echo &quot;Cookie named &#x27;&quot; . $cookie_name . &quot;&#x27; is not set!&quot;;
 } else {
-    eval(&quot;echo \&quot;Hello, &quot;.($_COOKIE[$cookie_name] ?? &#x27;&#x27;).&quot;!\&quot;;&quot;);
+    eval(&quot;echo \&quot;Hello, &quot;.(isset($_COOKIE[$cookie_name]) ? $_COOKIE[$cookie_name] : &#x27;&#x27;).&quot;!\&quot;;&quot;);
 }</code></pre>
       </details>
     </aside>
@@ -105,6 +105,6 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
                 if(!isset($_COOKIE[$cookie_name])) {
                     echo "Cookie named '" . $cookie_name . "' is not set!";
                 } else {
-                    eval("echo \"Hello, ".($_COOKIE[$cookie_name] ?? '')."!\";");
+                    eval("echo \"Hello, ".(isset($_COOKIE[$cookie_name]) ? $_COOKIE[$cookie_name] : '')."!\";");
                 }
                 ?></b>
