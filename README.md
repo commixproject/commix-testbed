@@ -3,11 +3,11 @@
 </p>
 
 <p align="center">
-  <a href="https://hub.docker.com/r/commixproject/commix-testbed"><img alt="Docker" src="https://img.shields.io/badge/docker-commix--testbed-blue.svg"></a>
-  <a href="https://www.php.net/downloads"><img alt="PHP 5.5+" src="https://img.shields.io/badge/php-5.5+-yellow.svg"></a>
-  <a href="https://github.com/commixproject/commix-testbed/blob/master/readme/CHANGELOG.md"><img alt="Version 1.0" src="https://img.shields.io/badge/version-1.0-green.svg"></a>
-  <a href="https://github.com/commixproject/commix-testbed/blob/master/readme/COPYING"><img alt="GPLv3 License" src="https://img.shields.io/badge/license-GPLv3-red.svg"></a>
-  <a href="https://x.com/commixproject"><img alt="X" src="https://img.shields.io/badge/x-@commixproject-blue.svg"></a>
+  <a href="https://hub.docker.com/r/commixproject/commix-testbed"><img alt="Docker Commix Testbed" src="https://img.shields.io/badge/Docker-Commix%20Testbed-2496ED.svg?style=for-the-badge&logo=docker&logoColor=white"></a>
+  <a href="https://www.php.net/downloads"><img alt="PHP 5.5+" src="https://img.shields.io/badge/Php-5.5%2B-777BB4.svg?style=for-the-badge&logo=php&logoColor=white"></a>
+  <a href="https://github.com/commixproject/commix-testbed/blob/master/readme/CHANGELOG.md"><img alt="Version 1.0" src="https://img.shields.io/badge/Version-1.0-2EA44F.svg?style=for-the-badge"></a>
+  <a href="https://github.com/commixproject/commix-testbed/blob/master/readme/COPYING"><img alt="GPLv3 License" src="https://img.shields.io/badge/License-GPLv3-6A1B9A.svg?style=for-the-badge&logo=gnu&logoColor=white"></a>
+  <a href="https://x.com/commixproject"><img alt="Follow @commixproject" src="https://img.shields.io/badge/Follow-@commixproject-000000.svg?style=for-the-badge&logo=x&logoColor=white"></a>
 </p>
 
 **commix-testbed** is a collection of deliberately vulnerable web pages, written by **[Anastasios Stasinopoulos](https://github.com/stasinopoulos)** (**[@ancst](https://x.com/ancst)**), used to exercise **[commix](https://github.com/commixproject/commix)**'s detection and exploitation features - and to learn what **[command](https://owasp.org/www-community/attacks/Command_Injection)** (and **[code](https://owasp.org/www-community/attacks/Code_Injection)**) injection actually looks like in code.
