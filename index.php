@@ -30,10 +30,11 @@
       <a href="https://github.com/commixproject/commix">commix</a>. Open a hint when you want to know
       what a page is doing wrong.</p>
     <div class="stats">
-      <div class="stat"><b>77</b><span>vulnerable pages</span></div>
+      <div class="stat"><b>93</b><span>vulnerable pages</span></div>
       <div class="stat"><b>28</b><span>parameter scenarios</span></div>
       <div class="stat"><b>12</b><span>filter bypasses</span></div>
       <div class="stat"><b>15</b><span>injectable headers</span></div>
+      <div class="stat"><b>12</b><span>stateful flows</span></div>
     </div>
     <p class="warn"><b>Run this locally.</b> These pages execute whatever they are given. Do not expose
       the testbed to a network you do not control.</p>
@@ -47,6 +48,7 @@
       <button class="chip" data-k="kind" data-v="blind" aria-pressed="false">Blind</button>
       <button class="chip" data-k="sink" data-v="code" aria-pressed="false">Code injection</button>
       <button class="chip" data-k="group" data-v="filters" aria-pressed="false">Filter bypass</button>
+      <button class="chip" data-k="group" data-v="stateful" aria-pressed="false">Stateful</button>
       <button class="chip" data-k="lang" data-v="php" aria-pressed="false">PHP</button>
       <button class="chip" data-k="lang" data-v="python" aria-pressed="false">Python</button>
     </div>
@@ -835,6 +837,180 @@
         </article>
         </div>
       </section>
+
+    <section class="group" id="stateful">
+      <h2><button class="fold" type="button" aria-expanded="true">Stateful &amp; multi-step <span class="count">12</span></button></h2>
+      <div class="grid">
+        <article class="card" data-kind="classic" data-sink="command" data-group="stateful" data-lang="php" data-text="anti-csrf token every render mints a fresh csrf_token into the session and writes it into the form as a hidden field. a post whose token does not match the one currently in the session is refused before $addr reaches the shell. classic command injection php">
+          <div class="card-top">
+            <h3>Anti-CSRF token</h3>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
+          </div>
+          <div class="methods"><a class="m m-post" href="scenarios/stateful/csrf.php">POST</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>Every render mints a fresh <code>csrf_token</code> into the session and writes it into the form as a hidden field. A POST whose token does not match the one currently in the session is refused before <code>$addr</code> reaches the shell.</p>
+            <p class="lesson">The token is not a fix for the injection - the bug underneath is the same unquoted concatenation as everywhere else. What it changes is what a scan sees: replay a captured token and every payload comes back refused, which is indistinguishable from a parameter that simply is not injectable.</p>
+            <p class="reach">Reach it with <code>--csrf-token="csrf_token"</code>.</p>
+            <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+          </div>
+        </article>
+        <article class="card" data-kind="classic" data-sink="command" data-group="stateful" data-lang="php" data-text="second-order storage the submit page stores addr and answers stored. - it never runs the value. the command runs later, when the log viewer renders what was stored. classic command injection php">
+          <div class="card-top">
+            <h3>Second-order storage</h3>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
+          </div>
+          <div class="methods"><a class="m m-post" href="scenarios/stateful/second_order.php">POST</a><a class="m m-get" href="scenarios/stateful/second_order_log.php">GET</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>The submit page stores <code>addr</code> and answers <code>Stored.</code> - it never runs the value. The command runs later, when the log viewer renders what was stored.</p>
+            <p class="lesson">Injection and execution do not have to happen in the same request. Everything a scanner normally reads - the response body, its length, how long it took - is identical whether the payload was dangerous or harmless, because this page genuinely does nothing with it.</p>
+            <p class="reach">Reach it with <code>--second-url</code> pointing at <code>second_order_log.php</code>.</p>
+            <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+          </div>
+        </article>
+        <article class="card" data-kind="classic" data-sink="command" data-group="stateful" data-lang="php" data-text="behind a session login the same unquoted exec() as the plainest scenario, but the page answers login required. to anyone without an authenticated session. classic command injection php">
+          <div class="card-top">
+            <h3>Behind a session login</h3>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
+          </div>
+          <div class="methods"><a class="m m-get" href="scenarios/stateful/session_classic.php">GET</a><a class="m m-post" href="scenarios/stateful/login.php">POST</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>The same unquoted <code>exec()</code> as the plainest scenario, but the page answers <code>Login required.</code> to anyone without an authenticated session.</p>
+            <p class="lesson">An unauthenticated scan reports this page as not injectable, which is true of what it can see and false of the application. Most of a real application's attack surface sits behind a login.</p>
+            <p class="reach">Reach it with <code>--auth-url</code> and <code>--auth-data="username=admin&amp;password=testbed"</code>.</p>
+            <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+          </div>
+        </article>
+        <article class="card" data-kind="classic" data-sink="command" data-group="stateful" data-lang="php" data-text="one-time request id every request carries a req_id. the session remembers the ones it has already seen, and a repeat is answered with duplicate request id. before $addr is used. classic command injection php">
+          <div class="card-top">
+            <h3>One-time request id</h3>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
+          </div>
+          <div class="methods"><a class="m m-get" href="scenarios/stateful/nonce.php">GET</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>Every request carries a <code>req_id</code>. The session remembers the ones it has already seen, and a repeat is answered with <code>Duplicate request id.</code> before <code>$addr</code> is used.</p>
+            <p class="lesson">Replay protection, not input validation. It costs an attacker nothing - a fresh id is free - but it breaks any tool that sends the same request twice, which detection does constantly. The parameter that has to change is not the parameter being tested.</p>
+            <p class="reach">Reach it with <code>--randomize=req_id</code>.</p>
+            <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+          </div>
+        </article>
+        <article class="card" data-kind="classic" data-sink="command" data-group="stateful" data-lang="php" data-text="rate-limited endpoint the session counts requests. after five without a visit to the keepalive page, everything is answered with session locked. and $addr is never used. classic command injection php">
+          <div class="card-top">
+            <h3>Rate-limited endpoint</h3>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
+          </div>
+          <div class="methods"><a class="m m-get" href="scenarios/stateful/lockout.php">GET</a><a class="m m-get" href="scenarios/stateful/keepalive.php">GET</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>The session counts requests. After five without a visit to the keepalive page, everything is answered with <code>Session locked.</code> and <code>$addr</code> is never used.</p>
+            <p class="lesson">Detection is not one request, it is dozens, so a limit an ordinary user would never reach is hit almost immediately. Everything after the fifth request is refused for a reason that has nothing to do with the payload.</p>
+            <p class="reach">Reach it with <code>--safe-url</code> pointing at <code>keepalive.php</code> and <code>--safe-freq=3</code>.</p>
+            <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+          </div>
+        </article>
+        <article class="card" data-kind="classic" data-sink="command" data-group="stateful" data-lang="php" data-text="intermittent failure roughly half of all requests are answered with service temporarily unavailable. instead of running the command. which ones is decided at random. classic command injection php">
+          <div class="card-top">
+            <h3>Intermittent failure</h3>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
+          </div>
+          <div class="methods"><a class="m m-get" href="scenarios/stateful/flaky.php">GET</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>Roughly half of all requests are answered with <code>Service temporarily unavailable.</code> instead of running the command. Which ones is decided at random.</p>
+            <p class="lesson">A test is only meaningful if the response answers the question that was asked. Here half of them do not, so a payload that worked can look like it failed - the failure mode is not a missed finding but an unreliable one, different every run.</p>
+            <p class="reach">Reach it with <code>--retry-on="temporarily unavailable"</code>.</p>
+            <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+          </div>
+        </article>
+        <article class="card" data-kind="classic" data-sink="command" data-group="stateful" data-lang="php" data-text="chunked request body the endpoint turns away any body that arrives with a content-length. only a chunked body is read, and it is parsed out of php://input rather than taken from $_post. classic command injection php">
+          <div class="card-top">
+            <h3>Chunked request body</h3>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
+          </div>
+          <div class="methods"><a class="m m-post" href="scenarios/stateful/chunked.php">POST</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>The endpoint turns away any body that arrives with a <code>Content-Length</code>. Only a chunked body is read, and it is parsed out of <code>php://input</code> rather than taken from <code>$_POST</code>.</p>
+            <p class="lesson">Chunked encoding splits the body into pieces the server reassembles, so a filter reading the request as one buffer sees fragments instead of a payload. Plenty of middleboxes inspect only the first chunk, or skip chunked bodies altogether.</p>
+            <p class="reach">Reach it with <code>--chunked</code>.</p>
+            <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+          </div>
+        </article>
+        <article class="card" data-kind="classic" data-sink="command" data-group="stateful" data-lang="php" data-text="non-standard parameter delimiter the query string is not parsed by php. it is split on ; instead of &amp;amp;, so addr=127.0.0.1;count=1 is two parameters, not one value containing a semicolon. classic command injection php">
+          <div class="card-top">
+            <h3>Non-standard parameter delimiter</h3>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
+          </div>
+          <div class="methods"><a class="m m-get" href="scenarios/stateful/param_del.php">GET</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>The query string is not parsed by PHP. It is split on <code>;</code> instead of <code>&amp;</code>, so <code>addr=127.0.0.1;count=1</code> is two parameters, not one value containing a semicolon.</p>
+            <p class="lesson">An application is free to invent its own parameter syntax. The risk is in the disagreement: a tool that splits on <code>&amp;</code> treats the whole string as a single value, while the application reads two fields - so the parameter that reaches the shell is never tested on its own.</p>
+            <p class="reach">Reach it with <code>--param-del=";"</code>.</p>
+            <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+          </div>
+        </article>
+        <article class="card" data-kind="blind" data-sink="command" data-group="stateful" data-lang="php" data-text="out-of-band only the command is detached and its output thrown away. the page answers queued. immediately, whatever was sent. blind command injection php">
+          <div class="card-top">
+            <h3>Out-of-band only</h3>
+            <span class="badges"><span class="type t-blind" title="Blind command injection">Blind</span><span class="lang">PHP</span></span>
+          </div>
+          <div class="methods"><a class="m m-get" href="scenarios/stateful/oob.php">GET</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>The command is detached and its output thrown away. The page answers <code>Queued.</code> immediately, whatever was sent.</p>
+            <p class="lesson">Every signal a scan normally reads is gone at once. The body is a constant, so there is nothing to compare; the process is backgrounded, so a <code>sleep</code> in the payload delays nothing the response waits for. The command still runs - it just cannot say so through this connection.</p>
+            <p class="reach">Results-based and time-based both fail by construction. Reach it with <code>--oob</code>.</p>
+            <p class="verdict">Reported by commix as <b>Blind command injection</b>.</p>
+          </div>
+        </article>
+        <article class="card" data-kind="classic" data-sink="command" data-group="stateful" data-lang="php" data-text="arithmetic expansion blocked a denylist that rejects the value if it contains $(( or a backtick. command substitution with $(&amp;hellip;) is left alone. classic command injection php">
+          <div class="card-top">
+            <h3>Arithmetic expansion blocked</h3>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
+          </div>
+          <div class="methods"><a class="m m-get" href="scenarios/stateful/interpreter.php">GET</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>A denylist that rejects the value if it contains <code>$((</code> or a backtick. Command substitution with <code>$(&hellip;)</code> is left alone.</p>
+            <p class="lesson">The filter is aimed at a payload shape rather than at a capability. Shell arithmetic is one way to make a target prove it evaluated something - but anything the target can execute can do the same calculation. Blocking the notation blocks the probe, not the injection.</p>
+            <p class="reach">Reach it with <code>--interpreter=python</code>, or <code>--skip-calc</code>.</p>
+            <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+          </div>
+        </article>
+        <article class="card" data-kind="classic" data-sink="command" data-group="stateful" data-lang="php" data-text="token from another endpoint the same token check as the inline anti-csrf scenario, except this page never shows a token. it has to be minted by a post to the token endpoint first, and each one is good for a single request. classic command injection php">
+          <div class="card-top">
+            <h3>Token from another endpoint</h3>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
+          </div>
+          <div class="methods"><a class="m m-post" href="scenarios/stateful/csrf_remote.php">POST</a><a class="m m-post" href="scenarios/stateful/token.php">POST</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>The same token check as the inline anti-CSRF scenario, except this page never shows a token. It has to be minted by a <code>POST</code> to the token endpoint first, and each one is good for a single request.</p>
+            <p class="lesson">Where the token lives changes what an attacker has to automate, not whether the bug is reachable. Fetching one from a separate service, with its own method and its own body, is more than reading a hidden field - and a tool that only knows how to do the latter reports this page as clean.</p>
+            <p class="reach">Reach it with <code>--csrf-token</code>, <code>--csrf-url</code>, <code>--csrf-method=POST</code> and <code>--csrf-data</code>.</p>
+            <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+          </div>
+        </article>
+        <article class="card" data-kind="blind" data-sink="command" data-group="stateful" data-lang="php" data-text="aliased document root a blind page served from /srv/hidden through an apache alias, which is nowhere under the document root the rest of the site uses. blind command injection php">
+          <div class="card-top">
+            <h3>Aliased document root</h3>
+            <span class="badges"><span class="type t-blind" title="Blind command injection">Blind</span><span class="lang">PHP</span></span>
+          </div>
+          <div class="methods"><a class="m m-get" href="hidden/blind.php">GET</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>A blind page served from <code>/srv/hidden</code> through an Apache <code>Alias</code>, which is nowhere under the document root the rest of the site uses.</p>
+            <p class="lesson">The file-based technique writes its output into the web root and reads it back over HTTP, which requires knowing where on disk the URL space begins. Here the guess from the URL is wrong. Aliases, user directories and per-vhost roots are ordinary, so the mapping is worth being told rather than inferred.</p>
+            <p class="reach">Reach it with <code>--technique=f --web-root=/srv/hidden</code>.</p>
+            <p class="verdict">Reported by commix as <b>Blind command injection</b>.</p>
+          </div>
+        </article>
+      </div>
+    </section>
 
     <p class="empty" id="empty">Nothing matches that.</p>
   </main>
