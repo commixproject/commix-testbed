@@ -10,7 +10,7 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">Roughly half of all requests are answered with <code>Service temporarily unavailable.</code> instead of running the command. Which ones is decided at random, and has nothing to do with what was sent.</p>
       <p class="lesson">A test is only meaningful if the response answers the question that was asked. Here half of them do not, so a payload that worked can look like it failed and a difference between two responses can be pure noise - the failure mode is not a missed finding but an unreliable one, different every run.</p>
-      <p class="reach">Reach it with <code>--retry-on=&quot;temporarily unavailable&quot;</code>, so a failed response is re-sent rather than believed.</p>
+      <p class="reach">Reach it with <code>--retry-on=&quot;&lt;b&gt;Service temporarily&quot;</code>, so a refused response is re-sent rather than believed. The pattern is anchored to the element the result is printed into on purpose: this page explains itself, so the words of the notice also appear in the prose beside it, and a pattern matching those would match every response - including the ones that ran the command - and retry until the budget is gone.</p>
       <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>

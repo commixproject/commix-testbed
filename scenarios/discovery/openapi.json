@@ -1,0 +1,47 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "commix-testbed lookup API",
+    "version": "1.0.0",
+    "description": "Two operations that no page of this testbed links to."
+  },
+  "servers": [
+    {"url": "/scenarios/discovery"}
+  ],
+  "paths": {
+    "/api_lookup.php": {
+      "get": {
+        "tags": ["lookup"],
+        "summary": "Ping a host",
+        "parameters": [
+          {
+            "name": "host",
+            "in": "query",
+            "required": true,
+            "schema": {"type": "string"},
+            "example": "127.0.0.1"
+          }
+        ],
+        "responses": {"200": {"description": "the output of the command"}}
+      }
+    },
+    "/api_report.php": {
+      "post": {
+        "tags": ["lookup"],
+        "summary": "Ping a host, given in a JSON body",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {"host": {"type": "string", "example": "127.0.0.1"}}
+              }
+            }
+          }
+        },
+        "responses": {"200": {"description": "the output of the command"}}
+      }
+    }
+  }
+}

@@ -3,10 +3,11 @@
 </p>
 
 <p align="center">
-  <a href="https://hub.docker.com/r/commixproject/commix-testbed"><img alt="Docker Commix Testbed" src="https://img.shields.io/badge/Docker-Commix%20Testbed-2496ED.svg?style=for-the-badge&logo=docker&logoColor=white"></a>
-  <a href="https://www.php.net/downloads"><img alt="PHP 5.5+" src="https://img.shields.io/badge/Php-5.5%2B-777BB4.svg?style=for-the-badge&logo=php&logoColor=white"></a>
-  <a href="https://github.com/commixproject/commix-testbed/blob/master/readme/COPYING"><img alt="GPLv3 License" src="https://img.shields.io/badge/License-GPLv3-6A1B9A.svg?style=for-the-badge&logo=gnu&logoColor=white"></a>
-  <a href="https://x.com/commixproject"><img alt="Follow @commixproject" src="https://img.shields.io/badge/Follow-@commixproject-000000.svg?style=for-the-badge&logo=x&logoColor=white"></a>
+  <a href="https://hub.docker.com/r/commixproject/commix-testbed"><img alt="Docker" src="https://img.shields.io/badge/docker-commix--testbed-blue.svg"></a>
+  <a href="https://www.php.net/downloads"><img alt="PHP 5.5+" src="https://img.shields.io/badge/php-5.5+-yellow.svg"></a>
+  <a href="https://github.com/commixproject/commix-testbed/blob/master/readme/CHANGELOG.md"><img alt="Version 1.0" src="https://img.shields.io/badge/version-1.0-green.svg"></a>
+  <a href="https://github.com/commixproject/commix-testbed/blob/master/readme/COPYING"><img alt="GPLv3 License" src="https://img.shields.io/badge/license-GPLv3-red.svg"></a>
+  <a href="https://x.com/commixproject"><img alt="X" src="https://img.shields.io/badge/x-@commixproject-blue.svg"></a>
 </p>
 
 **commix-testbed** is a collection of deliberately vulnerable web pages, written by **[Anastasios Stasinopoulos](https://github.com/stasinopoulos)** (**[@ancst](https://x.com/ancst)**), used to exercise **[commix](https://github.com/commixproject/commix)**'s detection and exploitation features - and to learn what **[command](https://owasp.org/www-community/attacks/Command_Injection)** (and **[code](https://owasp.org/www-community/attacks/Code_Injection)**) injection actually looks like in code.
@@ -25,14 +26,19 @@ Each scenario carries an explanation of what the code gets wrong and what the mi
 
 ## Scenarios
 
-* **Regular parameters** - `GET`, `POST` and `PUT` bodies, JSON and SOAP/XML documents, Base64 and hex encodings, single and double quoting, HTTP Basic and Digest authentication, and a page where only two of three parameters are validated.
+* **Regular parameters** - `GET`, `POST` and `PUT` bodies, JSON, GraphQL and SOAP/XML documents, Base64 and hex encodings, single and double quoting, HTTP Basic and Digest authentication, and a page where only two of three parameters are validated.
 * **Code evaluation sinks** - `eval()`, `assert()`, `preg_replace()` with an attacker-controlled pattern, `create_function()`, and `str_replace()` sanitising into an evaluated string.
-* **Weak filters** - denylisted metacharacters, whitespace rejection, anchored patterns that constrain only one end, lax domain validation, and a command-name blocklist. Each one is wrong in a different way.
+* **Weak filters** - denylisted metacharacters, whitespace rejection, anchored patterns that constrain only one end, lax domain validation, a command-name blocklist, a function-name blocklist that reads the query string and only the query string, and a check that inspects the first of two same-named parameters while the application reads the last. Each one is wrong in a different way.
 * **HTTP headers** - `User-Agent`, `Cookie`, `Referer` and `X-Forwarded-Host`, plus a custom `X-Forwarded-For` header read for the access log.
+* **Stateful and multi-step** - pages that ask for something carried between requests rather than something clever inside one: a login and the session it hands out, anti-CSRF tokens and single-use nonces, a second-order sink that answers on another page, account lockout, a connection held open, an endpoint that refuses at random, a request body sent chunked, non-standard parameter and cookie delimiters, an out-of-band-only sink, a document root that is not the default, output held back until the next request, a branch only a phone reaches, decoy parameters beside the real one, a body that is never percent-decoded, a sink that answers `500` while running the command, and a `Set-Cookie` that breaks the session if it is stored.
+* **Discovery** - pages whose injectable surface is not written where a scan looks for it: a parameter the markup never names, routes that exist only inside the script a page loads, and an API that publishes an OpenAPI description of endpoints nothing links to.
+* **CTF challenges** - five real, named challenges recreated faithfully, filter and language included: YesWeHack Dojo #30 (Terminal Isolation), #36 (Shell Escape) and #41 (Ruby Treasure, the one page here served as a genuine Ruby CGI script rather than PHP standing in for it), a Root-Me filter bypass, and YesWeHack Dojo #46 (Ghost Whisper).
 * **Python scenarios** - the same classic, blind and code-injection bugs written in Python and served as CGI, so a run is not only exercising PHP.
+* **Ruby scenarios** - the same `eval()`-on-the-value code injection, in Ruby.
+* **JavaScript scenario** - the same `eval()`-on-the-value code injection, in Node - run as its own standalone HTTP server rather than CGI under the main site, since the base image's glibc predates any Node build that would still run there. Start it with `docker run -d -p 8087:3000 -v "$PWD/scenarios/javascript:/app:ro" -w /app -e TESTBED_URL=http://localhost:8081 node:20-alpine node server.js`, alongside the main container.
 * **Every reported type** - classic and blind, command and code injection, so all four combinations commix can report are covered.
 
-Scenarios are labelled with the type commix reports them as. See the **[techniques](https://github.com/commixproject/commix/wiki/Techniques)** wiki page for what those mean and which technique reaches each one.
+Scenarios are labelled with the type commix reports them as, and each page says which option reaches it - several exist to exercise one option and cannot be reached without it. See the **[techniques](https://github.com/commixproject/commix/wiki/Techniques)** wiki page for what those mean and which technique reaches each one.
 
 ## Installation
 

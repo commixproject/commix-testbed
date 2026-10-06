@@ -30,11 +30,13 @@
       <a href="https://github.com/commixproject/commix">commix</a>. Open a hint when you want to know
       what a page is doing wrong.</p>
     <div class="stats">
-      <div class="stat"><b>93</b><span>vulnerable pages</span></div>
-      <div class="stat"><b>28</b><span>parameter scenarios</span></div>
-      <div class="stat"><b>12</b><span>filter bypasses</span></div>
+      <div class="stat"><b>110</b><span>vulnerable pages</span></div>
+      <div class="stat"><b>30</b><span>parameter scenarios</span></div>
+      <div class="stat"><b>14</b><span>filter bypasses</span></div>
       <div class="stat"><b>15</b><span>injectable headers</span></div>
       <div class="stat"><b>12</b><span>stateful flows</span></div>
+      <div class="stat"><b>3</b><span>discovery pages</span></div>
+      <div class="stat"><b>8</b><span>CTF challenges</span></div>
     </div>
     <p class="warn"><b>Run this locally.</b> These pages execute whatever they are given. Do not expose
       the testbed to a network you do not control.</p>
@@ -49,14 +51,18 @@
       <button class="chip" data-k="sink" data-v="code" aria-pressed="false">Code injection</button>
       <button class="chip" data-k="group" data-v="filters" aria-pressed="false">Filter bypass</button>
       <button class="chip" data-k="group" data-v="stateful" aria-pressed="false">Stateful</button>
+      <button class="chip" data-k="group" data-v="discovery" aria-pressed="false">Discovery</button>
+      <button class="chip" data-k="group" data-v="ctf" aria-pressed="false">CTF challenges</button>
       <button class="chip" data-k="lang" data-v="php" aria-pressed="false">PHP</button>
       <button class="chip" data-k="lang" data-v="python" aria-pressed="false">Python</button>
+      <button class="chip" data-k="lang" data-v="ruby" aria-pressed="false">Ruby</button>
+      <button class="chip" data-k="lang" data-v="javascript" aria-pressed="false">JavaScript</button>
     </div>
   </div>
 
   <main>
     <section class="group" id="regular">
-      <h2><button class="fold" type="button" aria-expanded="true">Regular parameters <span class="count">28</span></button></h2>
+      <h2><button class="fold" type="button" aria-expanded="true">Regular parameters <span class="count">30</span></button></h2>
       <div class="grid">
         <article class="card" data-kind="classic" data-sink="command" data-group="regular" data-lang="php" data-text="unfiltered parameter exec(&quot;/bin/ping -c 4 &quot;.$addr) with the output echoed straight back. nothing is filtered and nothing is quoted, so this is the plainest case there is. classic command injection php">
           <div class="card-top">
@@ -253,6 +259,33 @@
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
+        <article class="card" data-kind="blind" data-sink="command" data-group="regular" data-lang="php" data-text="blind, but the page says whether it worked the command runs and its output is thrown away. all the page says is whether it succeeded, taken from the exit status. string content oracle blind command injection php">
+          <div class="card-top">
+            <h3>Blind, but the page says whether it worked</h3>
+            <span class="badges"><span class="type t-blind" title="Blind command injection">Blind</span><span class="lang">PHP</span></span>
+          </div>
+          <div class="methods"><a class="m m-get" href="scenarios/regular/GET/blind_exit_status.php">GET</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>The command runs and its output is thrown away. All the page says is whether it succeeded - <code>Host is up</code> or <code>Host is down</code>, taken from the exit status.</p>
+            <p class="lesson">Blind, but not silent. Nothing of the output comes back, yet the page still answers one question about what happened - and a question with a yes and a no is all a search needs. Chain a test onto the command and its exit status becomes the answer, a byte at a time, without the target ever printing one.</p>
+            <p class="reach">Reach it with <code>--string</code>, anchored to the element the result is printed into rather than to the words alone - the page explains itself, so the words appear in its prose as well.</p>
+            <p class="verdict">Reported by commix as <b>Blind command injection</b>.</p>
+          </div>
+        </article>
+        <article class="card" data-kind="classic" data-sink="command" data-group="regular" data-lang="php" data-text="graphql document, argument evaluated the body is a graphql document and its host argument goes into a shell. sent as application/graphql or as the json envelope a client sends, with the argument written in or passed in variables. classic command injection php">
+          <div class="card-top">
+            <h3>GraphQL document, argument evaluated</h3>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
+          </div>
+          <div class="methods"><a class="m m-post" href="scenarios/regular/POST/classic_graphql.php">POST</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>The body is a GraphQL document and its <code>host</code> argument goes into a shell. It is read the same whether it arrives under <code>application/graphql</code>, inside the JSON envelope a client sends, or with the argument passed beside the document in <code>variables</code>.</p>
+            <p class="lesson">A document is not a list of pairs. A payload appended to the whole <code>query</code> lands past its last brace and only produces a syntax error, which reads as a parameter that is not injectable - so what has to be tested is the argument inside, with the request staying a valid document throughout.</p>
+            <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+          </div>
+        </article>
         <article class="card" data-kind="blind" data-sink="command" data-group="regular" data-lang="php" data-text="json request body, nothing returned the json case with no output in the response. blind command injection php">
           <div class="card-top">
             <h3>JSON request body, nothing returned</h3>
@@ -426,8 +459,22 @@
     </section>
 
     <section class="group" id="filters">
-      <h2><button class="fold" type="button" aria-expanded="true">Weak filters <span class="count">12</span></button></h2>
+      <h2><button class="fold" type="button" aria-expanded="true">Weak filters <span class="count">14</span></button></h2>
       <div class="grid">
+        <article class="card" data-kind="classic" data-sink="command" data-group="filters" data-lang="php" data-text="a filter that reads a different parameter the check reads the first addr in the query string and php keeps the last. hpp http parameter pollution classic command injection php">
+          <div class="card-top">
+            <h3>A filter that reads a different parameter</h3>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
+          </div>
+          <div class="methods"><a class="m m-get" href="scenarios/filters/hpp.php">GET</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>The check walks the raw query string and stops at the first <code>addr</code>. PHP keeps the last one, and that is what reaches the shell.</p>
+            <p class="lesson">A filter and the application behind it do not have to agree about which of two same-named parameters counts. Nothing about the check is wrong on its own - it simply inspects a different value from the one that runs.</p>
+            <p class="reach">Reach it with <code>--hpp</code>.</p>
+            <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+          </div>
+        </article>
         <article class="card" data-kind="classic" data-sink="command" data-group="filters" data-lang="php" data-text="lax domain validation /^\w+\..*\w+\.\w+$/ looks like it demands a domain name, but the .* in the middle accepts anything at all. keep a domain-shaped head and tail and the middle is yours. classic command injection php">
           <div class="card-top">
             <h3>Lax domain validation</h3>
@@ -584,6 +631,152 @@
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
+        <article class="card" data-kind="classic" data-sink="code" data-group="filters" data-lang="php" data-text="function names blacklisted a blacklist sits in front of an eval() sink and refuses the request outright where the query string contains system exec shell_exec passthru popen proc_open assert call_user_func a backtick or the names of the commands worth running. it reads the query string and only the query string. results-based code injection php">
+          <div class="card-top">
+            <h3>Function names blacklisted</h3>
+            <span class="badges"><span class="type t-classic" title="Results-based code injection">Classic</span><span class="lang">PHP</span></span>
+          </div>
+          <div class="methods"><a class="m m-get" href="scenarios/filters/eval_function_blacklisting.php?user=test">GET</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>A blacklist in front of an <code>eval()</code> sink refuses the request outright - <code>403</code> and nothing else - where the query string contains any of <code>system</code>, <code>exec</code>, <code>shell_exec</code>, <code>passthru</code>, a backtick, or the names of the commands worth running. It reads the query string and only the query string.</p>
+            <p class="lesson">The shape most filtering actually takes: a list of words matched against the part of the request the filter was written to watch. What defeats it is not a cleverer spelling of those words but putting them somewhere the filter never looks.</p>
+            <p class="reach">Reach it with <code>--eval=php --tamper=phpserverheaders</code>.</p>
+            <p class="verdict">Reported by commix as <b>Results-based code injection</b>.</p>
+          </div>
+        </article>
+        <article class="card" data-kind="blind" data-sink="command" data-group="filters" data-lang="php" data-text="dash blocked a filter rejects the value if it contains a bare hyphen, meant to stop flag injection into ping. every separator and every command substitution syntax still gets through untouched. blind command injection php">
+          <div class="card-top">
+            <h3>Dash blocked</h3>
+            <span class="badges"><span class="type t-blind" title="Blind command injection">Blind</span><span class="lang">PHP</span></span>
+          </div>
+          <div class="methods"><a class="m m-post" href="scenarios/filters/no_dash.php">POST</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>A filter rejects the value if it contains a bare <code>-</code> - written to stop flag injection into <code>ping</code>, not to stop command chaining. Every separator and every command-substitution syntax still gets through untouched.</p>
+            <p class="lesson">A character blocked for what it does to one program's own argument parsing is still blocked everywhere else it appears in the value - including inside <code>test</code>'s own <code>-eq</code>/<code>-le</code>, which a blind technique's own proof-of-execution is built from. The command itself runs and chains exactly as it would unfiltered; only the check confirming it did needs a dash-free spelling.</p>
+            <p class="reach">Reach it with <code>--tamper=dashlesstest</code>.</p>
+            <p class="verdict">Reported by commix as <b>Blind command injection</b>.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="group" id="ctf">
+      <h2><button class="fold" type="button" aria-expanded="true">CTF challenges <span class="count">8</span></button></h2>
+      <div class="grid">
+        <article class="card" data-kind="classic" data-sink="command" data-group="ctf" data-lang="php" data-text="terminal isolation escapeshellarg() wraps the value in single quotes, but the echo command's own template re-wraps that already-quoted value inside double quotes - where $(...) command substitution still expands. classic command injection php yeswehack dojo 30">
+          <div class="card-top">
+            <h3>Terminal isolation</h3>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
+          </div>
+          <div class="methods"><a class="m m-post" href="scenarios/ctf/dojo30_terminal_isolation.php">POST</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p><code>escapeshellarg()</code> wraps the value in single quotes, but the <code>echo</code> command's own template re-wraps that already-quoted value inside <b>double</b> quotes - where <code>$(...)</code> command substitution still expands.</p>
+            <p class="lesson">Two layers of quoting that do not agree are worse than one: the protection the first layer built no longer applies once the second wraps it in something else.</p>
+            <p class="reach">Reach it with <code>--tamper=space2ifsraw,cmd2redir --technique=r</code>.</p>
+            <p class="verdict">Reported by commix as <b>Classic command injection</b>. Based on <a href="https://dojo-yeswehack.com/challenge-of-the-month/Dojo-30">YesWeHack Dojo #30: Terminal Isolation</a>.</p>
+          </div>
+        </article>
+        <article class="card" data-kind="classic" data-sink="command" data-group="ctf" data-lang="php" data-text="shell escape a filter rejects the request if it contains any letter or common punctuation, but every shell metacharacter that matters for chaining a command still gets through. classic command injection php yeswehack dojo 36">
+          <div class="card-top">
+            <h3>Shell escape</h3>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
+          </div>
+          <div class="methods"><a class="m m-get" href="scenarios/ctf/dojo36_shell_escape.php?cmd=id">GET</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>A filter rejects the request outright if it contains any letter or common punctuation - but every shell metacharacter that matters for chaining a command still gets through untouched.</p>
+            <p class="lesson">A command name is just letters spelled another way. ANSI-C quoting spells them as octal escapes instead, none of which a letter-blocking filter ever sees.</p>
+            <p class="reach">Reach it with <code>--tamper=ansiquoteoctal --skip-calc</code>.</p>
+            <p class="verdict">Reported by commix as <b>Classic command injection</b>. Based on <a href="https://www.yeswehack.com/dojo/dojo-ctf-challenge-winners-36">YesWeHack Dojo #36: Shell Escape</a>.</p>
+          </div>
+        </article>
+        <article class="card" data-kind="classic" data-sink="command" data-group="ctf" data-lang="ruby" data-text="ruby treasure a filename is validated per line rather than across the whole string, so one clean line anywhere in a multi-line value is enough. IO.read runs the rest as a shell command when the value starts with a pipe. classic command injection ruby yeswehack dojo 41">
+          <div class="card-top">
+            <h3>Ruby treasure</h3>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">Ruby</span></span>
+          </div>
+          <div class="methods"><a class="m m-get" href="scenarios/ctf/dojo41_ruby_treasure.rb?page=x">GET</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>A filename is validated with <code>^[a-zA-Z0-9_-]+$</code>, but Ruby matches <code>^</code>/<code>$</code> per line rather than across the whole string - one clean line anywhere in a multi-line value is enough. <code>IO.read</code> then runs the rest as a shell command when the value starts with <code>|</code>.</p>
+            <p class="lesson">Two Ruby-specific behaviors, neither a bug on its own, that only add up to one together.</p>
+            <p class="reach">Reach it with <code>--suffix=$'\nx' --technique=r</code>.</p>
+            <p class="verdict">Reported by commix as <b>Classic command injection</b>. Based on <a href="https://www.yeswehack.com/dojo/dojo-ctf-challenge-winners-41">YesWeHack Dojo #41: Ruby Treasure</a>.</p>
+          </div>
+        </article>
+        <article class="card" data-kind="classic" data-sink="command" data-group="ctf" data-lang="python" data-text="ghost whisper a quote is replaced before the value is normalized. unicodedata.normalize nfkc folds a fullwidth apostrophe into a real quote afterwards, closing a quote the filter believed it had already neutralized. classic command injection python yeswehack dojo 46">
+          <div class="card-top">
+            <h3>Ghost whisper</h3>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">Python</span></span>
+          </div>
+          <div class="methods"><a class="m m-post" href="scenarios/ctf/dojo46_ghost_whisper.py">POST</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>A quote is replaced before the value is normalized - which is exactly backwards. <code>unicodedata.normalize("NFKC", ...)</code> folds a fullwidth apostrophe into a real <code>'</code> afterwards, closing the quote the filter believed it had already neutralized.</p>
+            <p class="lesson">Sanitizing before normalizing gets the order backwards: whatever runs last is the one the filter needed to see.</p>
+            <p class="reach">Reach it with <code>--level=3 --tamper=unicodequote --skip-calc --technique=r</code>.</p>
+            <p class="verdict">Reported by commix as <b>Classic command injection</b>. Based on <a href="https://www.yeswehack.com/dojo/dojo-challenge-solution-46">YesWeHack Dojo #46: Ghost Whisper</a>.</p>
+          </div>
+        </article>
+        <article class="card" data-kind="blind" data-sink="command" data-group="ctf" data-lang="php" data-text="filter bypass a blacklist strips backslash dollar pipe backtick semicolon ampersand angle brackets and bracket outright, leaving neither of posix shell's two command-substitution syntaxes standing. only a bare newline still separates commands. blind command injection php root-me">
+          <div class="card-top">
+            <h3>Filter bypass</h3>
+            <span class="badges"><span class="type t-blind" title="Blind command injection">Blind</span><span class="lang">PHP</span></span>
+          </div>
+          <div class="methods"><a class="m m-post" href="scenarios/ctf/rootme_filter_bypass.php">POST</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>A blacklist strips <code>\ $ | ` ; &amp; &lt; &gt; ]</code> outright, leaving neither of POSIX shell's two command-substitution syntaxes standing - only a bare newline still separates commands.</p>
+            <p class="lesson">A blacklist stops exactly the characters it names, and nothing here names the one separator that still works.</p>
+            <p class="reach">Reach it with <code>--technique=t --skip-subst</code>.</p>
+            <p class="verdict">Reported by commix as <b>Blind command injection</b>. Based on <a href="https://www.root-me.org/en/Challenges/Web-Server/Command-injection-Filter-bypass">Root-Me: Command injection - Filter bypass</a>.</p>
+          </div>
+        </article>
+        <article class="card" data-kind="classic" data-sink="code" data-group="ctf" data-lang="php" data-text="php eval-hard a filter rejects the request outright if it contains any letter. eval() runs whatever is left. php decodes a double-quoted or backtick string's own octal escapes only once eval() is already running it, by which point the filter has long since passed four digits and a backslash. classic code injection php root-me">
+          <div class="card-top">
+            <h3>PHP Eval-hard</h3>
+            <span class="badges"><span class="type t-classic" title="Classic code injection">Classic</span><span class="tag">code</span><span class="lang">PHP</span></span>
+          </div>
+          <div class="methods"><a class="m m-get" href="scenarios/ctf/rootme_eval_hard.php?code=___">GET</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>A filter rejects the request outright if it contains <b>any letter</b> - digits, <code>$</code>, <code>_</code>, quotes and backticks all pass, and the rest reaches <code>eval()</code>.</p>
+            <p class="lesson">PHP decodes a double-quoted or backtick string's own octal escapes (<code>\NNN</code>) only once <code>eval()</code> is already running it - by then the filter has long since looked at, and passed, four digits and a backslash. A function reached by a name built the same way never writes <code>system</code> or <code>exec</code> either.</p>
+            <p class="reach">Reach it with <code>--tamper=phpnoletters</code>.</p>
+            <p class="verdict">Reported by commix as <b>Classic code injection</b>. Based on <a href="https://www.root-me.org/en/Challenges/Web-Server/PHP-Eval-hard">Root-Me: PHP - Eval-hard</a>.</p>
+          </div>
+        </article>
+        <article class="card" data-kind="blind" data-sink="command" data-group="ctf" data-lang="php" data-text="natas16 dictionary search a filter blocks semicolon pipe ampersand backtick and both quotes, but not dollar parenthesis. bash expands command substitution inside the grep argument's own double quotes before grep ever runs, and a redirect inside it leaves nothing for the substitution to return. blind command injection php overthewire natas">
+          <div class="card-top">
+            <h3>Natas16: dictionary search</h3>
+            <span class="badges"><span class="type t-blind" title="Blind command injection">Blind</span><span class="lang">PHP</span></span>
+          </div>
+          <div class="methods"><a class="m m-get" href="scenarios/ctf/natas16_dictionary_search.php?needle=apple">GET</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>A filter blocks <code>; | &amp; ` ' "</code> but not <code>$</code>, <code>(</code>, <code>)</code> or <code>&gt;</code> - and the value sits inside <code>grep -i "value" dictionary.txt</code>, itself already double-quoted.</p>
+            <p class="lesson">Bash expands <code>$(...)</code> inside double quotes before the outer command ever runs. A command whose output is redirected to a file, rather than returned, leaves the substitution empty - and the real answer waits on disk under a name the request already knows.</p>
+            <p class="reach">Reach it with <code>--prefix='$(' --suffix=')' --technique=f --web-root=&lt;document root&gt;</code>.</p>
+            <p class="verdict">Reported by commix as <b>Blind command injection</b>. Based on <a href="https://overthewire.org/wargames/natas/natas16.html">OverTheWire: Natas Level 16</a>.</p>
+          </div>
+        </article>
+        <article class="card" data-kind="classic" data-sink="command" data-group="ctf" data-lang="php" data-text="dvwa command injection (high) a blacklist strips ampersand semicolon dash dollar sign parens backtick and pipe-followed-by-space, stripped by exact substring not character class - a bare pipe or a newline chains a command exactly as well. dash blocked everywhere breaks test's own -eq/-ne, dollar blocked everywhere breaks most output-reading techniques. classic command injection php dvwa">
+          <div class="card-top">
+            <h3>DVWA: Command Injection</h3>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span></span>
+          </div>
+          <div class="methods"><a class="m m-post" href="scenarios/ctf/dvwa_command_injection.php">POST</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>A blacklist strips <code>&amp; ; - $ ( ) `</code>, <code>||</code> and <code>| </code> (pipe-then-space, as an exact two-character match) - a bare pipe or a newline chains a second command exactly as well as anything on the list.</p>
+            <p class="lesson"><code>-</code> stripped everywhere breaks <code>test</code>'s own <code>-eq</code>/<code>-ne</code> the same way it breaks the ping flag the blacklist meant to stop, and <code>$</code> stripped everywhere takes most output-reading techniques with it.</p>
+            <p class="reach">Reach it with <code>--skip-subst --skip-calc --tamper=dashlesstest --technique=f --web-root=&lt;document root&gt;</code>.</p>
+            <p class="verdict">Reported by commix as <b>Classic command injection</b>. Based on <a href="https://github.com/digininja/DVWA">DVWA: Command Injection</a> (security level "high").</p>
+          </div>
+        </article>
       </div>
     </section>
 
@@ -626,6 +819,46 @@
           <div class="hint" hidden>
             <p>The value is concatenated into a string that Python evaluates as an expression, so the payload has to be valid Python rather than a shell separator - and because it lands inside a quoted literal, the quote has to be closed and reopened around it.</p>
             <p class="lesson">A different sink with the same consequence. Nothing here reaches a shell, so shell metacharacters are meaningless - a semicolon does not chain anything, it is just a semicolon in a PHP statement. The payload has to be valid code in the language doing the evaluating, which is why commix treats this as a separate kind of injection rather than a variant of the command case.</p>
+            <p class="verdict">Reported by commix as <b>Classic code injection</b>.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="group" id="ruby">
+      <h2><button class="fold" type="button" aria-expanded="true">Ruby scenarios <span class="count">1</span></button></h2>
+      <div class="grid">
+        <article class="card" data-kind="classic" data-sink="code" data-group="ruby" data-lang="ruby" data-text="eval on the value the value is concatenated into a string that ruby then evaluates as an expression, the same sink shape as the php and python pages, one language over. classic code injection ruby">
+          <div class="card-top">
+            <h3>eval on the value</h3>
+            <span class="badges"><span class="type t-classic" title="Classic code injection">Classic</span><span class="tag">code</span><span class="lang">Ruby</span></span>
+          </div>
+          <div class="methods"><a class="m m-post" href="scenarios/ruby/eval.rb">POST</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>The value is concatenated into a string that Ruby then evaluates as an expression, so the payload has to be valid Ruby rather than a shell separator - and because it lands inside a quoted literal, the quote has to be closed and reopened around it.</p>
+            <p class="lesson">The same sink shape as the PHP and Python pages, one language over: nothing here reaches a shell, so shell metacharacters are meaningless, and the payload has to be valid code in whichever language is doing the evaluating.</p>
+            <p class="reach">Reach it with <code>--eval=ruby</code>.</p>
+            <p class="verdict">Reported by commix as <b>Classic code injection</b>.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="group" id="javascript">
+      <h2><button class="fold" type="button" aria-expanded="true">JavaScript scenario <span class="count">1</span></button></h2>
+      <div class="grid">
+        <article class="card" data-kind="classic" data-sink="code" data-group="javascript" data-lang="javascript" data-text="eval on the value the value is concatenated into a string that node then evaluates as an expression, the same sink shape as the php python and ruby pages, one language over. classic code injection javascript node">
+          <div class="card-top">
+            <h3>eval on the value</h3>
+            <span class="badges"><span class="type t-classic" title="Classic code injection">Classic</span><span class="tag">code</span><span class="lang">JavaScript</span></span>
+          </div>
+          <div class="methods"><a class="m m-post" href="http://localhost:8087/" target="_blank" rel="noopener">POST (own port)</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>The value is concatenated into a string that Node then evaluates as an expression, so the payload has to be valid JavaScript rather than a shell separator - and because it lands inside a quoted literal, the quote has to be closed and reopened around it.</p>
+            <p class="lesson">The same sink shape as the PHP, Python and Ruby pages, one language over. This one is served by its own Node process on port 8087, not by this site's Apache: the base image's glibc predates any Node build that would still run there. See the README for the command that starts it.</p>
+            <p class="reach">Reach it with <code>--eval=javascript</code>.</p>
             <p class="verdict">Reported by commix as <b>Classic code injection</b>.</p>
           </div>
         </article>
@@ -921,7 +1154,7 @@
           <div class="hint" hidden>
             <p>Roughly half of all requests are answered with <code>Service temporarily unavailable.</code> instead of running the command. Which ones is decided at random.</p>
             <p class="lesson">A test is only meaningful if the response answers the question that was asked. Here half of them do not, so a payload that worked can look like it failed - the failure mode is not a missed finding but an unreliable one, different every run.</p>
-            <p class="reach">Reach it with <code>--retry-on="temporarily unavailable"</code>.</p>
+            <p class="reach">Reach it with <code>--retry-on="&lt;b&gt;Service temporarily"</code>, anchored to the element the result is printed into.</p>
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
@@ -995,6 +1228,104 @@
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
+        <article class="card" data-kind="classic" data-sink="command" data-group="stateful" data-lang="php" data-text="output only on the next request the command runs when the request arrives, but what it printed is held and shown on the next page load. the response to the injected request carries nothing. classic command injection php">
+          <div class="card-top">
+            <h3>Output only on the next request</h3>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
+          </div>
+          <div class="methods"><a class="m m-get" href="scenarios/stateful/url_reload.php">GET</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>The command runs when the request arrives, but what it printed is held and shown on the <em>next</em> page load. The response to the injected request carries nothing.</p>
+            <p class="lesson">An application that renders its result on the following view - a flash message, a job queue, a &quot;your report is ready&quot; page - hides the evidence from the request that caused it.</p>
+            <p class="reach">Reach it with <code>--url-reload</code>.</p>
+            <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+          </div>
+        </article>
+        <article class="card" data-kind="classic" data-sink="command" data-group="stateful" data-lang="php" data-text="runs the command, answers 500 the command runs and its output is on the page, but the response carries a 500 status. nothing is wrong - the application simply answers that way. classic command injection php">
+          <div class="card-top">
+            <h3>Runs the command, answers 500</h3>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
+          </div>
+          <div class="methods"><a class="m m-get" href="scenarios/stateful/error_codes.php">GET</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>The command runs and its output is on the page, but the response carries a <code>500</code> status. Nothing is wrong - the application simply answers that way.</p>
+            <p class="lesson">A status code is not a verdict on whether the payload ran. A scanner that treats every 5xx as a dead end walks away from a working injection point.</p>
+            <p class="reach">Reach it with <code>--ignore-code=500</code>.</p>
+            <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+          </div>
+        </article>
+        <article class="card" data-kind="classic" data-sink="command" data-group="stateful" data-lang="php" data-text="percent-encoding is not decoded the value is taken from the raw query string and used as it arrived. it is never url-decoded, so %3b reaches the shell as those three characters rather than as a semicolon. classic command injection php">
+          <div class="card-top">
+            <h3>Percent-encoding is not decoded</h3>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
+          </div>
+          <div class="methods"><a class="m m-get" href="scenarios/stateful/unencoded.php">GET</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>The value is taken from the raw query string and used as it arrived. It is never URL-decoded, so <code>%3B</code> reaches the shell as those three characters rather than as a semicolon.</p>
+            <p class="lesson">An application that reads <code>QUERY_STRING</code> by hand skips the decoding the language would have done for it, so a payload encoded on the way out arrives inert.</p>
+            <p class="reach">Reach it with <code>--skip-urlencode</code>, together with a whitespace the URL carries literally (<code>--tamper=space2ifs</code>).</p>
+            <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+          </div>
+        </article>
+        <article class="card" data-kind="classic" data-sink="command" data-group="stateful" data-lang="php" data-text="vulnerable only to a phone the desktop view and the mobile view are different code. only the mobile one passes the value to a shell. classic command injection php">
+          <div class="card-top">
+            <h3>Vulnerable only to a phone</h3>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
+          </div>
+          <div class="methods"><a class="m m-get" href="scenarios/stateful/mobile.php">GET</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>The desktop view and the mobile view are different code. Only the mobile one passes the value to a shell.</p>
+            <p class="lesson">A vulnerability can live behind a branch most requests never take. Where the branch is chosen by the <code>User-Agent</code>, a default scan tests the safe half of the application.</p>
+            <p class="reach">Reach it with <code>--mobile</code>.</p>
+            <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+          </div>
+        </article>
+        <article class="card" data-kind="classic" data-sink="command" data-group="stateful" data-lang="php" data-text="decoy parameters around the real one four fields arrive together. one is always echoed back unchanged, one is always empty, and one reaches the shell. classic command injection php">
+          <div class="card-top">
+            <h3>Decoy parameters around the real one</h3>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
+          </div>
+          <div class="methods"><a class="m m-get" href="scenarios/stateful/decoys.php">GET</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>Four fields arrive together. One is always echoed back unchanged, one is always empty, and one reaches the shell.</p>
+            <p class="lesson">Most of a real form is noise. Testing every field costs requests and, on a target that rate-limits or locks out, costs the run.</p>
+            <p class="reach">Reach it with <code>--skip-static</code> and <code>--skip-empty</code>.</p>
+            <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+          </div>
+        </article>
+        <article class="card" data-kind="classic" data-sink="command" data-group="stateful" data-lang="php" data-text="non-standard cookie delimiter the cookie header is not read by php. it is split on | instead of ;, so addr=127.0.0.1|lang=en is two cookies. classic command injection php">
+          <div class="card-top">
+            <h3>Non-standard cookie delimiter</h3>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
+          </div>
+          <div class="methods"><a class="m m-get" href="scenarios/stateful/cookie_del.php">GET</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>The <code>Cookie</code> header is not read by PHP. It is split on <code>|</code> instead of <code>;</code>, so <code>addr=127.0.0.1|lang=en</code> is two cookies.</p>
+            <p class="lesson">The same disagreement as a hand-rolled query string, moved into a header - the cookie that reaches the shell is never tested by itself.</p>
+            <p class="reach">Reach it with <code>--cookie-del="|" --level=2 --skip-urlencode</code>.</p>
+            <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+          </div>
+        </article>
+        <article class="card" data-kind="classic" data-sink="command" data-group="stateful" data-lang="php" data-text="a set-cookie that breaks the next request every response sets a fresh sid. send that cookie back and the page refuses you; keep sending the one you started with and it works. classic command injection php">
+          <div class="card-top">
+            <h3>A Set-Cookie that breaks the next request</h3>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
+          </div>
+          <div class="methods"><a class="m m-get" href="scenarios/stateful/drop_set_cookie.php">GET</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>Every response sets a fresh <code>sid</code>. Send that cookie back and the page refuses you; keep sending the one you started with and it works.</p>
+            <p class="lesson">A client that stores every <code>Set-Cookie</code> can walk itself out of its own session partway through a scan, and everything after that looks like a target that stopped being vulnerable.</p>
+            <p class="reach">Reach it with <code>--drop-set-cookie</code>.</p>
+            <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+          </div>
+        </article>
         <article class="card" data-kind="blind" data-sink="command" data-group="stateful" data-lang="php" data-text="aliased document root a blind page served from /srv/hidden through an apache alias, which is nowhere under the document root the rest of the site uses. blind command injection php">
           <div class="card-top">
             <h3>Aliased document root</h3>
@@ -1007,6 +1338,54 @@
             <p class="lesson">The file-based technique writes its output into the web root and reads it back over HTTP, which requires knowing where on disk the URL space begins. Here the guess from the URL is wrong. Aliases, user directories and per-vhost roots are ordinary, so the mapping is worth being told rather than inferred.</p>
             <p class="reach">Reach it with <code>--technique=f --web-root=/srv/hidden</code>.</p>
             <p class="verdict">Reported by commix as <b>Blind command injection</b>.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="group" id="discovery">
+      <h2><button class="fold" type="button" aria-expanded="true">Discovery <span class="count">3</span></button></h2>
+      <div class="grid">
+        <article class="card" data-kind="classic" data-sink="command" data-group="discovery" data-lang="php" data-text="a parameter the page never names the page reads host and hands it to a shell. nothing on the page names it: no form, no link, no field. mine-params classic command injection php">
+          <div class="card-top">
+            <h3>A parameter the page never names</h3>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
+          </div>
+          <div class="methods"><a class="m m-get" href="scenarios/discovery/hidden_param.php">GET</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>The page reads <code>host</code> and hands it to a shell. There is no form, no link and no field carrying it, so reading the page tells you nothing about what it accepts.</p>
+            <p class="lesson">A scanner can only test the parameters it is given or can see. A debug switch left in, a field kept for an older client, a name a framework accepts without advertising - none of them appear in the markup, and any of them can be the one that reaches a shell.</p>
+            <p class="reach">Reach it with <code>--mine-params</code>.</p>
+            <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+          </div>
+        </article>
+        <article class="card" data-kind="classic" data-sink="command" data-group="discovery" data-lang="php" data-text="routes that live only in the script the page carries one empty element and loads app.js. every route it talks to is written inside that script and linked nowhere. mine-endpoints crawl classic command injection php">
+          <div class="card-top">
+            <h3>Routes that live only in the script</h3>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
+          </div>
+          <div class="methods"><a class="m m-get" href="scenarios/discovery/spa.php">GET</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>The page carries one empty element and loads <code>app.js</code>. Every route it talks to is written inside that script, and none of them is linked from the markup.</p>
+            <p class="lesson">A crawler follows what a page links to, and skips <code>.js</code> on its way to the anchors - so against an application whose routes live in its bundle it comes back with nothing at all. The endpoints are not hidden; they are simply not written where a crawler looks.</p>
+            <p class="reach">Reach it with <code>--crawl=1 --mine-endpoints</code>.</p>
+            <p class="verdict">The routes it names lead to <b>Classic command injection</b> and <b>Classic code injection</b>.</p>
+          </div>
+        </article>
+        <article class="card" data-kind="classic" data-sink="command" data-group="discovery" data-lang="php" data-text="an api that describes itself the service publishes an openapi swagger description naming two operations linked from nowhere. openapi classic command injection php">
+          <div class="card-top">
+            <h3>An API that describes itself</h3>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
+          </div>
+          <div class="methods"><a class="m m-get" href="scenarios/discovery/openapi.php">GET</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>The service publishes an OpenAPI description of itself. It names a <code>GET</code> taking a query parameter and a <code>POST</code> taking a JSON body, and both hand what they are given to a shell. Neither endpoint is linked from any page, form or script.</p>
+            <p class="lesson">Crawling finds what a site links to, and an API links to nothing. What used to be undiscoverable is now written down by the service itself - paths, methods, parameters and the shape of every body - so the whole testable surface is there for the asking, in a file no crawler would think to follow.</p>
+            <p class="reach">Reach it with <code>--openapi</code>, and scope a large one with <code>--openapi-tags</code>.</p>
+            <p class="verdict">Reported by commix as <b>Classic command injection</b>, once per operation.</p>
           </div>
         </article>
       </div>

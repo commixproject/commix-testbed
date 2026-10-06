@@ -1,3 +1,23 @@
+## Version 2.0
+* Added: Weak-filter example whose blacklist rejects a bare `-`, breaking `test`'s own `-eq`/`-le` (and so commix's own blind proof-of-execution) along with the ping flag it was written to stop.
+* Added: JavaScript scenario - the same `eval()`-on-the-value bug, in Node, matching commix's own new `--eval=javascript` support. Run as a standalone HTTP server rather than CGI under the main site, since the base image's glibc is too old for any Node build that would still run there.
+* Added: Ruby scenario category - the same `eval()`-on-the-value bug the PHP and Python pages carry, one language over, matching commix's own new `--eval=ruby` support.
+* Added: Scenario category recreating eight real CTF challenges - YesWeHack Dojo #30 (Terminal Isolation), #36 (Shell Escape) and #41 (Ruby Treasure), two Root-Me challenges (a filter bypass and PHP - Eval-hard), YesWeHack Dojo #46 (Ghost Whisper), OverTheWire Natas Level 16, and DVWA's own Command Injection at its "high" security level - each faithful to the language and filter the original ran, including a genuine Ruby CGI scenario.
+* Added: Filter that inspects the first of two same-named parameters while the application reads the last, so what is checked is not what runs.
+* Added: An API that publishes an OpenAPI (Swagger) description of itself, naming two operations - one taking a query parameter and one a JSON body - that no page, form or script links to.
+* Added: Scenario category for discovery, where the injectable surface is not written where a scan looks for it - a parameter the markup never names, and routes that exist only inside the script a page loads.
+* Added: GraphQL example, read the same whether the document arrives on its own, inside a JSON envelope, or with its argument passed in `variables`.
+* Added: Blind example that throws the output away and reports only whether the command succeeded, so the page still answers one question about what ran.
+* Added: Scenario category for stateful and multi-step flows, where an ordinary run reports nothing until the option that reaches the page is given.
+* Added: Anti-CSRF token examples, one with the token in the page and one minted by a separate endpoint.
+* Added: Second-order example, where the value is stored by one request and executed when another page renders it.
+* Added: Session login example, so a form-based login stands in front of the sink rather than an HTTP authentication header.
+* Added: Examples that break a scan rather than the payload - a one-time request id, a request limit, and an endpoint that fails at random.
+* Added: Chunked-only request body and a query string split on ';' instead of '&'.
+* Added: Example reachable only out-of-band, where the command is detached and its output discarded so neither the response nor its timing ever varies.
+* Added: Example whose filter blocks shell arithmetic but not command substitution.
+* Added: Example served through an Apache alias, so the document root cannot be inferred from the URL.
+
 ## Version 1.0
 * Added: Python scenarios - classic, blind and code injection - served as CGI, so the same bugs can be exercised in a second language.
 * Added: Scenarios are tagged with the language they are written in, and the index can be filtered by it.
