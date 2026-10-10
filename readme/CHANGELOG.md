@@ -1,4 +1,5 @@
 ## Version 2.0
+* Added: JSON Web Token example whose `kid` header names the key to verify with, and is resolved through a shell before that signature is ever checked - so the lookup runs on whatever the client put there, matching commix's own new `--jwt` support.
 * Added: Weak-filter example whose blacklist rejects a bare `-`, breaking `test`'s own `-eq`/`-le` (and so commix's own blind proof-of-execution) along with the ping flag it was written to stop.
 * Added: JavaScript scenario - the same `eval()`-on-the-value bug, in Node, matching commix's own new `--eval=javascript` support. Run as a standalone HTTP server rather than CGI under the main site, since the base image's glibc is too old for any Node build that would still run there.
 * Added: Ruby scenario category - the same `eval()`-on-the-value bug the PHP and Python pages carry, one language over, matching commix's own new `--eval=ruby` support.

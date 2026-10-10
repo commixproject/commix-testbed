@@ -30,11 +30,11 @@
       <a href="https://github.com/commixproject/commix">commix</a>. Open a hint when you want to know
       what a page is doing wrong.</p>
     <div class="stats">
-      <div class="stat"><b>110</b><span>vulnerable pages</span></div>
+      <div class="stat"><b>111</b><span>vulnerable pages</span></div>
       <div class="stat"><b>30</b><span>parameter scenarios</span></div>
       <div class="stat"><b>14</b><span>filter bypasses</span></div>
       <div class="stat"><b>15</b><span>injectable headers</span></div>
-      <div class="stat"><b>12</b><span>stateful flows</span></div>
+      <div class="stat"><b>13</b><span>stateful flows</span></div>
       <div class="stat"><b>3</b><span>discovery pages</span></div>
       <div class="stat"><b>8</b><span>CTF challenges</span></div>
     </div>
@@ -1072,8 +1072,22 @@
       </section>
 
     <section class="group" id="stateful">
-      <h2><button class="fold" type="button" aria-expanded="true">Stateful &amp; multi-step <span class="count">12</span></button></h2>
+      <h2><button class="fold" type="button" aria-expanded="true">Stateful &amp; multi-step <span class="count">13</span></button></h2>
       <div class="grid">
+        <article class="card" data-kind="classic" data-sink="command" data-group="stateful" data-lang="php" data-text="json web token kid key lookup the session cookie carries a jwt. the kid field of its header names the key to verify with, and the page locates that key by concatenating the value into a shell command - before the signature it would verify has been checked. jwt classic command injection php">
+          <div class="card-top">
+            <h3>JSON Web Token - 'kid' key lookup</h3>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
+          </div>
+          <div class="methods"><a class="m m-header" href="scenarios/stateful/jwt_kid.php">HEADER</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>The <code>session</code> cookie carries a JSON Web Token. The <code>kid</code> field of its header names which key to verify with, and the page locates that key by concatenating the value into <code>ls -l /var/www/keys/&lt;kid&gt;</code>.</p>
+            <p class="lesson">The ordering is the whole bug. <code>kid</code> has to be read before the signature can be checked against the key it names - so the lookup runs on whatever the client put there, every request, with nothing authenticated yet. A perfectly signed token changes nothing, because the sink is reached on the way to deciding whether the token was valid at all.</p>
+            <p class="reach">Named as a candidate with <code>--jwt</code>.</p>
+            <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+          </div>
+        </article>
         <article class="card" data-kind="classic" data-sink="command" data-group="stateful" data-lang="php" data-text="anti-csrf token every render mints a fresh csrf_token into the session and writes it into the form as a hidden field. a post whose token does not match the one currently in the session is refused before $addr reaches the shell. classic command injection php">
           <div class="card-top">
             <h3>Anti-CSRF token</h3>
