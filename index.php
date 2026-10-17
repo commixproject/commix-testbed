@@ -1,3 +1,4 @@
+<?php ob_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,9 +31,9 @@
       <a href="https://github.com/commixproject/commix">commix</a>. Open a hint when you want to know
       what a page is doing wrong.</p>
     <div class="stats">
-      <div class="stat"><b>111</b><span>vulnerable pages</span></div>
+      <div class="stat"><b>112</b><span>vulnerable pages</span></div>
       <div class="stat"><b>30</b><span>parameter scenarios</span></div>
-      <div class="stat"><b>14</b><span>filter bypasses</span></div>
+      <div class="stat"><b>15</b><span>filter bypasses</span></div>
       <div class="stat"><b>15</b><span>injectable headers</span></div>
       <div class="stat"><b>13</b><span>stateful flows</span></div>
       <div class="stat"><b>3</b><span>discovery pages</span></div>
@@ -74,6 +75,7 @@
           <div class="hint" hidden>
             <p><code>exec("/bin/ping -c 4 ".$addr)</code> with the output echoed straight back. Nothing is filtered and nothing is quoted, so this is the plainest case there is.</p>
             <p class="lesson">Concatenating a request value into a shell command is the whole bug - there is no clever trick to find here. Every other scenario on this site is this same mistake with something placed in the way, so it is worth seeing what the undefended case looks like first. The fix is not to escape the value but to stop invoking a shell: pass the address as an argument to the program, never as part of a string the shell will parse.</p>
+            <p class="reach">No flag needed beyond <code>-u</code>/<code>-p</code>/<code>-d</code> - nothing is filtered or quoted.</p>
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
@@ -87,6 +89,7 @@
           <div class="hint" hidden>
             <p>The value is only accepted when <code>base64_encode(base64_decode($x)) === $x</code>, so a raw payload is rejected before it ever reaches the shell. It has to arrive Base64-encoded.</p>
             <p class="lesson">Encoding is not validation. The check only proves the value is well-formed Base64, and it is decoded straight into the command afterwards, so it filters nothing at all - it just changes the alphabet an attacker has to write in. Encodings that sit between the client and the sink hide a payload from anything inspecting the raw request, which is why a WAF in front of this page would see nothing worth blocking.</p>
+            <p class="reach">Reach it with <code>--param-encoding=addr=base64</code>.</p>
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
@@ -100,6 +103,7 @@
           <div class="hint" hidden>
             <p>The same idea in hex: the value must satisfy <code>bin2hex(pack('H*', $x)) === $x</code> before it is unpacked into the command.</p>
             <p class="lesson">The same lesson as the Base64 case, and it is worth trying both: the only thing that changes is the transport encoding, and the vulnerability underneath is identical. If a scanner can solve one and not the other, the gap is in its encoding support, not in the application.</p>
+            <p class="reach">Reach it with <code>--param-encoding=addr=hex</code>.</p>
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
@@ -113,6 +117,7 @@
           <div class="hint" hidden>
             <p>The value lands inside single quotes: <code>exec("ping '".$addr."'")</code>. A single-quoted word expands nothing, so the quote has to be closed before the shell reads any of it.</p>
             <p class="lesson">Quoting is often mistaken for escaping. Single quotes do stop the shell expanding anything inside them - but only until the value supplies a quote of its own and ends the quoted span early. Because the closing quote is still sitting in the template afterwards, the payload also has to leave the command syntactically valid, which is why a comment or a second quote usually shows up at the end of a working payload.</p>
+            <p class="reach">Reach it with <code>--level=3</code> - closing a quote is only tried from level 3 up.</p>
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
@@ -126,6 +131,7 @@
           <div class="hint" hidden>
             <p>As above but with double quotes - and a double-quoted word still expands <code>$(...)</code>, so command substitution works here without closing anything first.</p>
             <p class="lesson">This is the more dangerous of the two quoting mistakes, and the more common. A double-quoted word still performs command substitution and variable expansion, so the value does not even need to break out of the quotes - the shell will happily run what is inside them. Anyone reviewing this code and thinking the quotes make it safe has it backwards.</p>
+            <p class="reach">Reach it with <code>--level=3</code> - closing a quote is only tried from level 3 up.</p>
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
@@ -139,6 +145,7 @@
           <div class="hint" hidden>
             <p><code>preg_match('/\s/')</code> throws the value out if it contains any whitespace at all, so the payload has to separate its words some other way.</p>
             <p class="lesson">Filters written against what a payload usually looks like rather than what the shell actually parses. The shell has several ways to separate words - a tab, a newline, brace expansion, or the value of $IFS - and this check knows about exactly one of them. It is a good illustration of why denylists lose: the author has to think of every alternative, the attacker only needs one.</p>
+            <p class="reach">Reach it with <code>--tamper=space2ifs</code> - commix's own payloads still need a word separator of their own.</p>
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
@@ -152,6 +159,7 @@
           <div class="hint" hidden>
             <p>A <code>str_replace()</code> strips <code>;</code>, <code>&amp;&amp;</code>, <code>|</code> and backticks. It never looks at a single <code>&amp;</code> or at a newline, and it only passes over the value once, so a stripped sequence can also be rebuilt around itself.</p>
             <p class="lesson">Two separate mistakes, either of which is fatal. The list is incomplete - a single & and a newline both chain commands and neither is on it - and the replacement runs once over the value, so a sequence written around a stripped one survives the pass that was meant to remove it. Stripping characters from input is nearly always the wrong shape of defence.</p>
+            <p class="reach">No flag needed beyond <code>-u</code>/<code>-p</code> - a newline chains commands just as well as the separators this strips.</p>
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
@@ -165,6 +173,7 @@
           <div class="hint" hidden>
             <p>The parameter is <code>string</code> rather than <code>addr</code>, and it is injected ahead of a pipe: <code>exec('echo '.$string.' | md5sum')</code>. Unix-only - the page refuses to run on Windows.</p>
             <p class="lesson">Worth opening because the injection point is not where you would look for it. The parameter is named string rather than addr, and the value is spliced in ahead of a pipe, so the command line continues after it. A scan that only tries parameters called addr, or that assumes the value sits at the end of the command, misses this one entirely.</p>
+            <p class="reach">No flag needed beyond <code>-u</code>/<code>-p string</code> - commix tests whatever parameter is present.</p>
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
@@ -178,6 +187,7 @@
           <div class="hint" hidden>
             <p>The injection point sits behind HTTP Basic authentication. The credentials are <code>admin:admin</code>; without them every request comes back 401 and nothing is tested.</p>
             <p class="lesson">Authentication is not mitigation. The flaw is identical to the plain case; it just needs valid credentials to reach. This scenario is here because an unauthenticated scan reports the page as not injectable, which is the wrong conclusion - it never actually tested it. Anything behind a login needs credentials supplied before the result means anything.</p>
+            <p class="reach">Reach it with <code>--auth-type=basic --auth-cred=admin:admin</code>.</p>
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
@@ -191,6 +201,7 @@
           <div class="hint" hidden>
             <p>The same injection point behind HTTP Digest authentication, again <code>admin:admin</code>. Digest needs the challenge answered per request rather than one static header.</p>
             <p class="lesson">The same point as the Basic case, with a handshake that cannot be replayed as one static header - Digest answers a per-request challenge. It is here to check that a tool follows the challenge rather than only knowing how to attach an Authorization header it prepared in advance.</p>
+            <p class="reach">Reach it with <code>--auth-type=digest --auth-cred=admin:admin</code>.</p>
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
@@ -204,6 +215,7 @@
           <div class="hint" hidden>
             <p>The command runs, but all the page says is whether the host <em>seems to be up</em>. With nothing to read, execution has to be proven some other way - a delay, a file, or a request to a server of your own.</p>
             <p class="lesson">The command runs exactly as in the classic case; only the evidence is missing. This is the usual real-world situation and the reason blind techniques exist - an application that prints a tidy status message instead of raw output is not safer, it is just quieter. Proof has to come from something other than the page body: how long the reply takes, a file that appears, or a request arriving at a server you control.</p>
+            <p class="reach">No flag needed beyond <code>-u</code>/<code>-p</code> - the blind techniques are tried by default.</p>
             <p class="verdict">Reported by commix as <b>Blind command injection</b>.</p>
           </div>
         </article>
@@ -217,6 +229,7 @@
           <div class="hint" hidden>
             <p>Output goes to <code>/dev/null</code> and the command is backgrounded with <code>&amp;</code>, so not even the exit status reaches the page. It looks identical whatever you send it.</p>
             <p class="lesson">One step past the previous page: with output redirected and the command backgrounded, even the success or failure of the command is invisible, so the response is byte-for-byte identical whatever you send. Timing is close to the only channel left, and the backgrounding means a delay has to be arranged carefully to still be observable.</p>
+            <p class="reach">No flag needed beyond <code>-u</code>/<code>-p</code> - the injected separator ends the line before the trailing <code>&amp;</code>, so only that empty tail is backgrounded, not the payload.</p>
             <p class="verdict">Reported by commix as <b>Blind command injection</b>.</p>
           </div>
         </article>
@@ -230,6 +243,7 @@
           <div class="hint" hidden>
             <p><code>eval("echo \"Hello, ".$user."!\";")</code> - the value is evaluated as PHP, never handed to a shell. A shell separator means nothing here; the payload has to be valid PHP.</p>
             <p class="lesson">A different sink with the same consequence. Nothing here reaches a shell, so shell metacharacters are meaningless - a semicolon does not chain anything, it is just a semicolon in a PHP statement. The payload has to be valid code in the language doing the evaluating, which is why commix treats this as a separate kind of injection rather than a variant of the command case.</p>
+            <p class="reach">Reach it with <code>--eval=php</code>.</p>
             <p class="verdict">Reported by commix as <b>Classic code injection</b>.</p>
           </div>
         </article>
@@ -243,6 +257,7 @@
           <div class="hint" hidden>
             <p>The same evaluated sink, except the value must be valid Base64 before it is decoded into the <code>eval()</code>.</p>
             <p class="lesson">Combines the two ideas already met separately: an evaluated sink reached through an encoding. Useful for checking that encoding and sink are handled independently rather than as one hard-coded combination.</p>
+            <p class="reach">Reach it with <code>--eval=php --param-encoding=user=base64</code>.</p>
             <p class="verdict">Reported by commix as <b>Classic code injection</b>.</p>
           </div>
         </article>
@@ -256,6 +271,7 @@
           <div class="hint" hidden>
             <p>The body is JSON read from <code>php://input</code> and its <code>addr</code> member goes into <code>exec()</code>. The payload has to sit inside the JSON rather than be appended to it.</p>
             <p class="lesson">The vulnerability is ordinary; what is different is where the value lives. The body is parsed as JSON, so a payload appended to the request is not a parameter at all - it has to be placed inside a member and stay valid JSON, with whatever quoting and escaping that implies. Plenty of tooling that handles form bodies fails here.</p>
+            <p class="reach">No flag needed beyond <code>-u</code>/<code>-d</code> - commix recognises a JSON body and places the payload inside it.</p>
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
@@ -283,6 +299,7 @@
           <div class="hint" hidden>
             <p>The body is a GraphQL document and its <code>host</code> argument goes into a shell. It is read the same whether it arrives under <code>application/graphql</code>, inside the JSON envelope a client sends, or with the argument passed beside the document in <code>variables</code>.</p>
             <p class="lesson">A document is not a list of pairs. A payload appended to the whole <code>query</code> lands past its last brace and only produces a syntax error, which reads as a parameter that is not injectable - so what has to be tested is the argument inside, with the request staying a valid document throughout.</p>
+            <p class="reach">Send it either way: as a document of its own under <code>application/graphql</code>, or as the JSON envelope a client sends. Both are read the same.</p>
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
@@ -296,6 +313,7 @@
           <div class="hint" hidden>
             <p>The JSON case with no output in the response.</p>
             <p class="lesson">The structured-body case with the response closed off, so it needs the body handling and a blind technique at the same time.</p>
+            <p class="reach">No flag needed beyond <code>-u</code>/<code>-d</code> - commix still recognises the JSON body and the blind techniques are tried by default.</p>
             <p class="verdict">Reported by commix as <b>Blind command injection</b>.</p>
           </div>
         </article>
@@ -309,6 +327,7 @@
           <div class="hint" hidden>
             <p>An evaluated sink reached through a JSON member rather than a form field.</p>
             <p class="lesson">A structured body feeding an evaluated sink - the two complications that are usually met separately, on one page.</p>
+            <p class="reach">Reach it with <code>--eval=php</code> - commix still recognises the JSON body on its own.</p>
             <p class="verdict">Reported by commix as <b>Classic code injection</b>.</p>
           </div>
         </article>
@@ -322,6 +341,7 @@
           <div class="hint" hidden>
             <p>The body is XML parsed with <code>LIBXML_NOENT | LIBXML_DTDLOAD</code>, and both <code>&lt;addr&gt;</code> and <code>&lt;count&gt;</code> are concatenated into the command - two injection points on one page, not one.</p>
             <p class="lesson">Two things to notice. Both addr and count reach the command, so the page has more than one injection point and finding only the first one is an incomplete result. The parser is also built with LIBXML_NOENT and LIBXML_DTDLOAD, which resolves external entities - so on top of the command injection this document is an XXE waiting to happen.</p>
+            <p class="reach">No flag needed beyond <code>-u</code>/<code>-d</code> - commix recognises an XML body and places the payload inside it.</p>
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
@@ -335,6 +355,7 @@
           <div class="hint" hidden>
             <p>The XML case with no output reflected back.</p>
             <p class="lesson">The XML case with nothing reflected, so the injection point has to be found and confirmed without ever seeing output.</p>
+            <p class="reach">No flag needed beyond <code>-u</code>/<code>-d</code> - commix still recognises the XML body and the blind techniques are tried by default.</p>
             <p class="verdict">Reported by commix as <b>Blind command injection</b>.</p>
           </div>
         </article>
@@ -348,6 +369,7 @@
           <div class="hint" hidden>
             <p>The value has to look like an IP address - but the pattern is <code>/^\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}$/m</code>, and that <code>m</code> flag makes <code>^</code> and <code>$</code> match at every line rather than once. A second line walks straight past it.</p>
             <p class="lesson">The most instructive filter on the site. The author did the right thing - validate the shape of the value - and still lost, to one letter. The m flag makes ^ and $ match at every line rather than at the start and end of the whole value, so a string whose first line is a valid IP passes no matter what follows on the next line. Anchors without that flag, or a check that the value contains no newline, would have held.</p>
+            <p class="reach">Reach it with <code>--suffix=$'\n127.0.0.1'</code> - a trailing line the regex still accepts, once the real payload has already run.</p>
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
@@ -361,6 +383,7 @@
           <div class="hint" hidden>
             <p>The same multiline-anchor mistake, this time with nothing readable in the response.</p>
             <p class="lesson">The same anchor mistake with the response closed off, so the bypass has to be found blind.</p>
+            <p class="reach">Reach it with <code>--suffix=$'\n127.0.0.1'</code>, the same trailing line as the non-blind case.</p>
             <p class="verdict">Reported by commix as <b>Blind command injection</b>.</p>
           </div>
         </article>
@@ -374,6 +397,7 @@
           <div class="hint" hidden>
             <p>Backslashes and both kinds of quote are removed, then the value is dropped into a double-quoted <code>eval("echo(\"$user\");")</code>. Quotes are not needed: PHP expands <code>${...}</code> inside a double-quoted string.</p>
             <p class="lesson">A sanitiser that removes exactly the characters the author imagined an attacker needs. Backslashes and both quotes are stripped - but the value lands in a double-quoted PHP string, where ${...} performs an expansion without a single quote being involved. The defence and the attack are aimed at different things.</p>
+            <p class="reach">Reach it with <code>--eval=php</code>.</p>
             <p class="verdict">Reported by commix as <b>Classic code injection</b>.</p>
           </div>
         </article>
@@ -387,6 +411,7 @@
           <div class="hint" hidden>
             <p>The value is evaluated as PHP - <code>eval('$greeting = "Hello, ' . $user . '!";')</code> - but the greeting it builds is never printed. The page answers with the same fixed sentence whatever you send it.</p>
             <p class="lesson">The fourth corner of the matrix, and the hardest of the four to find. The sink is an evaluated string rather than a shell, so shell metacharacters do nothing - and the result is never printed, so there is nothing to read either. Both of the usual footholds are gone at once: the payload has to be valid PHP, and the proof has to come from timing or a side effect. A page that quietly evaluates input and says only 'saved' is the realistic shape of this bug.</p>
+            <p class="reach">Reach it with <code>--eval=php</code>.</p>
             <p class="verdict">Reported by commix as <b>Blind code injection</b>.</p>
           </div>
         </article>
@@ -400,6 +425,7 @@
           <div class="hint" hidden>
             <p>Both the pattern and the replacement come from the query string, so the pattern's own modifiers belong to the attacker - and the <code>e</code> modifier evaluates the replacement as PHP.</p>
             <p class="lesson">The pattern itself is user input, which hands over far more than the text being matched: a regex carries modifiers, and PHP's e modifier evaluated the replacement as code. It was removed in PHP 7, so this page needs an older interpreter - but the shape of the mistake outlives the feature. Never let a request supply the pattern to a matching function.</p>
+            <p class="reach">Reach it with <code>--eval=php</code>.</p>
             <p class="verdict">Reported by commix as <b>Classic code injection</b>.</p>
           </div>
         </article>
@@ -413,6 +439,7 @@
           <div class="hint" hidden>
             <p><code>assert(trim("'".$_GET['user']."'"))</code> evaluates its argument as PHP. The value is wrapped in single quotes, so those have to be closed first.</p>
             <p class="lesson">assert() took a string and evaluated it as PHP, which makes it a code-execution sink that reads like a sanity check. PHP 7 deprecated the string form and PHP 8 stopped evaluating it; the lesson is that any function taking code as a string is a sink, however harmless its name sounds.</p>
+            <p class="reach">Reach it with <code>--eval=php</code>.</p>
             <p class="verdict">Reported by commix as <b>Classic code injection</b>.</p>
           </div>
         </article>
@@ -426,6 +453,7 @@
           <div class="hint" hidden>
             <p>The value is concatenated into the body of a <code>create_function()</code>, which compiles it as PHP.</p>
             <p class="lesson">create_function() built a function by compiling a string, so anything concatenated into its body became code. It was deprecated in PHP 7.2 and removed in 8. Like assert(), the dangerous part is not the syntax but the idea: text that becomes code.</p>
+            <p class="reach">Reach it with <code>--eval=php</code>.</p>
             <p class="verdict">Reported by commix as <b>Classic code injection</b>.</p>
           </div>
         </article>
@@ -439,6 +467,7 @@
           <div class="hint" hidden>
             <p>Three values are submitted and two of them are checked - <code>addr</code> against a host pattern and <code>label</code> against word characters. <code>count</code> is concatenated into the command with no check at all.</p>
             <p class="lesson">The most realistic scenario here. Someone did think about input validation - they just did not finish. A count, an id, a page number or a sort order rarely looks dangerous enough to check, and it reaches the same shell as the field that did get a regex. Testing one parameter and declaring the page safe is how this survives a review.</p>
+            <p class="reach">No flag needed beyond <code>-u</code> - commix tests all three parameters and finds the one left unchecked.</p>
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
@@ -452,6 +481,7 @@
           <div class="hint" hidden>
             <p>The endpoint turns away anything that is not a <code>PUT</code>, and reads its body with <code>parse_str()</code> rather than from <code>$_POST</code>.</p>
             <p class="lesson">The vulnerability is ordinary; reaching it is not. A scan that only sends GET and POST never gets a useful response from this endpoint, and the body has to be parsed out of the raw request rather than read from $_POST. Plenty of an application's surface sits behind methods nobody thinks to try.</p>
+            <p class="reach">Reach it with <code>--method=PUT</code>, alongside <code>-d</code> for the body.</p>
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
@@ -459,7 +489,7 @@
     </section>
 
     <section class="group" id="filters">
-      <h2><button class="fold" type="button" aria-expanded="true">Weak filters <span class="count">14</span></button></h2>
+      <h2><button class="fold" type="button" aria-expanded="true">Weak filters <span class="count">15</span></button></h2>
       <div class="grid">
         <article class="card" data-kind="classic" data-sink="command" data-group="filters" data-lang="php" data-text="a filter that reads a different parameter the check reads the first addr in the query string and php keeps the last. hpp http parameter pollution classic command injection php">
           <div class="card-top">
@@ -485,6 +515,7 @@
           <div class="hint" hidden>
             <p><code>/^\w+\..*\w+\.\w+$/</code> looks like it demands a domain name, but the <code>.*</code> in the middle accepts anything at all. Keep a domain-shaped head and tail and the middle is yours.</p>
             <p class="lesson">A pattern that looks strict read quickly and is not. \w+\. at the front and \w+\.\w+ at the end are real constraints, but .* between them accepts anything at all, including separators and a whole command. A regex has to be read for what it permits, not for what it appears to describe.</p>
+            <p class="reach">Reach it with <code>--prefix='a.' --suffix='.b.c'</code> - a domain-shaped head and tail around the payload.</p>
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
@@ -498,6 +529,7 @@
           <div class="hint" hidden>
             <p><code>exec("/bin/ping -c 4 \"{$addr}\"")</code> - the value sits inside double quotes that are themselves inside a PHP double-quoted string.</p>
             <p class="lesson">Two layers of quoting - PHP's around the string, the shell's inside it - which mostly serves to make the code hard to reason about. Working out which layer consumes which character is the exercise here; the shell only ever sees the result of the PHP layer.</p>
+            <p class="reach">Reach it with <code>--level=3</code> - closing a quote is only tried from level 3 up.</p>
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
@@ -511,6 +543,7 @@
           <div class="hint" hidden>
             <p>Four metacharacters are blacklisted. A newline is not one of them, and it ends a command just as well as a semicolon does.</p>
             <p class="lesson">A denylist of the separators people write down from memory. A newline is not on it, and a newline ends a command as surely as a semicolon does - it is simply harder to see in a request. Any filter that enumerates metacharacters should be assumed incomplete.</p>
+            <p class="reach">Reach it with <code>--skip-subst --skip-calc</code> - $ is on the list too, which rules out commix's own usual substitution and arithmetic markers.</p>
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
@@ -524,6 +557,7 @@
           <div class="hint" hidden>
             <p>Only the literal space is rejected. A tab, a newline or <code>${IFS}</code> all still separate one word from the next.</p>
             <p class="lesson">Only the literal space character is rejected, which leaves every other way the shell has of separating words: a tab, a newline, ${IFS}, or brace expansion. The check reflects what payloads look like rather than how the shell parses them.</p>
+            <p class="reach">Reach it with <code>--tamper=space2ifs</code> - commix's own payloads still need a word separator of their own.</p>
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
@@ -537,6 +571,7 @@
           <div class="hint" hidden>
             <p>Whitespace and <code>;</code> <code>|</code> <code>&amp;</code> are gone, which leaves the newline to chain with and <code>${IFS}</code> to separate words.</p>
             <p class="lesson">More characters on the list, and the same weakness - what is left is still enough. It is worth working out which combination survives here rather than reaching for a tool, because the answer says exactly what the filter forgot.</p>
+            <p class="reach">Reach it with <code>--tamper=space2ifs</code>.</p>
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
@@ -550,6 +585,7 @@
           <div class="hint" hidden>
             <p>With <code>$</code> gone too, <code>${IFS}</code> is out - but a tab is still whitespace to the shell and it is not a space.</p>
             <p class="lesson">With $ gone, the ${IFS} trick that solved the previous pages is unavailable, so this one forces a different answer for the same problem. A good demonstration that a bypass is not a universal key - it is specific to what a particular filter neglected.</p>
+            <p class="reach">Reach it with <code>--tamper=space2htab --skip-subst --skip-calc</code> - a tab needs no $ sign, unlike ${IFS}.</p>
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
@@ -563,6 +599,7 @@
           <div class="hint" hidden>
             <p><code>/\s+/</code> covers the tab and the newline as well as the space, so the word separator has to be something that <em>expands</em> into whitespace rather than something that is it.</p>
             <p class="lesson">\s covers space, tab and newline together, which is a genuinely tighter check than the pages before it. It still does not help: the word separator does not have to be whitespace in the request, only to become whitespace by the time the shell splits the line.</p>
+            <p class="reach">Reach it with <code>--tamper=space2ifs</code> - ${IFS} carries no whitespace character of its own.</p>
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
@@ -576,6 +613,7 @@
           <div class="hint" hidden>
             <p><code>/^\w+/</code> - the value only has to <em>begin</em> with word characters. Everything after that first run goes unchecked.</p>
             <p class="lesson">A check that constrains only the beginning of the value and says nothing about the rest, so anything appended after that first run of word characters goes straight through. Partial validation is not validation.</p>
+            <p class="reach">No flag needed beyond <code>-u</code>/<code>-p</code> - nothing here restricts what follows the leading word characters.</p>
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
@@ -589,6 +627,7 @@
           <div class="hint" hidden>
             <p><code>/\w+$/</code> - the value only has to <em>end</em> with word characters, so the payload goes in front and a harmless word closes it.</p>
             <p class="lesson">The mirror image: only the end is constrained, so the payload goes in front and a harmless word satisfies the anchor. Seeing both pages together makes the point that an anchor pins one end of a string and leaves the other free.</p>
+            <p class="reach">No flag needed beyond <code>-u</code>/<code>-p</code> - nothing here restricts what precedes the trailing word characters.</p>
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
@@ -602,6 +641,7 @@
           <div class="hint" hidden>
             <p>Both conditions at once: begin with word characters, and carry no whitespace anywhere.</p>
             <p class="lesson">Two partial checks stacked. Neither is sufficient alone and together they only narrow the shape of a working payload rather than preventing one - the requirements can be met at the same time.</p>
+            <p class="reach">Reach it with <code>--tamper=space2ifs</code> - the leading-alphanumeric part is already satisfied by commix's own marker.</p>
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
@@ -615,6 +655,7 @@
           <div class="hint" hidden>
             <p>End with word characters and carry no whitespace - so the suffix has to satisfy the anchor without putting a space back.</p>
             <p class="lesson">The same pair of constraints anchored at the other end. The interesting part is that the suffix satisfying the anchor must not reintroduce the whitespace the other check forbids.</p>
+            <p class="reach">Reach it with <code>--tamper=space2ifs</code>.</p>
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
@@ -628,6 +669,7 @@
           <div class="hint" hidden>
             <p>The command names themselves are matched: <code>echo|wget|nc|whoami|cat|ncat</code> on Unix and <code>powershell|cmd</code> on Windows. The match is on literal text, so anything that hides the letters from the regex without hiding them from the shell gets through.</p>
             <p class="lesson">Blocking command names rather than metacharacters, which fails for a different reason: the regex matches literal text, while the shell sees the string only after its own expansions have run. Anything that breaks up the letters on the way to the shell defeats the match without changing what executes. There are also far more ways to read a file than the six names on this list.</p>
+            <p class="reach">No flag needed beyond <code>-u</code>/<code>-p</code> - commix already falls back to <code>printf</code> where <code>echo</code> is blocked.</p>
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
@@ -657,6 +699,20 @@
             <p class="lesson">A character blocked for what it does to one program's own argument parsing is still blocked everywhere else it appears in the value - including inside <code>test</code>'s own <code>-eq</code>/<code>-le</code>, which a blind technique's own proof-of-execution is built from. The command itself runs and chains exactly as it would unfiltered; only the check confirming it did needs a dash-free spelling.</p>
             <p class="reach">Reach it with <code>--tamper=dashlesstest</code>.</p>
             <p class="verdict">Reported by commix as <b>Blind command injection</b>.</p>
+          </div>
+        </article>
+        <article class="card" data-kind="classic" data-sink="command" data-group="filters" data-lang="php" data-text="command name blacklist a dozen common shell/recon command names are blocked as whole words, case-insensitively - but the list names programs, not syntax, and nothing here calls a particular shell. ansi-c quoting is bash/ksh/zsh syntax and fails outright under this target's default dash. classic command injection php posix dash printf">
+          <div class="card-top">
+            <h3>Command name blacklist</h3>
+            <span class="badges"><span class="type t-classic" title="Classic command injection">Classic</span><span class="lang">PHP</span></span>
+          </div>
+          <div class="methods"><a class="m m-post" href="scenarios/filters/command_name_blacklist.php">POST</a></div>
+          <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
+          <div class="hint" hidden>
+            <p>A dozen common shell/recon command names are blocked as whole words, case-insensitively - but the list names programs, not syntax, and every separator, quote and <code>$(...)</code> itself still gets through.</p>
+            <p class="lesson">Nothing here calls a particular shell, so PHP's <code>exec()</code> reaches its own default - <code>dash</code> on this (and most Debian/Ubuntu) targets, not <code>bash</code>. ANSI-C quoting (<code>$'\NNN...'</code>) is <code>bash</code>/<code>ksh</code>/<code>zsh</code> syntax and fails outright there; a command substitution around <code>printf</code>'s own octal escapes is plain POSIX and reaches every blacklisted name instead.</p>
+            <p class="reach">Reach it with <code>--tamper=printfoctal</code>.</p>
+            <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
       </div>
@@ -793,6 +849,7 @@
           <div class="hint" hidden>
             <p><code>subprocess.check_output(cmd, shell=True)</code> builds the command by concatenation, so the value is parsed by a shell before anything runs, and the output comes back on the page.</p>
             <p class="lesson">Concatenating a request value into a shell command is the whole bug - there is no clever trick to find here. Every other scenario on this site is this same mistake with something placed in the way, so it is worth seeing what the undefended case looks like first. The fix is not to escape the value but to stop invoking a shell: pass the address as an argument to the program, never as part of a string the shell will parse.</p>
+            <p class="reach">No flag needed beyond <code>-u</code>/<code>-p</code>/<code>-d</code> - nothing is filtered or quoted.</p>
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
@@ -806,6 +863,7 @@
           <div class="hint" hidden>
             <p>The same shell concatenation with the output sent to <code>os.devnull</code>. Only the exit status is reported, which is a single bit.</p>
             <p class="lesson">The command runs exactly as in the classic case; only the evidence is missing. This is the usual real-world situation and the reason blind techniques exist - an application that prints a tidy status message instead of raw output is not safer, it is just quieter. Proof has to come from something other than the page body: how long the reply takes, a file that appears, or a request arriving at a server you control.</p>
+            <p class="reach">No flag needed beyond <code>-u</code>/<code>-p</code> - the blind techniques are tried by default.</p>
             <p class="verdict">Reported by commix as <b>Blind command injection</b>.</p>
           </div>
         </article>
@@ -819,6 +877,7 @@
           <div class="hint" hidden>
             <p>The value is concatenated into a string that Python evaluates as an expression, so the payload has to be valid Python rather than a shell separator - and because it lands inside a quoted literal, the quote has to be closed and reopened around it.</p>
             <p class="lesson">A different sink with the same consequence. Nothing here reaches a shell, so shell metacharacters are meaningless - a semicolon does not chain anything, it is just a semicolon in a PHP statement. The payload has to be valid code in the language doing the evaluating, which is why commix treats this as a separate kind of injection rather than a variant of the command case.</p>
+            <p class="reach">Reach it with <code>--eval=python</code>.</p>
             <p class="verdict">Reported by commix as <b>Classic code injection</b>.</p>
           </div>
         </article>
@@ -877,6 +936,7 @@
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
           <div class="hint" hidden>
             <p><code>exec("echo '".$user_agent."'")</code> - the header goes through a shell inside single quotes, and the output comes back on the page.</p>
+            <p class="reach">Reach it with <code>--level=3</code> - User-Agent is only tested from level 3 up, which also closes the quote.</p>
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
@@ -889,6 +949,7 @@
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
           <div class="hint" hidden>
             <p>The same injection with the output thrown away. Unix-only.</p>
+            <p class="reach">Reach it with <code>--level=3</code> - User-Agent is only tested from level 3 up.</p>
             <p class="verdict">Reported by commix as <b>Blind command injection</b>.</p>
           </div>
         </article>
@@ -901,6 +962,7 @@
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
           <div class="hint" hidden>
             <p>The header reaches an <code>eval()</code> rather than a shell.</p>
+            <p class="reach">Reach it with <code>--level=3 --eval=php</code>.</p>
             <p class="verdict">Reported by commix as <b>Classic code injection</b>.</p>
           </div>
         </article>
@@ -918,6 +980,7 @@
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
           <div class="hint" hidden>
             <p>The <code>addr</code> cookie is concatenated into a ping and the output is returned.</p>
+            <p class="reach">Reach it with <code>--cookie="addr=1" --level=2</code> - the cookie has to be supplied, and level 2 turns on cookie testing.</p>
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
@@ -930,6 +993,7 @@
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
           <div class="hint" hidden>
             <p>The <code>user</code> cookie lands inside single quotes in an <code>echo</code>, so the quote has to be closed first.</p>
+            <p class="reach">Reach it with <code>--cookie="user=1" --level=3</code> - closing the quote needs level 3, not just the level 2 that cookie testing requires.</p>
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
@@ -942,6 +1006,7 @@
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
           <div class="hint" hidden>
             <p>The cookie is Base64 and is decoded before it reaches the command, so the payload has to be encoded to survive the round trip.</p>
+            <p class="reach">Reach it with <code>--cookie="user=1" --level=3 --param-encoding=user=base64</code> - the value is also wrapped in single quotes, which needs level 3 to close.</p>
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
@@ -954,6 +1019,7 @@
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
           <div class="hint" hidden>
             <p>The cookie-borne command runs with nothing reflected back.</p>
+            <p class="reach">Reach it with <code>--cookie="addr=1" --level=2</code>.</p>
             <p class="verdict">Reported by commix as <b>Blind command injection</b>.</p>
           </div>
         </article>
@@ -966,6 +1032,7 @@
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
           <div class="hint" hidden>
             <p>The cookie reaches an <code>eval()</code> rather than a shell.</p>
+            <p class="reach">Reach it with <code>--cookie="user=1" --level=2 --eval=php</code>.</p>
             <p class="verdict">Reported by commix as <b>Classic code injection</b>.</p>
           </div>
         </article>
@@ -983,6 +1050,7 @@
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
           <div class="hint" hidden>
             <p>The <code>Referer</code> header is concatenated into an <code>echo</code> and its output comes back on the page.</p>
+            <p class="reach">Reach it with <code>--level=3</code> - Referer is only tested from level 3 up.</p>
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
@@ -995,6 +1063,7 @@
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
           <div class="hint" hidden>
             <p>The same header injection with no output reflected. Unix-only.</p>
+            <p class="reach">Reach it with <code>--level=3</code> - Referer is only tested from level 3 up.</p>
             <p class="verdict">Reported by commix as <b>Blind command injection</b>.</p>
           </div>
         </article>
@@ -1007,6 +1076,7 @@
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
           <div class="hint" hidden>
             <p>The header reaches an <code>eval()</code>.</p>
+            <p class="reach">Reach it with <code>--level=3 --eval=php</code>.</p>
             <p class="verdict">Reported by commix as <b>Classic code injection</b>.</p>
           </div>
         </article>
@@ -1024,6 +1094,7 @@
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
           <div class="hint" hidden>
             <p><code>X-Forwarded-Host</code> is read to build the canonical URL and reaches a shell. A proxy is supposed to set it, but nothing stops a client sending it directly.</p>
+            <p class="reach">Reach it with <code>-H "X-Forwarded-Host: 1" -p X-Forwarded-Host</code> - naming a custom header this way also raises the injection level it needs.</p>
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
@@ -1036,6 +1107,7 @@
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
           <div class="hint" hidden>
             <p>The same forwarded-host sink with nothing reflected. Unix-only.</p>
+            <p class="reach">Reach it with <code>-H "X-Forwarded-Host: 1" -p X-Forwarded-Host</code>.</p>
             <p class="verdict">Reported by commix as <b>Blind command injection</b>.</p>
           </div>
         </article>
@@ -1053,6 +1125,7 @@
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
           <div class="hint" hidden>
             <p><code>X-Forwarded-For</code> is read for the access log and concatenated into a command. It is an ordinary request header: anyone can send it and set it to anything.</p>
+            <p class="reach">Reach it with <code>-H "X-Forwarded-For: 1" -p X-Forwarded-For</code>.</p>
             <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
           </div>
         </article>
@@ -1065,6 +1138,7 @@
           <button class="hint-toggle" type="button" aria-expanded="false">What is going on here</button>
           <div class="hint" hidden>
             <p>The same custom-header sink with no output reflected. Unix-only.</p>
+            <p class="reach">Reach it with <code>-H "X-Forwarded-For: 1" -p X-Forwarded-For</code>.</p>
             <p class="verdict">Reported by commix as <b>Blind command injection</b>.</p>
           </div>
         </article>
@@ -1465,3 +1539,53 @@ chips.forEach(function (chip) {
 </script>
 </body>
 </html>
+<?php
+// Counters below are derived from the markup above, not hand-maintained,
+// so they can't drift from what the page actually lists.
+$html = ob_get_clean();
+
+function commix_testbed_section_count($html, $id) {
+    if (!preg_match('/<section class="group" id="' . preg_quote($id, '/') . '">(.*?)<\/section>/s', $html, $m)) {
+        return 0;
+    }
+    return substr_count($m[1], '<article class="card"');
+}
+
+$sectionIds = ['regular', 'filters', 'ctf', 'python', 'ruby', 'javascript',
+    'user-agent', 'cookie', 'referer', 'host', 'custom-header', 'stateful', 'discovery'];
+$counts = [];
+foreach ($sectionIds as $id) {
+    $counts[$id] = commix_testbed_section_count($html, $id);
+}
+
+preg_match_all('/<a class="m m-\w+"/', $html, $pages);
+$stats = [
+    'vulnerable pages'    => count($pages[0]),
+    'parameter scenarios' => $counts['regular'],
+    'filter bypasses'     => $counts['filters'],
+    'injectable headers'  => $counts['user-agent'] + $counts['cookie'] + $counts['referer']
+                              + $counts['host'] + $counts['custom-header'],
+    'stateful flows'      => $counts['stateful'],
+    'discovery pages'     => $counts['discovery'],
+    'CTF challenges'      => $counts['ctf'],
+];
+
+foreach ($stats as $label => $value) {
+    $html = preg_replace(
+        '/(<div class="stat"><b>)\d+(<\/b><span>' . preg_quote($label, '/') . '<\/span><\/div>)/',
+        '${1}' . $value . '${2}',
+        $html,
+        1
+    );
+}
+
+foreach ($counts as $id => $value) {
+    $html = preg_replace(
+        '/(<section class="group" id="' . preg_quote($id, '/') . '">\s*<h2><button class="fold" type="button" aria-expanded="true">[^<]*<span class="count">)\d+(<\/span>)/s',
+        '${1}' . $value . '${2}',
+        $html,
+        1
+    );
+}
+
+echo $html;
