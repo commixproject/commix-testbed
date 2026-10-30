@@ -30,5 +30,8 @@ print(_layout.bottom(
            "here. <code>shell=True</code> is what turns a string into something a shell parses; "
            "passing a list of arguments without it would have closed the hole entirely.",
     verdict="Classic command injection",
+    solve="<details class=\"solve\"><summary>Hint</summary>"
+          "<p>No flag needed beyond <code>-u</code>/<code>-p</code>/<code>-d</code> - "
+          "nothing is filtered or quoted.</p></details>",
     source="out = subprocess.check_output(&quot;ping -c 4 &quot; + addr, shell=True,\n"
            "                              stderr=subprocess.STDOUT)"))

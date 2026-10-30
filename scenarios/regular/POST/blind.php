@@ -10,7 +10,12 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">The command runs, but all the page says is whether the host <em>seems to be up</em>. With nothing to read, execution has to be proven some other way - a delay, a file, or a request to a server of your own.</p>
       <p class="lesson">The command runs exactly as in the classic case; only the evidence is missing. This is the usual real-world situation and the reason blind techniques exist - an application that prints a tidy status message instead of raw output is not safer, it is just quieter. Proof has to come from something other than the page body: how long the reply takes, a file that appears, or a request arriving at a server you control.</p>
-      <p class="verdict">Reported by commix as <b>Blind command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>No extra flags needed.</p>
+        <p>The blind techniques are tried by default.</p>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#blind-injections">Blind command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code># Execute command!
@@ -81,8 +86,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
 <title>Output never reflected &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../css/testbed.css?v=3">
 </head>
 <body>
 

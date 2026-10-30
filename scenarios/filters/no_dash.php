@@ -10,7 +10,13 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">Only a bare <code>-</code> is rejected. Every separator, every command substitution and every quote still gets through untouched - the filter was written to stop flag injection (<code>--option</code>), not command chaining.</p>
       <p class="lesson">A character blocked because of what it does to <em>one</em> program's own argument parsing (a leading <code>-</code> turning a value into a flag) is still blocked everywhere else it appears in the value - including inside <code>test</code>'s own <code>-eq</code>/<code>-le</code>, which is what a blind technique's own proof-of-execution is built from. The command runs and chains exactly as it would with nothing blocked at all; only the check confirming it did needs a dash-free spelling.</p>
-      <p class="verdict">Reported by commix as <b>Blind command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <table class="solve-glossary">
+          <tr><td><code>--tamper=dashlesstest</code></td><td>runs the blind comparison without a bare <code>-</code>, for a filter that strips one</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#blind-injections">Blind command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$addr = isset($_POST[&#x27;addr&#x27;]) ? $_POST[&#x27;addr&#x27;] : &#x27;&#x27;;
@@ -80,8 +86,8 @@ if ($__addr !== '') {
 <title>Dash blocked &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

@@ -10,8 +10,15 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">A blacklist sits in front of an <code>eval()</code> sink and refuses the request outright - <code>403</code> and nothing else - where the query string contains any of <code>system</code>, <code>exec</code>, <code>shell_exec</code>, <code>passthru</code>, <code>popen</code>, <code>proc_open</code>, <code>assert</code>, <code>call_user_func</code>, a backtick, or the names of the commands worth running. It reads the query string and only the query string.</p>
       <p class="lesson">This is the shape most filtering in front of an application actually takes: a list of words, matched against the part of the request the filter was written to watch. What defeats it is not a cleverer spelling of those words but putting them somewhere the filter never looks. A payload that names no function and carries no command - reading both out of headers it sets for itself - has nothing in the query string to match on, and the headers travel untouched.</p>
-      <p class="reach">Reach it with <code>--eval=php --tamper=phpserverheaders</code>, which moves the function and the command into two randomly named headers and leaves a call to nothing in the parameter.</p>
-      <p class="verdict">Reported by commix as <b>Results-based code injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>These flags move the function and the command into two randomly named headers and leave a call to nothing in the parameter:</p>
+        <table class="solve-glossary">
+          <tr><td><code>--eval=php</code></td><td>tells commix the sink evaluates PHP, not a shell command</td></tr>
+          <tr><td><code>--tamper=phpserverheaders</code></td><td>moves the function and the command into HTTP headers instead of the payload</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#2-dynamic-code-evaluation">Results-based code injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$blocked = array(&#x27;system&#x27;,&#x27;exec&#x27;,&#x27;shell_exec&#x27;,&#x27;passthru&#x27;,&#x27;popen&#x27;,
@@ -89,8 +96,8 @@ if ($__refused) {
 <title>Function names blacklisted &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

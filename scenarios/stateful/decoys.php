@@ -10,8 +10,15 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">Four fields arrive together. One is always echoed back unchanged whatever is sent, one is always empty, one is ignored outright - and one reaches the shell.</p>
       <p class="lesson">Most of a real form is noise. Testing every field costs requests and, on a target that rate-limits or locks out, costs the run - so knowing which fields cannot be the answer is worth as much as knowing which can.</p>
-      <p class="reach">Reach it with <code>--skip-static</code> and <code>--skip-empty</code>, which leave the fields that never change and the ones that arrive empty untested.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>These flags leave the fields that never change and the ones that arrive empty untested.</p>
+        <table class="solve-glossary">
+          <tr><td><code>--skip-static</code></td><td>stops commix from skipping a parameter it believes is never dynamic</td></tr>
+          <tr><td><code>--skip-empty</code></td><td>stops commix from skipping a parameter whose value is empty</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$addr   = isset($_GET[&#x27;addr&#x27;])   ? $_GET[&#x27;addr&#x27;]   : &#x27;&#x27;;   // reaches the shell
@@ -75,8 +82,8 @@ $__result = $__addr === '' ? '' : shell_exec("/bin/ping -c 4 ".$__addr);
 <title>Decoy parameters around the real one &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

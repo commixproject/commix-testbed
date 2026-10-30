@@ -10,7 +10,15 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">Four metacharacters are blacklisted. A newline is not one of them, and it ends a command just as well as a semicolon does.</p>
       <p class="lesson">A denylist of the separators people write down from memory. A newline is not on it, and a newline ends a command as surely as a semicolon does - it is simply harder to see in a request. Any filter that enumerates metacharacters should be assumed incomplete.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p><code>$</code> is on the list too, which rules out commix's own usual substitution and arithmetic markers.</p>
+        <table class="solve-glossary">
+          <tr><td><code>--skip-subst</code></td><td>confirms the time-based technique with a plain delay instead of command substitution</td></tr>
+          <tr><td><code>--skip-calc</code></td><td>skips the arithmetic probe, for a sink that can't compute but can still prove itself another way</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$addr = (isset($_POST[&#x27;addr&#x27;]) ? $_POST[&#x27;addr&#x27;] : &#x27;&#x27;);
@@ -75,8 +83,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
 <title>Separators blocked: ; | &amp;amp; $ &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

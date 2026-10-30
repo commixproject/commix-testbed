@@ -10,7 +10,13 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">Both the pattern and the replacement come from the query string, so the pattern's own modifiers belong to the attacker - and the <code>e</code> modifier evaluates the replacement as PHP.</p>
       <p class="lesson">The pattern itself is user input, which hands over far more than the text being matched: a regex carries modifiers, and PHP's e modifier evaluated the replacement as code. It was removed in PHP 7, so this page needs an older interpreter - but the shape of the mistake outlives the feature. Never let a request supply the pattern to a matching function.</p>
-      <p class="verdict">Reported by commix as <b>Classic code injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <table class="solve-glossary">
+          <tr><td><code>--eval=php</code></td><td>tells commix the sink evaluates PHP, not a shell command</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#2-dynamic-code-evaluation">Classic code injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$msg = &#x27;Hello, World!&#x27;;
@@ -74,8 +80,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
 <title>Attacker-controlled regex &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../css/testbed.css?v=3">
 </head>
 <body>
 

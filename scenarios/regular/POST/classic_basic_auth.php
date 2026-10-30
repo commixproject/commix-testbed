@@ -10,7 +10,14 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">The injection point sits behind HTTP Basic authentication. The credentials are <code>admin:admin</code>; without them every request comes back 401 and nothing is tested.</p>
       <p class="lesson">Authentication is not mitigation. The flaw is identical to the plain case; it just needs valid credentials to reach. This scenario is here because an unauthenticated scan reports the page as not injectable, which is the wrong conclusion - it never actually tested it. Anything behind a login needs credentials supplied before the result means anything.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <table class="solve-glossary">
+          <tr><td><code>--auth-type=basic</code></td><td>sets the HTTP authentication scheme to use</td></tr>
+          <tr><td><code>--auth-cred=admin:admin</code></td><td>supplies the username:password for HTTP authentication</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$addr = (isset($_POST[&#x27;addr&#x27;]) ? $_POST[&#x27;addr&#x27;] : &#x27;&#x27;);
@@ -73,8 +80,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
 <title>Behind Basic authentication &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../css/testbed.css?v=3">
 </head>
 <body>
 

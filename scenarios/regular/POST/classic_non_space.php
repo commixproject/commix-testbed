@@ -9,8 +9,15 @@ $__tail = <<<'TESTBED_TAIL'
     <aside class="panel">
       <h2>What this page does</h2>
       <p class="explain"><code>preg_match('/\s/')</code> throws the value out if it contains any whitespace at all, so the payload has to separate its words some other way.</p>
-      <p class="lesson">Filters written against what a payload usually looks like rather than what the shell actually parses. The shell has several ways to separate words - a tab, a newline, brace expansion, or the value of $IFS - and this check knows about exactly one of them. It is a good illustration of why denylists lose: the author has to think of every alternative, the attacker only needs one.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <p class="lesson">Filters written against what a payload usually looks like rather than what the shell actually parses. The shell has several ways to separate words - a tab, a newline, brace expansion, or the value of <code>$IFS</code> - and this check knows about exactly one of them. It is a good illustration of why denylists lose: the author has to think of every alternative, the attacker only needs one.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>Commix's own payloads still need a word separator of their own.</p>
+        <table class="solve-glossary">
+          <tr><td><code>--tamper=space2ifs</code></td><td>replaces each space with the shell's <code>$IFS</code> variable</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$addr = (isset($_POST[&#x27;addr&#x27;]) ? $_POST[&#x27;addr&#x27;] : &#x27;&#x27;);
@@ -77,8 +84,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
 <title>Whitespace rejected &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../css/testbed.css?v=3">
 </head>
 <body>
 

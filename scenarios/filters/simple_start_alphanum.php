@@ -10,7 +10,12 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain"><code>/^\w+/</code> - the value only has to <em>begin</em> with word characters. Everything after that first run goes unchecked.</p>
       <p class="lesson">A check that constrains only the beginning of the value and says nothing about the rest, so anything appended after that first run of word characters goes straight through. Partial validation is not validation.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>No extra flags needed.</p>
+        <p>Nothing here restricts what follows the leading word characters.</p>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$addr = (isset($_POST[&#x27;addr&#x27;]) ? $_POST[&#x27;addr&#x27;] : &#x27;&#x27;);
@@ -75,8 +80,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
 <title>Must start with alphanumerics &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

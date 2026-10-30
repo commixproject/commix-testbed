@@ -10,7 +10,16 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">The cookie is Base64 and is decoded before it reaches the command, so the payload has to be encoded to survive the round trip.</p>
       <p class="lesson">Cookie values are often encoded, so the payload has to survive the decode step - the encoding is part of the transport, not a defence.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>The value is also wrapped in single quotes, which needs level 3 to close.</p>
+        <table class="solve-glossary">
+          <tr><td><code>--cookie="user=1"</code></td><td>sends this cookie with every request</td></tr>
+          <tr><td><code>--level=3</code></td><td>tests every boundary and header commix knows, including this one</td></tr>
+          <tr><td><code>--param-encoding=user=base64</code></td><td>encodes the named parameter's value (e.g. base64 or hex) before sending it</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$cookie_name = &quot;user&quot;;
@@ -73,8 +82,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
 <title>Cookie header - Base64 cookie value &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

@@ -10,8 +10,12 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">A GraphQL endpoint. It reads the <code>host</code> argument - written into the document, or passed beside it in <code>variables</code> - and hands it to a shell.</p>
       <p class="lesson">The body is a document, not a list of pairs. A payload appended to the whole <code>query</code> lands past its last brace and only produces a syntax error, which reads as a parameter that is not injectable. What is worth testing is the argument inside the document, and the request has to stay a valid document while it is tested.</p>
-      <p class="reach">Send it either way: as a document of its own under <code>application/graphql</code>, or as the JSON envelope a client sends. Both are read the same.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>No extra flags needed.</p>
+        <p>Send it either way: as a document of its own under <code>application/graphql</code>, or as the JSON envelope a client sends. Both are read the same.</p>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$raw = file_get_contents(&#x27;php://input&#x27;);
@@ -89,8 +93,8 @@ $__result = $__host === '' ? '' : shell_exec("/bin/ping -c 4 ".$__host." 2>&1");
 <title>GraphQL document, argument evaluated &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../css/testbed.css?v=3">
 </head>
 <body>
 

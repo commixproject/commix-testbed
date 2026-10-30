@@ -10,8 +10,14 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">The desktop view and the mobile view are different code. Only the mobile one passes the value to a shell; every other visitor gets a page that never calls one.</p>
       <p class="lesson">A vulnerability can live behind a branch that most requests never take. Where the branch is chosen by the <code>User-Agent</code>, a scan made with the default one tests the safe half of the application and reports nothing.</p>
-      <p class="reach">Reach it with <code>--mobile</code>, so the request arrives as a phone would send it.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>This flag sends the request the way a phone would.</p>
+        <table class="solve-glossary">
+          <tr><td><code>--mobile</code></td><td>sends the request the way a mobile browser would</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$addr = isset($_GET[&#x27;addr&#x27;]) ? $_GET[&#x27;addr&#x27;] : &#x27;&#x27;;
@@ -79,8 +85,8 @@ else { $__result = "desktop view - the address is only displayed: ".htmlspecialc
 <title>Vulnerable only to a phone &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

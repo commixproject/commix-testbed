@@ -51,8 +51,8 @@ body = <<-HTML
   <title>Ruby treasure &middot; commix-testbed</title>
   <meta name="robots" content="noindex">
   <link rel="shortcut icon" href="../../favicon.ico">
-  <link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-  <link rel="stylesheet" href="../../css/testbed.css">
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/testbed.css?v=3">
   </head>
   <body>
 
@@ -87,7 +87,14 @@ body = <<-HTML
         <h2>What this page does</h2>
         <p class="explain"><code>validateFile()</code> checks <code>/^[a-zA-Z0-9_-]+$/.match(filename)</code>, but Ruby's <code>^</code> and <code>$</code> match at the start and end of every line in a multi-line string, not of the whole string. One clean line anywhere is enough for the whole value to pass. <code>IO.read</code> then treats a value starting with <code>|</code> as a command to run through a shell, not a filename to open.</p>
         <p class="lesson">A value like <code>"|cmd\\nx"</code> passes validation - line 2, <code>"x"</code>, matches - and then runs as a shell command, since line 1 starts with <code>|</code>. Two Ruby-specific behaviors, neither a bug on its own, that only add up to one together.</p>
-        <p class="verdict">Reported by commix as <b>Classic command injection</b>. Based on <a href="https://www.yeswehack.com/dojo/dojo-ctf-challenge-winners-41">YesWeHack Dojo #41: Ruby Treasure</a>.</p>
+              <details class="solve">
+                <summary>Hint</summary>
+                <table class="solve-glossary">
+                  <tr><td><code>--suffix=$'\nx'</code></td><td>appends this text after every payload, closing whatever the application wraps around the value</td></tr>
+                  <tr><td><code>--technique=r</code></td><td>limits the run to the results-based (classic) technique</td></tr>
+                </table>
+              </details>
+        <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>. Based on <a href="https://www.yeswehack.com/dojo/dojo-ctf-challenge-winners-41">YesWeHack Dojo #41: Ruby Treasure</a>.</p>
         <details class="src">
           <summary>The vulnerable code</summary>
           <pre><code>#{CGI.escapeHTML(source)}</code></pre>

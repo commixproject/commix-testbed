@@ -9,8 +9,8 @@ $spec = "openapi.json";
 <title>An API that describes itself &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 
@@ -43,8 +43,16 @@ $spec = "openapi.json";
       <h2>What this page does</h2>
       <p class="explain">The service publishes an OpenAPI description of itself. That document names two operations - a <code>GET</code> taking a query parameter and a <code>POST</code> taking a JSON body - and both of them hand what they are given to a shell. Neither endpoint is linked from any page of this testbed, and neither appears in any form or any script.</p>
       <p class="lesson">Crawling finds what a site links to. An API links to nothing: its endpoints are reached by clients that were told about them, and increasingly what tells them is a machine-readable description the service serves itself. A scan that only follows links sees a page with one link on it and stops; the description beside it lists the paths, the methods, the parameters and the shape of every body - which is the whole testable surface, written down.</p>
-      <p class="reach">Reach it with <code>--openapi</code>, which reads the description and derives one request per operation, filling each parameter and body from the examples and types the document gives. The paths here are relative, so fetch the document by URL and its own address settles where they live - or pass <code>--openapi-base</code>. Use <code>--openapi-tags</code> to take only part of a large API.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>, once for each of the two operations.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>This flag reads the description and derives one request per operation, filling each parameter and body from the examples and types the document gives.</p>
+        <table class="solve-glossary">
+          <tr><td><code>--openapi</code></td><td>derives requests from the target's own published OpenAPI/Swagger description</td></tr>
+          <tr><td><code>--openapi-base</code></td><td>names the document's own base URL, for paths that are relative and otherwise unclear where they live</td></tr>
+          <tr><td><code>--openapi-tags</code></td><td>tests only the operations under the given OpenAPI tag, instead of the whole document</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>, once for each of the two operations.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>// api_lookup.php - reached with ?host=

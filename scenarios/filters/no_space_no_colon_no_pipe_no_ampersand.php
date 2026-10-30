@@ -10,7 +10,13 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">Whitespace and <code>;</code> <code>|</code> <code>&amp;</code> are gone, which leaves the newline to chain with and <code>${IFS}</code> to separate words.</p>
       <p class="lesson">More characters on the list, and the same weakness - what is left is still enough. It is worth working out which combination survives here rather than reaching for a tool, because the answer says exactly what the filter forgot.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <table class="solve-glossary">
+          <tr><td><code>--tamper=space2ifs</code></td><td>replaces each space with the shell's <code>$IFS</code> variable</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$addr = (isset($_POST[&#x27;addr&#x27;]) ? $_POST[&#x27;addr&#x27;] : &#x27;&#x27;);
@@ -79,8 +85,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
 <title>Spaces and three separators blocked &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

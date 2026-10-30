@@ -10,7 +10,15 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">The <code>user</code> cookie lands inside single quotes in an <code>echo</code>, so the quote has to be closed first.</p>
       <p class="lesson">The quoting lesson applied to a cookie: the value lands inside single quotes, which has to be closed before anything else can be reached.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>Closing the quote needs level 3, not just the level 2 that cookie testing requires.</p>
+        <table class="solve-glossary">
+          <tr><td><code>--cookie="user=1"</code></td><td>sends this cookie with every request</td></tr>
+          <tr><td><code>--level=3</code></td><td>tests every boundary and header commix knows, including this one</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$cookie_name = &quot;user&quot;;
@@ -73,8 +81,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
 <title>Cookie header - Cookie inside single quotes &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

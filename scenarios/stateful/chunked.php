@@ -10,8 +10,14 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">The endpoint turns away any body that arrives with a <code>Content-Length</code>. Only a chunked body is read, and it is parsed out of <code>php://input</code> rather than taken from <code>$_POST</code>.</p>
       <p class="lesson">Chunked encoding splits the body into pieces the server reassembles, so a filter reading the request as one buffer sees fragments instead of a payload. Plenty of middleboxes inspect only the first chunk, or skip chunked bodies altogether - which makes the transfer encoding itself worth being able to send.</p>
-      <p class="reach">Reach it with <code>--chunked</code>, so the POST body is sent chunked.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>This flag sends the <code>POST</code> body chunked.</p>
+        <table class="solve-glossary">
+          <tr><td><code>--chunked</code></td><td>sends the request body using chunked transfer encoding</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>// No Content-Length means the body arrived chunked; $_POST is empty either way.
@@ -84,8 +90,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <title>Chunked request body &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

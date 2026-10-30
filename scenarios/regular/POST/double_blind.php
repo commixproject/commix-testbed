@@ -10,7 +10,12 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">Output goes to <code>/dev/null</code> and the command is backgrounded with <code>&amp;</code>, so not even the exit status reaches the page. It looks identical whatever you send it.</p>
       <p class="lesson">One step past the previous page: with output redirected and the command backgrounded, even the success or failure of the command is invisible, so the response is byte-for-byte identical whatever you send. Timing is close to the only channel left, and the backgrounding means a delay has to be arranged carefully to still be observable.</p>
-      <p class="verdict">Reported by commix as <b>Blind command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>No extra flags needed.</p>
+        <p>The injected separator ends the line before the trailing <code>&amp;</code>, so only that empty tail is backgrounded, not the payload.</p>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#blind-injections">Blind command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code># Execute command!
@@ -75,8 +80,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
 <title>Output and exit status discarded &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../css/testbed.css?v=3">
 </head>
 <body>
 

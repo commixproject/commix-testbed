@@ -9,8 +9,14 @@ $__tail = <<<'TESTBED_TAIL'
     <aside class="panel">
       <h2>What this page does</h2>
       <p class="explain">Backslashes and both kinds of quote are removed, then the value is dropped into a double-quoted <code>eval("echo(\"$user\");")</code>. Quotes are not needed: PHP expands <code>${...}</code> inside a double-quoted string.</p>
-      <p class="lesson">A sanitiser that removes exactly the characters the author imagined an attacker needs. Backslashes and both quotes are stripped - but the value lands in a double-quoted PHP string, where ${...} performs an expansion without a single quote being involved. The defence and the attack are aimed at different things.</p>
-      <p class="verdict">Reported by commix as <b>Classic code injection</b>.</p>
+      <p class="lesson">A sanitiser that removes exactly the characters the author imagined an attacker needs. Backslashes and both quotes are stripped - but the value lands in a double-quoted PHP string, where <code>${...}</code> performs an expansion without a single quote being involved. The defence and the attack are aimed at different things.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <table class="solve-glossary">
+          <tr><td><code>--eval=php</code></td><td>tells commix the sink evaluates PHP, not a shell command</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#2-dynamic-code-evaluation">Classic code injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$user = str_replace(array(&quot;\\&quot;,&quot;&#x27;&quot;, &#x27;&quot;&#x27;), &quot;&quot;, (isset($_POST[&quot;user&quot;]) ? $_POST[&quot;user&quot;] : &#x27;&#x27;));
@@ -67,8 +73,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
 <title>Quotes stripped, then evaluated &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../css/testbed.css?v=3">
 </head>
 <body>
 

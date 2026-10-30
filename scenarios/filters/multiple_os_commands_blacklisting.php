@@ -10,7 +10,12 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">The command names themselves are matched: <code>echo|wget|nc|whoami|cat|ncat</code> on Unix and <code>powershell|cmd</code> on Windows. The match is on literal text, so anything that hides the letters from the regex without hiding them from the shell gets through.</p>
       <p class="lesson">Blocking command names rather than metacharacters, which fails for a different reason: the regex matches literal text, while the shell sees the string only after its own expansions have run. Anything that breaks up the letters on the way to the shell defeats the match without changing what executes. There are also far more ways to read a file than the six names on this list.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>No extra flags needed.</p>
+        <p>Commix already falls back to <code>printf</code> where <code>echo</code> is blocked.</p>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$addr = (isset($_POST[&#x27;addr&#x27;]) ? $_POST[&#x27;addr&#x27;] : &#x27;&#x27;);
@@ -85,8 +90,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
 <title>Command names blacklisted &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

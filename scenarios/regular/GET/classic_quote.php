@@ -10,7 +10,14 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">The value lands inside single quotes: <code>exec("ping '".$addr."'")</code>. A single-quoted word expands nothing, so the quote has to be closed before the shell reads any of it.</p>
       <p class="lesson">Quoting is often mistaken for escaping. Single quotes do stop the shell expanding anything inside them - but only until the value supplies a quote of its own and ends the quoted span early. Because the closing quote is still sitting in the template afterwards, the payload also has to leave the command syntactically valid, which is why a comment or a second quote usually shows up at the end of a working payload.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>Closing a quote is only tried from level 3 up.</p>
+        <table class="solve-glossary">
+          <tr><td><code>--level=3</code></td><td>tests every boundary and header commix knows, including this one</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$addr = (isset($_GET[&#x27;addr&#x27;]) ? $_GET[&#x27;addr&#x27;] : &#x27;&#x27;);
@@ -75,8 +82,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
 <title>Value inside single quotes &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../css/testbed.css?v=3">
 </head>
 <body>
 

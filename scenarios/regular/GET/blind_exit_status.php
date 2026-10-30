@@ -10,8 +10,15 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">The command runs and its output is thrown away. All the page says is whether it succeeded - <code>Host is up</code> or <code>Host is down</code>, taken from the exit status.</p>
       <p class="lesson">Blind, but not silent. Nothing of the output comes back, so there is nothing to read a result out of - yet the page still answers one question about what happened, and a question with a yes and a no is all a search needs. Chain a test onto the command and its exit status becomes the answer: <code>[ 119 -le $ordinal ]</code> reads a byte without the target ever printing one.</p>
-      <p class="reach">Reach it with <code>--string</code>, which says what a true answer looks like. Anchor it to the element the result is printed into rather than to the words alone - this page explains itself, so the words of the answer appear in the prose beside it, and a pattern matching only those matches every response. The delay-based technique reaches it as well, and pays a sleep for every question instead.</p>
-      <p class="verdict">Reported by commix as <b>Blind command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>This flag says what a true answer looks like.</p>
+        <p>Anchor it to the element the result is printed into rather than to the words alone - this page explains itself, so the words of the answer appear in the prose beside it, and a pattern matching only those matches every response. The delay-based technique reaches it as well, and pays a sleep for every question instead.</p>
+        <table class="solve-glossary">
+          <tr><td><code>--string</code></td><td>says what a true answer looks like, for the boolean-based technique to read off the page</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#blind-injections">Blind command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$addr = isset($_GET[&#x27;addr&#x27;]) ? $_GET[&#x27;addr&#x27;] : &#x27;&#x27;;
@@ -74,8 +81,8 @@ if ($__addr !== '') {
 <title>Blind, but the page says whether it worked &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../css/testbed.css?v=3">
 </head>
 <body>
 

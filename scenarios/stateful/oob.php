@@ -10,8 +10,14 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">The command is detached and its output thrown away - <code>exec(&quot;(/bin/ping -c 4 &quot;.$addr.&quot;) &gt; /dev/null 2&gt;&amp;1 &amp;&quot;)</code>. The page answers <code>Queued.</code> immediately, whatever was sent.</p>
       <p class="lesson">Every signal a scan normally reads is gone at once. The body is a constant, so there is nothing to compare; the process is backgrounded, so a <code>sleep</code> in the payload delays nothing the response waits for. The command still runs - it just cannot say so through this connection. What is left is what the command can reach on its own: a DNS lookup or an HTTP request out of the target is the only evidence that anything executed.</p>
-      <p class="reach">Results-based and time-based both fail here by construction. Reach it with <code>--oob</code>. The file-based technique can still work while the web root is writable and guessable - which is exactly the assumption out-of-band removes.</p>
-      <p class="verdict">Reported by commix as <b>Blind command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>Results-based and time-based both fail here by construction. The file-based technique can still work while the web root is writable and guessable, but that is exactly the assumption out-of-band removes.</p>
+        <table class="solve-glossary">
+          <tr><td><code>--oob</code></td><td>runs the out-of-band technique, confirming execution through a DNS lookup or HTTP request the command triggers on its own, instead of reading the response</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#blind-injections">Blind command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>// Detached and silenced: the response is identical whatever was sent, and never waits for it.
@@ -76,8 +82,8 @@ if (isset($_GET['addr'])) {
 <title>Out-of-band only &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

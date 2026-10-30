@@ -10,7 +10,14 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain"><code>/\s+/</code> covers the tab and the newline as well as the space, so the word separator has to be something that <em>expands</em> into whitespace rather than something that is it.</p>
       <p class="lesson">\s covers space, tab and newline together, which is a genuinely tighter check than the pages before it. It still does not help: the word separator does not have to be whitespace in the request, only to become whitespace by the time the shell splits the line.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p><code>${IFS}</code> carries no whitespace character of its own.</p>
+        <table class="solve-glossary">
+          <tr><td><code>--tamper=space2ifs</code></td><td>replaces each space with the shell's <code>$IFS</code> variable</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$addr = (isset($_POST[&#x27;addr&#x27;]) ? $_POST[&#x27;addr&#x27;] : &#x27;&#x27;);
@@ -74,8 +81,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
 <title>All whitespace blocked &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

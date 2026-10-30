@@ -10,8 +10,15 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">The same unquoted <code>exec()</code> as the plainest scenario, but the page answers <code>Login required.</code> to anyone without an authenticated session.</p>
       <p class="lesson">An unauthenticated scan reports this page as not injectable, which is true of what it can see and false of the application. Most of a real application's attack surface sits behind a login, so the interesting question is rarely whether the front page is vulnerable.</p>
-      <p class="reach">Reach it with <code>--auth-url</code> and <code>--auth-data=&quot;username=admin&amp;password=testbed&quot;</code>, so the session is established first.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>These flags establish the session first.</p>
+        <table class="solve-glossary">
+          <tr><td><code>--auth-url</code></td><td>names the page to authenticate against before the real request</td></tr>
+          <tr><td><code>--auth-data="username=admin&amp;password=testbed"</code></td><td>the POST body sent when authenticating</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>session_start();
@@ -81,8 +88,8 @@ if (empty($_SESSION['auth'])) {
 <title>Behind a session login &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

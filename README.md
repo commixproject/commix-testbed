@@ -3,11 +3,11 @@
 </p>
 
 <p align="center">
-  <a href="https://hub.docker.com/r/commixproject/commix-testbed"><img alt="Docker" src="https://img.shields.io/badge/Docker-commix--testbed-2496ED.svg?style=for-the-badge&logo=docker&logoColor=white"></a>
-  <a href="https://www.php.net/downloads"><img alt="PHP 5.5+" src="https://img.shields.io/badge/PHP-5.5%2B-777BB4.svg?style=for-the-badge&logo=php&logoColor=white"></a>
-  <a href="https://github.com/commixproject/commix-testbed/blob/master/readme/CHANGELOG.md"><img alt="Version 1.0" src="https://img.shields.io/badge/Version-1.0-2E7D32.svg?style=for-the-badge"></a>
-  <a href="https://github.com/commixproject/commix-testbed/blob/master/readme/COPYING"><img alt="GPLv3 License" src="https://img.shields.io/badge/License-GPLv3-6A1B9A.svg?style=for-the-badge&logo=gnu&logoColor=white"></a>
-  <a href="https://x.com/commixproject"><img alt="Follow @commixproject" src="https://img.shields.io/badge/Follow-@commixproject-000000.svg?style=for-the-badge&logo=x&logoColor=white"></a>
+  <a href="https://hub.docker.com/r/commixproject/commix-testbed"><img alt="Docker" src="https://img.shields.io/badge/docker-commix--testbed-blue.svg"></a>
+  <a href="https://www.php.net/downloads"><img alt="PHP 5.5+" src="https://img.shields.io/badge/php-5.5+-yellow.svg"></a>
+  <a href="https://github.com/commixproject/commix-testbed/blob/master/readme/CHANGELOG.md"><img alt="Version 1.0" src="https://img.shields.io/badge/version-1.0-green.svg"></a>
+  <a href="https://github.com/commixproject/commix-testbed/blob/master/readme/COPYING"><img alt="GPLv3 License" src="https://img.shields.io/badge/license-GPLv3-red.svg"></a>
+  <a href="https://x.com/commixproject"><img alt="X" src="https://img.shields.io/badge/x-@commixproject-blue.svg"></a>
 </p>
 
 **commix-testbed** is a collection of deliberately vulnerable web pages, written by **[Anastasios Stasinopoulos](https://github.com/stasinopoulos)** (**[@ancst](https://x.com/ancst)**), used to exercise **[commix](https://github.com/commixproject/commix)**'s detection and exploitation features - and to learn what **[command](https://owasp.org/www-community/attacks/Command_Injection)** (and **[code](https://owasp.org/www-community/attacks/Code_Injection)**) injection actually looks like in code.
@@ -32,10 +32,13 @@ Each scenario carries an explanation of what the code gets wrong and what the mi
 * **HTTP headers** - `User-Agent`, `Cookie`, `Referer` and `X-Forwarded-Host`, plus a custom `X-Forwarded-For` header read for the access log.
 * **Stateful and multi-step** - pages that ask for something carried between requests rather than something clever inside one: a login and the session it hands out, anti-CSRF tokens and single-use nonces, a second-order sink that answers on another page, account lockout, a connection held open, an endpoint that refuses at random, a request body sent chunked, non-standard parameter and cookie delimiters, an out-of-band-only sink, a document root that is not the default, output held back until the next request, a branch only a phone reaches, decoy parameters beside the real one, a body that is never percent-decoded, a sink that answers `500` while running the command, and a `Set-Cookie` that breaks the session if it is stored.
 * **Discovery** - pages whose injectable surface is not written where a scan looks for it: a parameter the markup never names, routes that exist only inside the script a page loads, and an API that publishes an OpenAPI description of endpoints nothing links to.
-* **CTF challenges** - five real, named challenges recreated faithfully, filter and language included: YesWeHack Dojo #30 (Terminal Isolation), #36 (Shell Escape) and #41 (Ruby Treasure, the one page here served as a genuine Ruby CGI script rather than PHP standing in for it), a Root-Me filter bypass, and YesWeHack Dojo #46 (Ghost Whisper).
+* **CTF challenges** - real, named challenges recreated faithfully, filter and language included: YesWeHack Dojo #30 (Terminal Isolation), #36 (Shell Escape) and #41 (Ruby Treasure, the one page here served as a genuine Ruby CGI script rather than PHP standing in for it), YesWeHack Dojo #46 (Ghost Whisper), a Root-Me filter bypass and its PHP - Eval-hard, OverTheWire Natas Level 16, DVWA's own Command Injection at "high", ImaginaryCTF 2025's pearl (a genuine Perl CGI script, the two-argument `open()` pipe quirk rather than `eval()`), and DeadSec CTF 2024's Bing2.
 * **Python scenarios** - the same classic, blind and code-injection bugs written in Python and served as CGI, so a run is not only exercising PHP.
 * **Ruby scenarios** - the same `eval()`-on-the-value code injection, in Ruby.
+* **Perl scenario** - the same `eval()`-on-the-value code injection, in Perl, matching commix's own `--eval=perl` support.
+* **Lua scenario** - the same `eval()`-on-the-value code injection, in Lua, matching commix's own `--eval=lua` support.
 * **JavaScript scenario** - the same `eval()`-on-the-value code injection, in Node - run as its own standalone HTTP server rather than CGI under the main site, since the base image's glibc predates any Node build that would still run there. Start it with `docker run -d -p 8087:3000 -v "$PWD/scenarios/javascript:/app:ro" -w /app -e TESTBED_URL=http://localhost:8081 node:20-alpine node server.js`, alongside the main container.
+* **Java scenario** - the same bug again, evaluated through Java's own Nashorn engine rather than Node - run as its own standalone HTTP server, same reason as the JavaScript one. Start it with `docker run -d -p 8088:8088 -v "$PWD/scenarios/java:/app:ro" -w /app -e TESTBED_URL=http://localhost:8081 eclipse-temurin:11-jdk sh -c "javac Server.java Layout.java -d /tmp/out && java -cp /tmp/out Server"`, alongside the main container.
 * **Every reported type** - classic and blind, command and code injection, so all four combinations commix can report are covered.
 
 Scenarios are labelled with the type commix reports them as, and each page says which option reaches it - several exist to exercise one option and cannot be reached without it. See the **[techniques](https://github.com/commixproject/commix/wiki/Techniques)** wiki page for what those mean and which technique reaches each one.

@@ -10,8 +10,11 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">The access log viewer. It reads the address stored by the submit page and runs it through <code>exec()</code> to resolve it - nothing on this page accepts input of its own.</p>
       <p class="lesson">This is the half of a second-order bug that actually executes. On its own it looks inert: there is no parameter to test, so a scan pointed here finds nothing at all. The value it runs arrived through a different request, at a different URL, possibly minutes earlier.</p>
-      <p class="reach">Not a target by itself - it is the page named by <code>--second-url</code> when testing the submit page.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>Not a target by itself - it is the page named by <code>--second-url</code> when testing the submit page.</p>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>// The value was stored by another request; this page only renders it.
@@ -73,8 +76,8 @@ $__result = $__addr === '' ? '' : exec("/bin/ping -c 4 ".$__addr);
 <title>Second-order sink &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

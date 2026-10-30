@@ -10,7 +10,14 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">Both conditions at once: begin with word characters, and carry no whitespace anywhere.</p>
       <p class="lesson">Two partial checks stacked. Neither is sufficient alone and together they only narrow the shape of a working payload rather than preventing one - the requirements can be met at the same time.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>The leading-alphanumeric part is already satisfied by commix's own marker.</p>
+        <table class="solve-glossary">
+          <tr><td><code>--tamper=space2ifs</code></td><td>replaces each space with the shell's <code>$IFS</code> variable</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$addr = (isset($_POST[&#x27;addr&#x27;]) ? $_POST[&#x27;addr&#x27;] : &#x27;&#x27;);
@@ -79,8 +86,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
 <title>Must start with alphanumerics, no whitespace &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

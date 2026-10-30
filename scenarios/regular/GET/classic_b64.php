@@ -10,7 +10,13 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">The value is only accepted when <code>base64_encode(base64_decode($x)) === $x</code>, so a raw payload is rejected before it ever reaches the shell. It has to arrive Base64-encoded.</p>
       <p class="lesson">Encoding is not validation. The check only proves the value is well-formed Base64, and it is decoded straight into the command afterwards, so it filters nothing at all - it just changes the alphabet an attacker has to write in. Encodings that sit between the client and the sink hide a payload from anything inspecting the raw request, which is why a WAF in front of this page would see nothing worth blocking.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <table class="solve-glossary">
+          <tr><td><code>--param-encoding=addr=base64</code></td><td>encodes the named parameter's value (e.g. base64 or hex) before sending it</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>if (isset($_GET[&quot;addr&quot;])){
@@ -78,8 +84,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
 <title>Base64-encoded parameter &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../css/testbed.css?v=3">
 </head>
 <body>
 

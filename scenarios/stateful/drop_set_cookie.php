@@ -10,8 +10,14 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">Every response sets a fresh <code>sid</code>. Send that cookie back and the page refuses you; keep sending the one you started with and it works.</p>
       <p class="lesson">An application can hand out a cookie it will not accept afterwards - a rotating token, a session pinned elsewhere, a value meant for a different host. A client that dutifully stores every <code>Set-Cookie</code> walks itself out of its own session partway through a scan, and everything after that looks like a target that stopped being vulnerable.</p>
-      <p class="reach">Reach it with <code>--drop-set-cookie</code>, so the cookie the response offers is ignored and the one supplied on the command line keeps being sent.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>This flag ignores the cookie the response offers, so the one supplied on the command line keeps being sent.</p>
+        <table class="solve-glossary">
+          <tr><td><code>--drop-set-cookie</code></td><td>ignores any Set-Cookie header the response sends, keeping the cookie given on the command line</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>session_start();
@@ -81,8 +87,8 @@ if ($__sid !== '' && $__sid !== 'keepme') {
 <title>A Set-Cookie that breaks the next request &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

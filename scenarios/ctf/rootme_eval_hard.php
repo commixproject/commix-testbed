@@ -10,7 +10,13 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">A filter rejects the request outright if <code>code</code> contains <b>any letter</b> (<code>A-Za-z</code>). Digits, <code>$</code>, <code>_</code>, quotes, backticks and every other symbol pass through untouched, and the rest is handed straight to <code>eval()</code>.</p>
       <p class="lesson">A letter never has to arrive as itself. PHP decodes a double-quoted or backtick string's own octal escapes (<code>\NNN</code>) only once <code>eval()</code> is already running it - by then the filter has long since looked at, and passed, four digits and a backslash. A function reached by name built the same way (<code>call_user_func</code>, itself spelled in octal) never writes <code>system</code> or <code>exec</code> either.</p>
-      <p class="verdict">Reported by commix as <b>Classic code injection</b>. Based on <a href="https://www.root-me.org/en/Challenges/Web-Server/PHP-Eval-hard">Root-Me: PHP - Eval-hard</a>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <table class="solve-glossary">
+          <tr><td><code>--tamper=phpnoletters</code></td><td>reaches PHP's own functions through octal-escaped names, with no ASCII letter in the payload</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#2-dynamic-code-evaluation">Classic code injection</a></b>. Based on <a href="https://www.root-me.org/en/Challenges/Web-Server/PHP-Eval-hard">Root-Me: PHP - Eval-hard</a>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$code = isset($_GET[&#x27;code&#x27;]) ? $_GET[&#x27;code&#x27;] : &#x27;&#x27;;
@@ -83,8 +89,8 @@ if ($__code !== '') {
 <title>PHP Eval-hard &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

@@ -10,8 +10,16 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">The same token check as the inline anti-CSRF scenario, except this page never shows a token. It has to be minted by a <code>POST</code> to <a href="token.php">the token endpoint</a> first, and each one is good for a single request.</p>
       <p class="lesson">Where the token lives changes what an attacker has to automate, not whether the bug is reachable. Reading a hidden field out of the page you are about to submit is one request; fetching one from a separate service, with its own method and its own body, is another - and a tool that only knows how to do the first reports this page as clean.</p>
-      <p class="reach">Reach it with <code>--csrf-token=&quot;csrf_token&quot; --csrf-url=&quot;&hellip;/token.php&quot; --csrf-method=POST --csrf-data=&quot;scope=ping&quot;</code>.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <table class="solve-glossary">
+          <tr><td><code>--csrf-token="csrf_token"</code></td><td>names the parameter that carries the anti-CSRF token</td></tr>
+          <tr><td><code>--csrf-url="&amp;hellip;/token.php"</code></td><td>names the page commix fetches to read a fresh anti-CSRF token from</td></tr>
+          <tr><td><code>--csrf-method=POST</code></td><td>sets the HTTP method used to fetch the anti-CSRF token</td></tr>
+          <tr><td><code>--csrf-data="scope=ping"</code></td><td>the POST body sent when fetching the anti-CSRF token</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>session_start();
@@ -90,8 +98,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <title>Token from another endpoint &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

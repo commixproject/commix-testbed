@@ -10,7 +10,16 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">A filter rejects the request if <code>needle</code> contains <code>; | &amp; ` ' "</code>. Digits, letters, <code>$</code>, <code>(</code>, <code>)</code> and <code>&gt;</code> all pass through untouched, and the value is handed to <code>grep -i "needle" dictionary.txt</code> inside its own double quotes - so a value like <code>cat</code> just searches the wordlist, but the quotes only stop a value from ending the argument early, not from being expanded before <code>grep</code> ever sees it.</p>
       <p class="lesson">Bash expands <code>$(...)</code> inside double quotes before the command it sits in ever runs - the filter blocks every way to chain a second command, but not the one syntax that runs one inside the first command's own argument. The substitution's output becomes part of what <code>grep</code> searches for, which answers nothing directly - unless the command redirects its own output to a file instead of returning it, in which case the substitution itself yields nothing (an empty search, matching most of the wordlist) while the real answer waits on disk under a name the request already knows.</p>
-      <p class="verdict">Reported by commix as <b>Blind command injection</b>. Based on <a href="https://overthewire.org/wargames/natas/natas16.html">OverTheWire: Natas Level 16</a>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <table class="solve-glossary">
+          <tr><td><code>--prefix='$('</code></td><td>prepends this text before every payload, opening whatever the application wraps around the value</td></tr>
+          <tr><td><code>--suffix=')'</code></td><td>appends this text after every payload, closing whatever the application wraps around the value</td></tr>
+          <tr><td><code>--technique=f</code></td><td>limits the run to the file-based technique</td></tr>
+          <tr><td><code>--web-root=&lt;document</code></td><td>names the target's own document root, needed for the file-based technique to read back what it wrote</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#blind-injections">Blind command injection</a></b>. Based on <a href="https://overthewire.org/wargames/natas/natas16.html">OverTheWire: Natas Level 16</a>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$key = &quot;&quot;;
@@ -92,8 +101,8 @@ if ($__key !== '') {
 <title>Natas16: dictionary search &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

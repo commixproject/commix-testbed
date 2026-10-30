@@ -9,8 +9,17 @@ $__tail = <<<'TESTBED_TAIL'
     <aside class="panel">
       <h2>What this page does</h2>
       <p class="explain">With <code>$</code> gone too, <code>${IFS}</code> is out - but a tab is still whitespace to the shell and it is not a space.</p>
-      <p class="lesson">With $ gone, the ${IFS} trick that solved the previous pages is unavailable, so this one forces a different answer for the same problem. A good demonstration that a bypass is not a universal key - it is specific to what a particular filter neglected.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <p class="lesson">With <code>$</code> gone, the <code>${IFS}</code> trick that solved the previous pages is unavailable, so this one forces a different answer for the same problem. A good demonstration that a bypass is not a universal key - it is specific to what a particular filter neglected.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>A tab needs no <code>$</code> sign, unlike <code>${IFS}</code>.</p>
+        <table class="solve-glossary">
+          <tr><td><code>--tamper=space2htab</code></td><td>replaces each space with a horizontal tab</td></tr>
+          <tr><td><code>--skip-subst</code></td><td>confirms the time-based technique with a plain delay instead of command substitution</td></tr>
+          <tr><td><code>--skip-calc</code></td><td>skips the arithmetic probe, for a sink that can't compute but can still prove itself another way</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$addr = (isset($_POST[&#x27;addr&#x27;]) ? $_POST[&#x27;addr&#x27;] : &#x27;&#x27;);
@@ -79,8 +88,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
 <title>Spaces, separators and $ blocked &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

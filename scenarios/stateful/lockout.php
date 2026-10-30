@@ -10,8 +10,15 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">The session counts requests. After five without a visit to <a href="keepalive.php">the keepalive page</a>, everything is answered with <code>Session locked.</code> and <code>$addr</code> is never used.</p>
       <p class="lesson">Detection is not one request, it is dozens, so a limit an ordinary user would never reach is hit almost immediately. Everything after the fifth request is refused for a reason that has nothing to do with the payload - so a scan that ignores the limit concludes the parameter is clean on the strength of replies the server was not really answering.</p>
-      <p class="reach">Reach it with <code>--safe-url</code> pointing at <code>keepalive.php</code> and <code>--safe-freq=3</code>, so the counter is cleared before it runs out.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>These flags clear the counter before it runs out.</p>
+        <table class="solve-glossary">
+          <tr><td><code>--safe-url</code></td><td>visits this harmless URL every so many requests, to keep the session or rate limit happy</td></tr>
+          <tr><td><code>--safe-freq=3</code></td><td>sets how often the safe URL above is visited</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>session_start();
@@ -87,8 +94,8 @@ if (isset($_GET['addr'])) {
 <title>Rate-limited endpoint &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

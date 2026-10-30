@@ -10,8 +10,15 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">A denylist that rejects the value if it contains <code>$((</code> or a backtick. Command substitution with <code>$(&hellip;)</code> is left alone, and what survives is concatenated into the shell unchanged.</p>
       <p class="lesson">The filter is aimed at a payload shape rather than at a capability, which is the usual mistake. Shell arithmetic is one way to make a target prove it evaluated something - but it is not the only way, and anything the target can execute can do the same calculation. Blocking the notation blocks the probe, not the injection.</p>
-      <p class="reach">Reach it with <code>--interpreter=python</code>, so the proof is computed by <code>python3 -c</code> rather than by shell arithmetic. <code>--skip-calc</code> also gets past it, by not asking for the calculation at all.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>Either flag below gets past it on its own.</p>
+        <table class="solve-glossary">
+          <tr><td><code>--interpreter=python</code></td><td>computes the proof with a Python interpreter instead of shell arithmetic</td></tr>
+          <tr><td><code>--skip-calc</code></td><td>skips the arithmetic probe, for a sink that can't compute but can still prove itself another way</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$addr = isset($_GET[&#x27;addr&#x27;]) ? $_GET[&#x27;addr&#x27;] : &#x27;&#x27;;
@@ -82,8 +89,8 @@ if (isset($_GET['addr'])) {
 <title>Arithmetic expansion blocked &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

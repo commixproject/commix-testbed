@@ -10,8 +10,14 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">The command runs and its output is on the page, but the response carries a <code>500</code> status. Nothing is wrong - the application simply answers that way.</p>
       <p class="lesson">A status code is not a verdict on whether the payload ran. A scanner that treats every 5xx as a dead end walks away from a working injection point, and one that aborts on the first 500 never gets past the probe.</p>
-      <p class="reach">Reach it with <code>--ignore-code=500</code>, so the answer is read rather than treated as a failure.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>This flag reads the answer instead of treating it as a failure.</p>
+        <table class="solve-glossary">
+          <tr><td><code>--ignore-code=500</code></td><td>treats this HTTP status code as a normal response instead of a failure</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$addr = isset($_GET[&#x27;addr&#x27;]) ? $_GET[&#x27;addr&#x27;] : &#x27;&#x27;;
@@ -73,8 +79,8 @@ $__result = $__addr === '' ? '' : shell_exec("/bin/ping -c 4 ".$__addr);
 <title>Runs the command, answers 500 &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

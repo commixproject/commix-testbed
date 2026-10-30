@@ -10,8 +10,14 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">The query string is not parsed by PHP. It is split on <code>;</code> instead of <code>&amp;</code>, so <code>addr=127.0.0.1;count=1</code> is two parameters, not one value containing a semicolon.</p>
       <p class="lesson">An application is free to invent its own parameter syntax, and some do. The risk is in the disagreement: a tool that splits on <code>&amp;</code> treats the whole string as a single value and tests it as one blob, while the application reads two fields - so the parameter that actually reaches the shell is never tested on its own.</p>
-      <p class="reach">Reach it with <code>--param-del=&quot;;&quot;</code>, so the query string is split the way the application splits it.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>This flag splits the query string the way the application splits it.</p>
+        <table class="solve-glossary">
+          <tr><td><code>--param-del=";"</code></td><td>sets the character that separates parameters in the query string or body</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>// Parsed by hand, on &#x27;;&#x27; rather than &#x27;&amp;&#x27;.
@@ -83,8 +89,8 @@ $__result = $__qs === '' ? '' : exec("/bin/ping -c 4 ".$__addr);
 <title>Non-standard parameter delimiter &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

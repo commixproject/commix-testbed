@@ -10,8 +10,13 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">The value is rejected if it names one of a dozen common shell/recon commands as a whole word, case-insensitively (<code>cat</code>, <code>ls</code>, <code>wget</code>, <code>curl</code>, <code>nc</code>, <code>bash</code>, <code>python</code>, <code>perl</code>, <code>chmod</code>, <code>base64</code>, <code>id</code>, <code>whoami</code>, <code>uname</code>, <code>echo</code>, <code>sleep</code>). Every separator (<code>;</code> <code>&amp;</code> <code>|</code>), every quote and <code>$(...)</code> itself still gets through - the list names programs, not syntax.</p>
       <p class="lesson">Nothing here calls a particular shell, so PHP's <code>exec()</code> reaches its own default - <code>/bin/sh</code>, which on this (and most Debian/Ubuntu) targets is <code>dash</code>. ANSI-C quoting (<code>$'\NNN...'</code>) is <code>bash</code>/<code>ksh</code>/<code>zsh</code> syntax; used as a command name under <code>dash</code> it fails outright rather than expanding. A command substitution around <code>printf</code>'s own octal escapes (<code>$(printf '\143\141\164')</code>) is plain POSIX instead, and reaches every name the blacklist was written against - including the ones <code>commix</code>'s own payloads need, like <code>echo</code> and <code>sleep</code>. The one word nothing here hides it behind is <code>printf</code> itself, simply never listed.</p>
-      <p class="reach">Reach it with <code>--tamper=printfoctal</code>.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <table class="solve-glossary">
+          <tr><td><code>--tamper=printfoctal</code></td><td>spells command names via printf's own octal escapes, working even on dash</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>function blocks_command_name($input) {
@@ -96,8 +101,8 @@ if ($__addr !== '') {
 <title>Command name blacklist &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

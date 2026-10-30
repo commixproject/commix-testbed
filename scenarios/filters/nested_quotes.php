@@ -10,7 +10,14 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain"><code>exec("/bin/ping -c 4 \"{$addr}\"")</code> - the value sits inside double quotes that are themselves inside a PHP double-quoted string.</p>
       <p class="lesson">Two layers of quoting - PHP's around the string, the shell's inside it - which mostly serves to make the code hard to reason about. Working out which layer consumes which character is the exercise here; the shell only ever sees the result of the PHP layer.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>Closing a quote is only tried from level 3 up.</p>
+        <table class="solve-glossary">
+          <tr><td><code>--level=3</code></td><td>tests every boundary and header commix knows, including this one</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$addr = (isset($_POST[&#x27;addr&#x27;]) ? $_POST[&#x27;addr&#x27;] : &#x27;&#x27;);
@@ -69,8 +76,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
 <title>Value inside nested quotes &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

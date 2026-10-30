@@ -10,8 +10,11 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">A plain login form. <code>admin</code> / <code>testbed</code> sets a session flag; nothing here is injectable.</p>
       <p class="lesson">The page exists so that something behind it can be reached. Form-based login is the common case that HTTP Basic and Digest are not: there is no header to replay, the credential is exchanged once for a session cookie, and a scan that never logs in sees only the login page.</p>
-      <p class="reach">Not a target by itself - it is the page named by <code>--auth-url</code>, with <code>--auth-data</code> carrying the credentials.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>Not a target by itself - it is the page named by <code>--auth-url</code>, with <code>--auth-data</code> carrying the credentials.</p>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>session_start();
@@ -85,8 +88,8 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 <title>Session login &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

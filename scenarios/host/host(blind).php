@@ -10,7 +10,14 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">The same forwarded-host sink with nothing reflected. Unix-only.</p>
       <p class="lesson">The forwarded-host sink with nothing reflected, so it has to be confirmed blind.</p>
-      <p class="verdict">Reported by commix as <b>Blind command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <table class="solve-glossary">
+          <tr><td><code>-H</code></td><td>adds this HTTP header to every request</td></tr>
+          <tr><td><code>-p</code></td><td>tells commix which parameter(s) to test</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#blind-injections">Blind command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>if(stristr(php_uname(&#x27;s&#x27;), &#x27;Windows NT&#x27;)){
@@ -74,8 +81,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
 <title>X-Forwarded-Host header - Nothing returned &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

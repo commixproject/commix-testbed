@@ -10,7 +10,12 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">Three values are submitted and two of them are checked - <code>addr</code> against a host pattern and <code>label</code> against word characters. <code>count</code> is concatenated into the command with no check at all.</p>
       <p class="lesson">The most realistic scenario here. Someone did think about input validation - they just did not finish. A count, an id, a page number or a sort order rarely looks dangerous enough to check, and it reaches the same shell as the field that did get a regex. Testing one parameter and declaring the page safe is how this survives a review.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>No extra flags needed.</p>
+        <p>Commix tests all three parameters and finds the one left unchecked.</p>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$addr  = isset($_GET[&#x27;addr&#x27;])  ? $_GET[&#x27;addr&#x27;]  : &#x27;&#x27;;
@@ -74,8 +79,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
 <title>Only one of three parameters is validated &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../css/testbed.css?v=3">
 </head>
 <body>
 

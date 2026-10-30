@@ -10,8 +10,15 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">The page carries one empty element and loads <code>app.js</code>. Every route it talks to is written inside that script, and none of them is linked from the markup.</p>
       <p class="lesson">A crawler follows what a page links to, and skips <code>.js</code> on its way to the anchors - so against an application whose routes live in its bundle it comes back with nothing at all. The endpoints are not hidden; they are simply not written where a crawler looks.</p>
-      <p class="reach">Reach it with <code>--crawl=1 --mine-endpoints</code>, which reads the scripts a page loads and adds the endpoints they name to the crawl.</p>
-      <p class="verdict">The routes it names lead to <b>Classic command injection</b> and <b>Classic code injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>These flags read the scripts a page loads and add the endpoints they name to the crawl:</p>
+        <table class="solve-glossary">
+          <tr><td><code>--crawl=1</code></td><td>follows links from the target page to find more of the application</td></tr>
+          <tr><td><code>--mine-endpoints</code></td><td>looks for endpoints named only inside the scripts a page loads</td></tr>
+        </table>
+      </details>
+      <p class="verdict">The routes it names lead to <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b> and <b><a href="https://github.com/commixproject/commix/wiki/Techniques#2-dynamic-code-evaluation">Classic code injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>&lt;!-- The whole page. The routes are in the script, not here. --&gt;
@@ -48,8 +55,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
 <title>Routes that live only in the script &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

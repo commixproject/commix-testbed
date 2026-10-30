@@ -10,7 +10,14 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">The header reaches an <code>eval()</code> rather than a shell.</p>
       <p class="lesson">A header reaching an evaluated sink rather than a shell - the header lesson and the code injection lesson at once.</p>
-      <p class="verdict">Reported by commix as <b>Classic code injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <table class="solve-glossary">
+          <tr><td><code>--level=3</code></td><td>tests every boundary and header commix knows, including this one</td></tr>
+          <tr><td><code>--eval=php</code></td><td>tells commix the sink evaluates PHP, not a shell command</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#2-dynamic-code-evaluation">Classic code injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$user_agent = (isset($_SERVER[&#x27;HTTP_USER_AGENT&#x27;]) ? $_SERVER[&#x27;HTTP_USER_AGENT&#x27;] : &#x27;&#x27;);
@@ -67,8 +74,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
 <title>User-Agent header - Evaluated as PHP &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 
@@ -91,7 +98,7 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
   <div class="cols">
     <section class="panel live">
       <h2>The page</h2>
-      <div class="howto"><p>There is nothing to type here: the value is taken from the <b>User-Agent</b> request header. Change that header and reload.</p><pre><code>GET /scenarios/user-agent/ua(eval).php
+      <div class="howto"><p>There is nothing to type here: the value is taken from the <code>User-Agent</code> request header. Change that header and reload.</p><pre><code>GET /scenarios/user-agent/ua(eval).php
 User-Agent: Mozilla/5.0</code></pre></div><br>
                 <b><?php
                 $user_agent = (isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '');

@@ -9,8 +9,16 @@ $__tail = <<<'TESTBED_TAIL'
     <aside class="panel">
       <h2>What this page does</h2>
       <p class="explain"><code>X-Forwarded-Host</code> is read to build the canonical URL and reaches a shell. A proxy is supposed to set it, but nothing stops a client sending it directly.</p>
-      <p class="lesson">A forwarding header looks like infrastructure rather than user input, which is exactly why it gets trusted - but it is set by whoever sends the request. Worth knowing: the real Host header cannot be used for this behind Apache, which validates it and answers 400 to anything carrying a metacharacter. X-Forwarded-Host passes straight through.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <p class="lesson">A forwarding header looks like infrastructure rather than user input, which is exactly why it gets trusted - but it is set by whoever sends the request. Worth knowing: the real <code>Host</code> header cannot be used for this behind Apache, which validates it and answers 400 to anything carrying a metacharacter. <code>X-Forwarded-Host</code> passes straight through.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>Naming a custom header this way also raises the injection level it needs.</p>
+        <table class="solve-glossary">
+          <tr><td><code>-H</code></td><td>adds this HTTP header to every request</td></tr>
+          <tr><td><code>-p</code></td><td>tells commix which parameter(s) to test</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$host = (isset($_SERVER[&#x27;HTTP_X_FORWARDED_HOST&#x27;]) ? $_SERVER[&#x27;HTTP_X_FORWARDED_HOST&#x27;] : &#x27;&#x27;);
@@ -70,8 +78,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
 <title>X-Forwarded-Host header - Echoed through a shell &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

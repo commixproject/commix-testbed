@@ -10,7 +10,15 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">The <code>addr</code> cookie is concatenated into a ping and the output is returned.</p>
       <p class="lesson">Cookies are request input like any other, and the fact that the application set the value itself earlier says nothing about what comes back. Anything the client can edit is untrusted, and a cookie is entirely under the client's control.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>The cookie has to be supplied, and level 2 turns on cookie testing.</p>
+        <table class="solve-glossary">
+          <tr><td><code>--cookie="addr=1"</code></td><td>sends this cookie with every request</td></tr>
+          <tr><td><code>--level=2</code></td><td>also tests cookies and some headers, not just the URL and form data</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$cookie_name = &quot;addr&quot;;
@@ -79,8 +87,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
 <title>Cookie header - Echoed through a shell &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

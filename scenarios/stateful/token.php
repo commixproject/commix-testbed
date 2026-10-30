@@ -10,8 +10,11 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">Mints a fresh <code>csrf_token</code> into the session and returns it as JSON. It answers <code>POST</code> only, and takes a <code>scope</code> field naming what the token is for.</p>
       <p class="lesson">The token service, split out from the page that consumes it - the shape a single-page front end usually has. Nothing here is injectable; it exists because the page that is will not hand you a token.</p>
-      <p class="reach">Not a target by itself - it is the endpoint named by <code>--csrf-url</code>, with <code>--csrf-method=POST</code> and <code>--csrf-data</code>.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>Not a target by itself - it is the endpoint named by <code>--csrf-url</code>, with <code>--csrf-method=POST</code> and <code>--csrf-data</code>.</p>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>session_start();
@@ -87,8 +90,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <title>Token endpoint &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

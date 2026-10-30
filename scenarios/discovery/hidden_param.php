@@ -10,8 +10,14 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">The page reads <code>host</code> and hands it to a shell. Nothing on the page names it: there is no form, no link and no field carrying it, so reading the page tells you nothing about what it accepts.</p>
       <p class="lesson">A scanner can only test the parameters it is given or can see. A debug switch left in, a field kept for an older client, a name a framework accepts without advertising - none of them appear in the markup, and any of them can be the one that reaches a shell. Finding them means asking for names rather than reading for them.</p>
-      <p class="reach">Reach it with <code>--mine-params</code>, which asks for candidate names in batches and keeps the ones the page answers to differently.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>This flag asks for candidate names in batches and keeps the ones the page answers to differently:</p>
+        <table class="solve-glossary">
+          <tr><td><code>--mine-params</code></td><td>looks for parameters the application reads but never names on the page</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>// Named nowhere on the page - no form, no link, no field.
@@ -73,8 +79,8 @@ $__result = $__host === '' ? '' : shell_exec("/bin/ping -c 4 ".$__host." 2>&1");
 <title>A parameter the page never names &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

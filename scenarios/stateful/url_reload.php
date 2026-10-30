@@ -10,8 +10,15 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">The command runs when the request arrives, but what it printed is held and shown on the <em>next</em> page load. The response to the injected request carries nothing.</p>
       <p class="lesson">An application that writes its result somewhere and renders it on the following view - a flash message, a job queue, a &quot;your report is ready&quot; page - hides the evidence from the request that caused it. A tool reading only the answer to its own request concludes nothing happened.</p>
-      <p class="reach">Reach it with <code>--data=&quot;addr=127.0.0.1&quot; --url-reload</code>, so the page is fetched again after the payload is posted and the held output is read from that second response.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>These flags fetch the page again after the payload is posted, and read the held output from that second response.</p>
+        <table class="solve-glossary">
+          <tr><td><code>--data="addr=127.0.0.1"</code></td><td>sends this as the POST body, instead of letting commix build it from the detected parameter</td></tr>
+          <tr><td><code>--url-reload</code></td><td>fetches the target URL again after the request, and reads the result from there</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$store = sys_get_temp_dir().&#x27;/commix_url_reload.held&#x27;;
@@ -80,8 +87,8 @@ if ($__addr !== '') { @file_put_contents($__store, shell_exec("/bin/ping -c 4 ".
 <title>Output only on the next request &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

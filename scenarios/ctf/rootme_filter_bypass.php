@@ -10,7 +10,14 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">A blacklist strips <code>\ $ | ` ; &amp; &lt; &gt; ]</code> outright before the value reaches <code>ping</code>. That covers the common separators (<code>;</code>, <code>&amp;</code>, <code>|</code>) and, critically, both of POSIX shell's command-substitution syntaxes at once - <code>$(...)</code> needs the <code>$</code>, and backtick command substitution needs the backtick it also strips. A bare newline is not in the list.</p>
       <p class="lesson">A blacklist stops exactly the characters it names. It blocked both ways to nest a command inside another, but a newline still ends one command and starts the next just as well as a semicolon does - and nothing here names it.</p>
-      <p class="verdict">Reported by commix as <b>Blind command injection</b> (time-based, with <code>--skip-subst</code>). Based on <a href="https://www.root-me.org/en/Challenges/Web-Server/Command-injection-Filter-bypass">Root-Me: Command injection - Filter bypass</a>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <table class="solve-glossary">
+          <tr><td><code>--technique=t</code></td><td>limits the run to the time-based technique</td></tr>
+          <tr><td><code>--skip-subst</code></td><td>confirms the time-based technique with a plain delay instead of command substitution</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#blind-injections">Blind command injection</a></b> (time-based, with <code>--skip-subst</code>). Based on <a href="https://www.root-me.org/en/Challenges/Web-Server/Command-injection-Filter-bypass">Root-Me: Command injection - Filter bypass</a>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$ip = isset($_POST[&#x27;ip&#x27;]) ? $_POST[&#x27;ip&#x27;] : &#x27;&#x27;;
@@ -71,8 +78,8 @@ if ($__ip !== '') {
 <title>Filter bypass &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

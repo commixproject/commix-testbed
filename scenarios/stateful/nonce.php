@@ -10,8 +10,14 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">Every request carries a <code>req_id</code>. The session remembers the ones it has already seen, and a repeat is answered with <code>Duplicate request id.</code> before <code>$addr</code> is used.</p>
       <p class="lesson">Replay protection, not input validation. It costs an attacker nothing - a fresh id is free - but it breaks any tool that sends the same request twice, which detection does constantly. The parameter that has to change is not the parameter being tested, so recognising which is which is the whole problem.</p>
-      <p class="reach">Reach it with <code>--randomize=req_id</code>, so a new id is generated for every request.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>This flag generates a new id for every request.</p>
+        <table class="solve-glossary">
+          <tr><td><code>--randomize=req_id</code></td><td>gives the named parameter a fresh random value on every request</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>session_start();
@@ -92,8 +98,8 @@ if (isset($_GET['addr'])) {
 <title>One-time request id &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

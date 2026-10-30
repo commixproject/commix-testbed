@@ -114,7 +114,7 @@ a{color:inherit}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:20px 22px}
 .panel h2{margin:0 0 14px;font-size:12.5px;text-transform:uppercase;letter-spacing:.9px;color:var(--muted)}
 .explain{margin:0 0 12px;color:#3d4148}
-.explain code,.hint code{background:var(--code);padding:1px 5px;border-radius:4px;font-size:12.5px;
+.explain code,.lesson code,.reach code,.hint code{background:var(--code);padding:1px 5px;border-radius:4px;font-size:12.5px;
   font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 .src{margin-top:14px}
 .src summary{cursor:pointer;font-size:13px;font-weight:600;color:var(--muted);
@@ -126,6 +126,27 @@ a{color:inherit}
 .src pre{margin:11px 0 0;background:var(--ink);color:#ff6b6b;border-radius:9px;padding:13px 15px;
   overflow-x:auto;font-size:12px;line-height:1.55;
   font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+
+.solve{margin-top:14px;background:#eef4fb;border:1px solid #cfe0f5;border-radius:13px;padding:0 16px}
+.solve[open]{padding-bottom:16px}
+.solve summary{cursor:pointer;font-size:13px;font-weight:600;color:#1d5ba8;
+  list-style:none;display:flex;align-items:center;gap:8px;padding:12px 0}
+.solve summary::-webkit-details-marker{display:none}
+.solve summary::before{content:"\203A";display:inline-block;transition:transform .15s;font-size:15px}
+.solve[open] summary::before{transform:rotate(90deg)}
+.solve summary:hover{color:#123e78}
+.solve p{margin:0 0 12px;color:#294a6d;font-size:13.5px}
+.solve p code{background:#dbe9fa;color:#1d5ba8;padding:1px 5px;border-radius:4px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.solve-glossary{width:100%;border-collapse:collapse;font-size:12.5px}
+.solve-glossary td{padding:4px 10px 4px 0;vertical-align:top}
+.solve-glossary td:last-child{color:#4a6a8f;padding-right:0}
+.solve-glossary code{background:#faf3d6;color:#8a6d1a;padding:1px 5px;border-radius:4px;
+  white-space:nowrap;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+
+.note{margin-top:14px;padding:11px 15px;background:var(--code);border-left:3px solid var(--muted);
+  border-radius:0 9px 9px 0;color:var(--muted);font-size:12.5px}
+.note p{margin:0}
 
 /* The scenario's own markup, which is plain form HTML carried over from the original page. */
 .live form{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin:0 0 4px;

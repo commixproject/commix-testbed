@@ -10,7 +10,15 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain"><code>/^\w+\..*\w+\.\w+$/</code> looks like it demands a domain name, but the <code>.*</code> in the middle accepts anything at all. Keep a domain-shaped head and tail and the middle is yours.</p>
       <p class="lesson">A pattern that looks strict read quickly and is not. \w+\. at the front and \w+\.\w+ at the end are real constraints, but .* between them accepts anything at all, including separators and a whole command. A regex has to be read for what it permits, not for what it appears to describe.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>These flags wrap the payload in a domain-shaped head and tail.</p>
+        <table class="solve-glossary">
+          <tr><td><code>--prefix='a.'</code></td><td>prepends this text before every payload, opening whatever the application wraps around the value</td></tr>
+          <tr><td><code>--suffix='.b.c'</code></td><td>appends this text after every payload, closing whatever the application wraps around the value</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$addr = (isset($_POST[&#x27;addr&#x27;]) ? $_POST[&#x27;addr&#x27;] : &#x27;&#x27;);
@@ -74,8 +82,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
 <title>Lax domain validation &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

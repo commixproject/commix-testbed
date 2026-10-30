@@ -10,8 +10,14 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">The submit page stores <code>addr</code> and answers <code>Stored.</code> - it never runs the value and never echoes it back. The command runs later, when <a href="second_order_log.php">the log viewer</a> renders what was stored.</p>
       <p class="lesson">Injection and execution do not have to happen in the same request. Everything a scanner normally reads - the response body, its length, how long it took - is identical whether the payload was dangerous or harmless, because this page genuinely does nothing with it. The only evidence is on another page, which is why a second-order bug survives scanners that test one request at a time.</p>
-      <p class="reach">Reach it with <code>--second-url</code> pointing at <code>second_order_log.php</code>, so the response to look at is fetched from there.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>This flag fetches the response to look at from there.</p>
+        <table class="solve-glossary">
+          <tr><td><code>--second-url</code></td><td>reads the result from a different page than the one the payload was sent to</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>// Stored now, executed later - this request produces no observable difference.
@@ -80,8 +86,8 @@ if ($__addr !== '') {
 <title>Second-order storage &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

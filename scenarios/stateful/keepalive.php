@@ -10,8 +10,11 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">Visiting this page clears the request counter that <a href="lockout.php">the rate-limited page</a> keeps. It takes no input.</p>
       <p class="lesson">The page an application expects a real session to touch now and then - a dashboard poll, a heartbeat, a session refresh. Nothing about it is vulnerable; it exists because something else counts how long you have gone without it.</p>
-      <p class="reach">Not a target by itself - it is the page named by <code>--safe-url</code>.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>Not a target by itself - it is the page named by <code>--safe-url</code>.</p>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>session_start();
@@ -72,8 +75,8 @@ $__result = 'Session refreshed.';
 <title>Session keepalive &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

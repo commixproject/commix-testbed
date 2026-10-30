@@ -1,4 +1,19 @@
 ## Version 2.0
+* Added: CTF scenario recreating DeadSec CTF 2024's Bing2, where a blacklist removes specific literal words and characters rather than a character class - commix never needed the space or separators it blocks in the first place.
+* Added: CTF scenario recreating ImaginaryCTF 2025's pearl, where a trailing pipe on a two-argument Perl `open()` runs everything before it as a shell command rather than opening it as a file - a genuine Perl CGI script, the same as the Ruby treasure scenario is a genuine Ruby one.
+* Added: Lua scenario where the rule is run with a restricted environment handed to `load`/`setfenv`, rather than the real one.
+* Added: Lua scenario category - the same `eval()`-on-the-value bug, matching commix's own new `--eval=lua` support.
+* Added: Perl scenario category - the same `eval()`-on-the-value bug, matching commix's own new `--eval=perl` support.
+* Added: Ruby scenario where the value is evaluated inside a `BasicObject`, rather than a plain `eval()`.
+* Added: Python scenario where the value is evaluated with no builtins at all, rather than a plain `eval()`.
+* Added: Java scenario where the value is evaluated through Nashorn rather than a Node `eval()`.
+* Added: JavaScript scenario where the value reaches a Node `vm` sandbox instead of a plain `eval()`.
+* Revised: The "How to solve it" disclosure now shows each flag with a one-line explanation of what it does, instead of the bare flags on their own.
+* Revised: Every scenario's solving flags now sit behind their own collapsible "How to solve it" disclosure, instead of inline in the always-visible text - added to the scenarios that had no such text at all, not only reformatted on the ones that did.
+* Fixed: The Python scenarios crashed outright the moment a page printed a character outside ASCII, since CGI stdout inherits the container's own locale rather than the scenario's.
+* Added: Weak-filter example whose blacklist rejects a quote of either kind, a digit, an underscore, a dollar sign, a semicolon and a space all at once, against a PHP eval() sink - none of the six is needed to run code, matching commix's own new `phpnosymbols` tamper.
+* Added: Weak-filter example that rejects any letter in the value - every digit, separator and quoting character still passes, and the command runs through `bash` rather than the target's default shell, so ANSI-C octal quoting spells a word out in nothing but digits and a backslash.
+* Added: WAF example, in the spirit of DVWA's bundled PHPIDS, that converges several weak signatures into one impact score.
 * Added: Weak-filter example whose blacklist rejects a dozen common shell/recon command names as whole words, run through the target's default shell rather than one explicitly named - matching commix's own new `printfoctal` tamper, needed where the default shell doesn't read ANSI-C quoting.
 * Added: JSON Web Token example whose `kid` header names the key to verify with, and is resolved through a shell before that signature is ever checked - so the lookup runs on whatever the client put there, matching commix's own new `--jwt` support.
 * Added: Weak-filter example whose blacklist rejects a bare `-`, breaking `test`'s own `-eq`/`-le` (and so commix's own blind proof-of-execution) along with the ping flag it was written to stop.

@@ -10,7 +10,12 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain"><code>exec("/bin/ping -c 4 ".$addr)</code> with the output echoed straight back. Nothing is filtered and nothing is quoted, so this is the plainest case there is.</p>
       <p class="lesson">Concatenating a request value into a shell command is the whole bug - there is no clever trick to find here. Every other scenario on this site is this same mistake with something placed in the way, so it is worth seeing what the undefended case looks like first. The fix is not to escape the value but to stop invoking a shell: pass the address as an argument to the program, never as part of a string the shell will parse.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>No extra flags needed.</p>
+        <p>Nothing is filtered or quoted.</p>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$addr = (isset($_POST[&#x27;addr&#x27;]) ? $_POST[&#x27;addr&#x27;] : &#x27;&#x27;);
@@ -73,8 +78,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
 <title>Unfiltered parameter &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../css/testbed.css?v=3">
 </head>
 <body>
 

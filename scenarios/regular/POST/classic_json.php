@@ -10,7 +10,12 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">The body is JSON read from <code>php://input</code> and its <code>addr</code> member goes into <code>exec()</code>. The payload has to sit inside the JSON rather than be appended to it.</p>
       <p class="lesson">The vulnerability is ordinary; what is different is where the value lives. The body is parsed as JSON, so a payload appended to the request is not a parameter at all - it has to be placed inside a member and stay valid JSON, with whatever quoting and escaping that implies. Plenty of tooling that handles form bodies fails here.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>No extra flags needed.</p>
+        <p>Commix recognises a JSON body and places the payload inside it.</p>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>// JSON request format:
@@ -78,8 +83,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
 <title>JSON request body &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../css/testbed.css?v=3">
 </head>
 <body>
 

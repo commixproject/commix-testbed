@@ -10,7 +10,14 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">The same evaluated sink, except the value must be valid Base64 before it is decoded into the <code>eval()</code>.</p>
       <p class="lesson">Combines the two ideas already met separately: an evaluated sink reached through an encoding. Useful for checking that encoding and sink are handled independently rather than as one hard-coded combination.</p>
-      <p class="verdict">Reported by commix as <b>Classic code injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <table class="solve-glossary">
+          <tr><td><code>--eval=php</code></td><td>tells commix the sink evaluates PHP, not a shell command</td></tr>
+          <tr><td><code>--param-encoding=user=base64</code></td><td>encodes the named parameter's value (e.g. base64 or hex) before sending it</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#2-dynamic-code-evaluation">Classic code injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>if (isset($_POST[&quot;user&quot;])){
@@ -72,8 +79,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
 <title>eval() on a Base64 value &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../css/testbed.css?v=3">
 </head>
 <body>
 

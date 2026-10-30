@@ -10,8 +10,13 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">The <code>session</code> cookie carries a JSON Web Token. The page reads the <code>kid</code> ("key id") field out of the token's header to find out which key it should verify with, and locates that key by concatenating the value into a shell command - <code>ls -l /var/www/keys/&lt;kid&gt;</code>.</p>
       <p class="lesson">The ordering is the whole bug. <code>kid</code> names the key the signature would be checked against, so it has to be read <i>before</i> that signature can be checked - which means the lookup runs on whatever the client put there, every request, with nothing authenticated yet. Signing the token perfectly changes nothing: the sink is reached on the way to deciding whether the token was ever valid. Resolve a key id against a fixed map of known ids, never by building a path or a command out of it.</p>
-      <p class="reach">Named by commix as a candidate with <code>--jwt</code>.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <table class="solve-glossary">
+          <tr><td><code>--jwt</code></td><td>audits the request's JSON Web Token, testing its 'kid' field as an injection point</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$key_dir = &quot;/var/www/keys/&quot;;
@@ -87,8 +92,8 @@ function testbed_issue_token() {
 <title>JSON Web Token - 'kid' key lookup &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

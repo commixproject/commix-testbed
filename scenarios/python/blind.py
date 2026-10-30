@@ -28,5 +28,8 @@ print(_layout.bottom(
            "Only the exit status leaks, which is a single bit - so proving execution means timing "
            "the reply, writing a file, or reaching a server of your own.",
     verdict="Blind command injection",
+    solve="<details class=\"solve\"><summary>Hint</summary>"
+          "<p>No flag needed beyond <code>-u</code>/<code>-p</code> - "
+          "the blind techniques are tried by default.</p></details>",
     source="rc = subprocess.call(&quot;ping -c 4 &quot; + addr, shell=True,\n"
            "                     stdout=open(os.devnull, &quot;wb&quot;), stderr=subprocess.STDOUT)"))

@@ -9,8 +9,15 @@ $__tail = <<<'TESTBED_TAIL'
     <aside class="panel">
       <h2>What this page does</h2>
       <p class="explain"><code>X-Forwarded-For</code> is read for the access log and concatenated into a command. It is an ordinary request header: anyone can send it and set it to anything.</p>
-      <p class="lesson">X-Forwarded-For is meant to carry the original client address through a proxy, so code trusts it to hold an IP - but nothing stops a client sending it directly with any value at all. Access logging and geolocation are exactly the kind of code that shells out.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <p class="lesson"><code>X-Forwarded-For</code> is meant to carry the original client address through a proxy, so code trusts it to hold an IP - but nothing stops a client sending it directly with any value at all. Access logging and geolocation are exactly the kind of code that shells out.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <table class="solve-glossary">
+          <tr><td><code>-H</code></td><td>adds this HTTP header to every request</td></tr>
+          <tr><td><code>-p</code></td><td>tells commix which parameter(s) to test</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$client = isset($_SERVER[&#x27;HTTP_X_FORWARDED_FOR&#x27;]) ? $_SERVER[&#x27;HTTP_X_FORWARDED_FOR&#x27;] : &#x27;127.0.0.1&#x27;;
@@ -68,8 +75,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
 <title>Custom header - X-Forwarded-For echoed through a shell &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

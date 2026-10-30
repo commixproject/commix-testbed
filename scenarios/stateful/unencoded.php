@@ -10,8 +10,14 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">The value is taken from the raw query string and used as it arrived. It is never URL-decoded, so <code>%3B</code> reaches the shell as those three characters rather than as a semicolon.</p>
       <p class="lesson">An application that reads <code>QUERY_STRING</code> by hand skips the decoding the language would have done for it. A payload encoded on the way out therefore arrives inert - the separator that would have ended the command is just text.</p>
-      <p class="reach">Reach it with <code>--skip-urlencode</code>, so the payload travels as written.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>This flag sends the payload exactly as written.</p>
+        <table class="solve-glossary">
+          <tr><td><code>--skip-urlencode</code></td><td>sends the payload without URL-encoding it</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>// Read raw, never decoded.
@@ -81,8 +87,8 @@ $__result = $__addr === '' ? '' : shell_exec("/bin/ping -c 4 ".$__addr);
 <title>Percent-encoding is not decoded &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

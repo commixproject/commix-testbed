@@ -10,7 +10,13 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">The value is evaluated as PHP - <code>eval('$greeting = "Hello, ' . $user . '!";')</code> - but the greeting it builds is never printed. The page answers with the same fixed sentence whatever you send it.</p>
       <p class="lesson">The fourth corner of the matrix, and the hardest of the four to find. The sink is an evaluated string rather than a shell, so shell metacharacters do nothing - and the result is never printed, so there is nothing to read either. Both of the usual footholds are gone at once: the payload has to be valid PHP, and the proof has to come from timing or a side effect. A page that quietly evaluates input and says only 'saved' is the realistic shape of this bug.</p>
-      <p class="verdict">Reported by commix as <b>Blind code injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <table class="solve-glossary">
+          <tr><td><code>--eval=php</code></td><td>tells commix the sink evaluates PHP, not a shell command</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#blind-injections">Blind code injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>if (isset($_POST[&quot;user&quot;])){
@@ -70,8 +76,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
 <title>eval() with nothing printed back &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../css/testbed.css?v=3">
 </head>
 <body>
 

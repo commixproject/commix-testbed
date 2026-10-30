@@ -10,7 +10,13 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">The check reads the <b>first</b> <code>addr</code> in the query string. PHP hands the application the <b>last</b> one.</p>
       <p class="lesson">A filter and the application behind it do not have to agree about which of two same-named parameters counts, and here they do not: the check walks the raw query string and stops at the first match, while PHP keeps the last. Nothing about the check is wrong on its own - it simply inspects a different value from the one that runs.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <table class="solve-glossary">
+          <tr><td><code>--hpp</code></td><td>sends a tested parameter twice, for an application that reads a different occurrence than the one a filter checks</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>// The filter walks the raw query string and stops at the first 'addr'.
@@ -75,8 +81,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
 <title>A filter that reads a different parameter &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

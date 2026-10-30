@@ -26,4 +26,7 @@ print(_layout.bottom(
            "be closed and reopened around it - which commix works out for itself once "
            "<code>--eval=python</code> tells it what language the sink speaks.",
     verdict="Classic code injection",
+    solve="<details class=\"solve\"><summary>Hint</summary>"
+          "<table class=\"solve-glossary\"><tr><td><code>--eval=python</code></td>"
+          "<td>tells commix the sink evaluates Python</td></tr></table></details>",
     source="print(&quot;&lt;b&gt;&quot; + str(eval(&quot;&#x27;Hello, &#x27; + &#x27;&quot; + user + &quot;&#x27; + &#x27;!&#x27;&quot;)) + &quot;&lt;/b&gt;&quot;)"))

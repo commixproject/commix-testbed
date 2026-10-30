@@ -9,8 +9,15 @@ $__tail = <<<'TESTBED_TAIL'
     <aside class="panel">
       <h2>What this page does</h2>
       <p class="explain">The same header injection with no output reflected. Unix-only.</p>
-      <p class="lesson">The Referer sink with no output reflected.</p>
-      <p class="verdict">Reported by commix as <b>Blind command injection</b>.</p>
+      <p class="lesson">The <code>Referer</code> sink with no output reflected.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p><code>Referer</code> is only tested from level 3 up.</p>
+        <table class="solve-glossary">
+          <tr><td><code>--level=3</code></td><td>tests every boundary and header commix knows, including this one</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#blind-injections">Blind command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>if( stristr(php_uname(&#x27;s&#x27;), &#x27;Windows NT&#x27;)){
@@ -77,8 +84,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
 <title>Referer header - Nothing returned &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 
@@ -101,7 +108,7 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
   <div class="cols">
     <section class="panel live">
       <h2>The page</h2>
-      <div class="howto"><p>There is nothing to type here: the value is taken from the <b>Referer</b> request header. Change that header and reload.</p><pre><code>GET /scenarios/referer/referer(blind).php
+      <div class="howto"><p>There is nothing to type here: the value is taken from the <code>Referer</code> request header. Change that header and reload.</p><pre><code>GET /scenarios/referer/referer(blind).php
 Referer: https://commixproject.com/</code></pre></div><br>
                 <b><?php
                 if( stristr(php_uname('s'), 'Windows NT')){

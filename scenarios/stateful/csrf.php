@@ -8,10 +8,16 @@ $__tail = <<<'TESTBED_TAIL'
 
     <aside class="panel">
       <h2>What this page does</h2>
-      <p class="explain">Every render mints a fresh <code>csrf_token</code> into the session and writes it into the form as a hidden field. A POST whose token does not match the one currently in the session is refused before <code>$addr</code> reaches the shell.</p>
+      <p class="explain">Every render mints a fresh <code>csrf_token</code> into the session and writes it into the form as a hidden field. A <code>POST</code> whose token does not match the one currently in the session is refused before <code>$addr</code> reaches the shell.</p>
       <p class="lesson">The token is not a fix for the injection - the bug underneath is the same unquoted concatenation as everywhere else. What it changes is what a scan sees: replay a captured token and every payload comes back refused, which is indistinguishable from a parameter that simply is not injectable. The token has to be re-read from the page before each request, which is what makes this worth its own scenario.</p>
-      <p class="reach">Reach it with <code>--csrf-token=&quot;csrf_token&quot;</code>, so the current token is fetched again before every request.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>This flag fetches the current token again before every request.</p>
+        <table class="solve-glossary">
+          <tr><td><code>--csrf-token="csrf_token"</code></td><td>names the parameter that carries the anti-CSRF token</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>session_start();
@@ -94,8 +100,8 @@ $_SESSION['csrf_token'] = $__token;
 <title>Anti-CSRF token &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

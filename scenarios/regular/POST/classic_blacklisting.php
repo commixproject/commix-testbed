@@ -10,7 +10,12 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">A <code>str_replace()</code> strips <code>;</code>, <code>&amp;&amp;</code>, <code>|</code> and backticks. It never looks at a single <code>&amp;</code> or at a newline, and it only passes over the value once, so a stripped sequence can also be rebuilt around itself.</p>
       <p class="lesson">Two separate mistakes, either of which is fatal. The list is incomplete - a single & and a newline both chain commands and neither is on it - and the replacement runs once over the value, so a sequence written around a stripped one survives the pass that was meant to remove it. Stripping characters from input is nearly always the wrong shape of defence.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>No extra flags needed.</p>
+        <p>A newline chains commands just as well as the separators this strips.</p>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$addr = (isset($_POST[&quot;addr&quot;]) ? $_POST[&quot;addr&quot;] : &#x27;&#x27;);
@@ -81,8 +86,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
 <title>Metacharacter blacklist &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../css/testbed.css?v=3">
 </head>
 <body>
 

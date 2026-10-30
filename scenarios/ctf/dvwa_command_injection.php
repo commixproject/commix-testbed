@@ -10,8 +10,18 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">A blacklist strips <code>&amp; ; - $ ( ) `</code>, <code>||</code> and <code>| </code> (a pipe followed by a space) out of the value before it reaches <code>ping</code> - stripped by exact substring, not by character class, and nothing here reads a bare newline at all.</p>
       <p class="lesson">The blacklist matches <code>"| "</code> as one two-character string, not the character <code>|</code> on its own - a pipe with no space right after it, or one immediately followed by a redirect instead of an argument, never matches that entry. A newline chains a second command exactly as well as a semicolon does, and nothing here names it either. The harder edge: <code>-</code> is stripped everywhere, which breaks <code>test</code>'s own <code>-eq</code>/<code>-ne</code> - the check that tells a real answer from noise reads it as <code>test 20 eq 20</code>, a syntax error - and <code>$</code> is stripped too, which is what most techniques use to read a command's output back at all.</p>
-      <p class="reach">Reach it with <code>--skip-subst --skip-calc --tamper=dashlesstest --technique=f --web-root=&lt;document root&gt;</code> - the first three keep detection to a dash-free, dollar-free <code>test</code>/<code>sleep</code> check, and file-based needs no <code>$</code> or <code>-</code> of its own to write a command's output where a plain GET can read it back.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>. Based on <a href="https://github.com/digininja/DVWA">DVWA: Command Injection</a> (security level "high").</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>The first three flags keep detection to a dash-free, dollar-free <code>test</code>/<code>sleep</code> check, and file-based needs no <code>$</code> or <code>-</code> of its own to write a command's output where a plain <code>GET</code> can read it back.</p>
+        <table class="solve-glossary">
+          <tr><td><code>--skip-subst</code></td><td>confirms the time-based technique with a plain delay instead of command substitution</td></tr>
+          <tr><td><code>--skip-calc</code></td><td>skips the arithmetic probe, for a sink that can't compute but can still prove itself another way</td></tr>
+          <tr><td><code>--tamper=dashlesstest</code></td><td>runs the blind comparison without a bare <code>-</code>, for a filter that strips one</td></tr>
+          <tr><td><code>--technique=f</code></td><td>limits the run to the file-based technique</td></tr>
+          <tr><td><code>--web-root=&lt;document root&gt;</code></td><td>names the target's own document root, needed for the file-based technique to read back what it wrote</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>. Based on <a href="https://github.com/digininja/DVWA">DVWA: Command Injection</a> (security level "high").</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$target = trim($_REQUEST[&#x27;ip&#x27;]);
@@ -93,8 +103,8 @@ if ($__target !== '') {
 <title>DVWA: Command Injection &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

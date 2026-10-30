@@ -10,7 +10,12 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">The parameter is <code>string</code> rather than <code>addr</code>, and it is injected ahead of a pipe: <code>exec('echo '.$string.' | md5sum')</code>. Unix-only - the page refuses to run on Windows.</p>
       <p class="lesson">Worth opening because the injection point is not where you would look for it. The parameter is named string rather than addr, and the value is spliced in ahead of a pipe, so the command line continues after it. A scan that only tries parameters called addr, or that assumes the value sits at the end of the command, misses this one entirely.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>No extra flags needed.</p>
+        <p>Commix tests whatever parameter is present.</p>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$string = (isset($_POST[&#x27;string&#x27;]) ? $_POST[&#x27;string&#x27;] : &#x27;&#x27;);
@@ -71,8 +76,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
 <title>Piped into md5sum &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../css/testbed.css?v=3">
 </head>
 <body>
 

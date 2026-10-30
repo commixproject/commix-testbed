@@ -32,6 +32,13 @@ print(_layout.bottom(
            "the filter needed to see. Applied first, normalization would have turned the lookalike "
            "character into a plain quote before the replace ever ran.",
     verdict="Classic command injection",
+    solve="<details class=\"solve\"><summary>Hint</summary>"
+          "<table class=\"solve-glossary\">"
+          "<tr><td><code>--level=3</code></td><td>tests every boundary and header commix knows, including this one</td></tr>"
+          "<tr><td><code>--tamper=unicodequote</code></td><td>replaces a single quote with its fullwidth Unicode lookalike</td></tr>"
+          "<tr><td><code>--skip-calc</code></td><td>skips the arithmetic probe, for a sink that can't compute but can still prove itself another way</td></tr>"
+          "<tr><td><code>--technique=r</code></td><td>limits the run to the results-based (classic) technique</td></tr>"
+          "</table></details>",
     origin=" Based on <a href=\"https://www.yeswehack.com/dojo/dojo-challenge-solution-46\">"
            "YesWeHack Dojo #46: Ghost Whisper</a>.",
     source="whisperMsg = unicodedata.normalize(&quot;NFKC&quot;, whisperMsg.replace(&quot;&#x27;&quot;, &quot;_&quot;))\n"

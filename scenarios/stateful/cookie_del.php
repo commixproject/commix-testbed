@@ -10,8 +10,16 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">The <code>Cookie</code> header is not read by PHP. It is split on <code>|</code> instead of <code>;</code>, so <code>addr=127.0.0.1|lang=en</code> is two cookies rather than one value containing a pipe.</p>
       <p class="lesson">The same disagreement as a hand-rolled query string, moved into a header. A tool splitting cookies on <code>;</code> sees one long value and tests it whole, while the application reads two - so the cookie that reaches the shell is never tested by itself.</p>
-      <p class="reach">Reach it with <code>--cookie-del=&quot;|&quot;</code> at <code>--level=2</code>, so the header is split the way the application splits it - and <code>--skip-urlencode</code>, since a cookie value is encoded by default and the separator has to arrive as itself.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>A cookie value is encoded by default, but the separator has to arrive exactly as itself.</p>
+        <table class="solve-glossary">
+          <tr><td><code>--cookie-del="|"</code></td><td>sets the character commix uses to separate cookie pairs</td></tr>
+          <tr><td><code>--level=2</code></td><td>also tests cookies and some headers, not just the URL and form data</td></tr>
+          <tr><td><code>--skip-urlencode</code></td><td>sends the payload without URL-encoding it</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>// Parsed by hand, on &#x27;|&#x27; rather than &#x27;;&#x27;.
@@ -83,8 +91,8 @@ $__result = $__addr === '' ? '' : shell_exec("/bin/ping -c 4 ".$__addr);
 <title>Non-standard cookie delimiter &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

@@ -10,8 +10,14 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">Roughly half of all requests are answered with <code>Service temporarily unavailable.</code> instead of running the command. Which ones is decided at random, and has nothing to do with what was sent.</p>
       <p class="lesson">A test is only meaningful if the response answers the question that was asked. Here half of them do not, so a payload that worked can look like it failed and a difference between two responses can be pure noise - the failure mode is not a missed finding but an unreliable one, different every run.</p>
-      <p class="reach">Reach it with <code>--retry-on=&quot;&lt;b&gt;Service temporarily&quot;</code>, so a refused response is re-sent rather than believed. The pattern is anchored to the element the result is printed into on purpose: this page explains itself, so the words of the notice also appear in the prose beside it, and a pattern matching those would match every response - including the ones that ran the command - and retry until the budget is gone.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>This flag re-sends a failed response instead of believing it.</p>
+        <table class="solve-glossary">
+          <tr><td><code>--retry-on="temporarily unavailable"</code></td><td>re-sends a request whose response matches this pattern, instead of trusting it</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>// Unstable on purpose: the refusal is unrelated to what was sent.
@@ -82,8 +88,8 @@ if (isset($_GET['addr'])) {
 <title>Intermittent failure &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

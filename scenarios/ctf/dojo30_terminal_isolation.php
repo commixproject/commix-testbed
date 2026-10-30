@@ -10,7 +10,21 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain">A single <code>output</code> value must read as exactly <code>"cmd arg"</code> - split on whitespace into precisely two pieces, or the request is rejected. <code>arg</code> then has every <code>"</code>, <code>'</code>, backtick, <code>{</code> and <code>}</code> replaced with <code>_</code>, before being wrapped in <code>escapeshellarg()</code>. For <code>echo</code> specifically, the template re-wraps that already-single-quoted value inside <b>double</b> quotes - single quotes are inert data there, but <code>$(...)</code> command substitution still expands.</p>
       <p class="lesson">Two layers of quoting that do not agree with each other are worse than one: <code>escapeshellarg()</code> did its job, wrapping the value so the shell reads it as one inert argument - and then the template put that argument inside a second, different quote character, where the protection it relied on no longer applies.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>. Based on <a href="https://dojo-yeswehack.com/challenge-of-the-month/Dojo-30">YesWeHack Dojo #30: Terminal Isolation</a>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <p>This one is a pencil-and-paper exercise rather than a scan: the value has to keep
+        <b>exactly one</b> literal space - the one separating <code>cmd</code> from <code>arg</code> -
+        while carrying none of its own, since a third piece is rejected before anything runs. A
+        whitespace tamper rewrites every space it finds, the separator included, so
+        <code>echo test</code> arrives as <code>echotest</code>, <code>cmd</code> matches nothing and
+        the page answers <code>echo invalid</code>. Worked by hand instead, the two layers of quoting
+        come apart:</p>
+        <pre><code>output=echo $(echo$IFS$9ABC)</code></pre>
+        <p>one space, one argument, and <code>$(...)</code> expanding inside the double quotes the
+        template wrapped <code>escapeshellarg()</code>'s own single-quoted value in.</p>
+      </details>
+      <p class="verdict">Demonstrates the bug by hand; commix's own whitespace tamper scripts cannot
+      reach it, since each rewrites the separator space along with the payload's. Based on <a href="https://dojo-yeswehack.com/challenge-of-the-month/Dojo-30">YesWeHack Dojo #30: Terminal Isolation</a>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>class Terminal {
@@ -127,8 +141,8 @@ if ($__raw !== '') {
 <title>Terminal isolation &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 

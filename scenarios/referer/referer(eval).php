@@ -9,8 +9,15 @@ $__tail = <<<'TESTBED_TAIL'
     <aside class="panel">
       <h2>What this page does</h2>
       <p class="explain">The header reaches an <code>eval()</code>.</p>
-      <p class="lesson">The Referer header reaching an evaluated sink.</p>
-      <p class="verdict">Reported by commix as <b>Classic code injection</b>.</p>
+      <p class="lesson">The <code>Referer</code> header reaching an evaluated sink.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <table class="solve-glossary">
+          <tr><td><code>--level=3</code></td><td>tests every boundary and header commix knows, including this one</td></tr>
+          <tr><td><code>--eval=php</code></td><td>tells commix the sink evaluates PHP, not a shell command</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#2-dynamic-code-evaluation">Classic code injection</a></b>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>$referer = (isset($_SERVER[&#x27;HTTP_REFERER&#x27;]) ? $_SERVER[&#x27;HTTP_REFERER&#x27;] : &#x27;&#x27;);
@@ -69,8 +76,8 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
 <title>Referer header - Evaluated as PHP &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 
@@ -93,7 +100,7 @@ register_shutdown_function(function () use ($__tail) { echo $__tail; });
   <div class="cols">
     <section class="panel live">
       <h2>The page</h2>
-      <div class="howto"><p>There is nothing to type here: the value is taken from the <b>Referer</b> request header. Change that header and reload.</p><pre><code>GET /scenarios/referer/referer(eval).php
+      <div class="howto"><p>There is nothing to type here: the value is taken from the <code>Referer</code> request header. Change that header and reload.</p><pre><code>GET /scenarios/referer/referer(eval).php
 Referer: https://commixproject.com/</code></pre></div><br>
                 <b><?php
                 $referer = (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '');

@@ -10,7 +10,14 @@ $__tail = <<<'TESTBED_TAIL'
       <h2>What this page does</h2>
       <p class="explain"><code>PreProd_Sanitize()</code> rejects the request outright if <code>cmd</code> contains <b>any letter</b> (<code>A-Za-z</code>) or any of <code>_*^@%+=:,./-</code>. Digits, <code>$</code>, <code>\</code>, <code>'</code>, whitespace and the common separators (<code>;</code>, <code>&amp;</code>, <code>|</code>) all pass through untouched.</p>
       <p class="lesson">A filter built to block letters and punctuation still leaves every shell metacharacter that matters for chaining a command: <code>;</code>, <code>&amp;</code>, <code>|</code> and <code>$</code>. A command name is just letters spelled another way - ANSI-C quoting (<code>$'\NNN...'</code>) spells them as octal escapes instead, none of which this filter's letter rule ever sees.</p>
-      <p class="verdict">Reported by commix as <b>Classic command injection</b>. Based on <a href="https://www.yeswehack.com/dojo/dojo-ctf-challenge-winners-36">YesWeHack Dojo #36: Shell Escape</a>.</p>
+      <details class="solve">
+        <summary>Hint</summary>
+        <table class="solve-glossary">
+          <tr><td><code>--tamper=ansiquoteoctal</code></td><td>spells command names in ANSI-C octal escapes, for a filter blocking every letter</td></tr>
+          <tr><td><code>--skip-calc</code></td><td>skips the arithmetic probe, for a sink that can't compute but can still prove itself another way</td></tr>
+        </table>
+      </details>
+      <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>. Based on <a href="https://www.yeswehack.com/dojo/dojo-ctf-challenge-winners-36">YesWeHack Dojo #36: Shell Escape</a>.</p>
       <details class="src">
         <summary>The vulnerable code</summary>
         <pre><code>function PreProd_Sanitize($input) {
@@ -102,8 +109,8 @@ if ($__cmd !== '') {
 <title>Shell escape &middot; commix-testbed</title>
 <meta name="robots" content="noindex">
 <link rel="shortcut icon" href="../../favicon.ico">
-<link href="https://fonts.googleapis.com/css?family=Exo+2:400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="../../css/testbed.css">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/testbed.css?v=3">
 </head>
 <body>
 
