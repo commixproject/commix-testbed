@@ -4,7 +4,7 @@
 
 <p align="center">
   <a href="https://hub.docker.com/r/commixproject/commix-testbed"><img alt="Docker" src="https://img.shields.io/badge/Docker-commix--testbed-2496ED.svg?style=for-the-badge&logo=docker&logoColor=white"></a>
-  <a href="https://github.com/commixproject/commix-testbed/blob/master/readme/CHANGELOG.md"><img alt="Version 2.0" src="https://img.shields.io/badge/Version-1.0-2EA44F.svg?style=for-the-badge"></a>
+  <a href="https://github.com/commixproject/commix-testbed/blob/master/readme/CHANGELOG.md"><img alt="Version 2.0" src="https://img.shields.io/badge/Version-2.0-2EA44F.svg?style=for-the-badge"></a>
   <a href="https://github.com/commixproject/commix-testbed/blob/master/readme/COPYING"><img alt="GPLv3 License" src="https://img.shields.io/badge/License-GPLv3-6A1B9A.svg?style=for-the-badge&logo=gnu&logoColor=white"></a>
   <a href="https://x.com/commixproject"><img alt="Follow @commixproject" src="https://img.shields.io/badge/Follow-@commixproject-000000.svg?style=for-the-badge&logo=x&logoColor=white"></a>
 </p>
@@ -142,8 +142,7 @@ Rather than repeat them here, the commix wiki documents what to run :
   against real targets, this testbed included.
 * **[Techniques](https://github.com/commixproject/commix/wiki/Techniques)** - what the four
   techniques are, and which one reaches which kind of page.
-* **[Filters bypass examples](https://github.com/commixproject/commix/wiki/Filters-bypass-examples)**
-  - the tamper scripts, against the weak-filter scenarios here.
+* **[Filters bypass examples](https://github.com/commixproject/commix/wiki/Filters-bypass-examples)** - the tamper scripts, against the weak-filter scenarios here.
 
 ## Bugs and Enhancements
 
