@@ -4,8 +4,8 @@
 
 <p align="center">
   <a href="https://hub.docker.com/r/commixproject/commix-testbed"><img alt="Docker" src="https://img.shields.io/badge/Docker-commix--testbed-2496ED.svg?style=for-the-badge&logo=docker&logoColor=white"></a>
-  <a href="https://github.com/commixproject/commix-testbed/blob/master/readme/CHANGELOG.md"><img alt="Version 2.0" src="https://img.shields.io/badge/Version-2.0-2EA44F.svg?style=for-the-badge"></a>
-  <a href="https://github.com/commixproject/commix-testbed/blob/master/readme/COPYING"><img alt="GPLv3 License" src="https://img.shields.io/badge/License-GPLv3-6A1B9A.svg?style=for-the-badge&logo=gnu&logoColor=white"></a>
+  <a href="https://github.com/commixproject/commix-testbed/blob/master/doc/CHANGELOG.md"><img alt="Version 2.0" src="https://img.shields.io/badge/Version-2.0-2EA44F.svg?style=for-the-badge"></a>
+  <a href="https://github.com/commixproject/commix-testbed/blob/master/doc/COPYING"><img alt="GPLv3 License" src="https://img.shields.io/badge/License-GPLv3-6A1B9A.svg?style=for-the-badge&logo=gnu&logoColor=white"></a>
   <a href="https://x.com/commixproject"><img alt="Follow @commixproject" src="https://img.shields.io/badge/Follow-@commixproject-000000.svg?style=for-the-badge&logo=x&logoColor=white"></a>
 </p>
 
@@ -62,6 +62,11 @@ once, from a clone of the repository :
 
     $ docker compose up -d
 
+> [!NOTE]
+> The first run takes a few minutes and looks idle for most of them: the image is rebuilt on top of
+> the published one and installs Ruby and Lua from Ubuntu 14.04's archives. Later runs start in
+> seconds. `docker compose logs -f testbed` shows what it is doing.
+
 | | Address |
 |---|---|
 | The site - every PHP, Python, Ruby, Perl and Lua scenario | <http://127.0.0.1:8080> |
@@ -113,7 +118,9 @@ And three the published image sets up, which a hand-rolled install has to repeat
 * The `kid` scenario resolves a filename against a **key directory outside the document root**
   (`/var/www/keys`, holding `prod.pem` and `legacy.pem`), so those files have to exist.
 * The document root the file-based technique writes into must have **no `-` in its path**. One
-  scenario filters `-` out of the value, which would corrupt the path along with the payload.
+  scenario filters `-` out of the value, which would corrupt the path along with the payload. In the
+  published image that is what `/var/www/html` is for - a dash-free symlink to the real root, which
+  does carry one - so pass `--web-root=/var/www/html` rather than the path it resolves to.
 
 ### Checking you have everything
 
@@ -127,6 +134,23 @@ done
 
 `php` alone is enough to start. Anything else missing costs you only the scenarios in the table
 above that name it.
+
+Once it is serving, this says whether each language is really executing rather than being handed
+back as source :
+
+```bash
+for u in "scenarios/regular/GET/classic.php?addr=127.0.0.1" \
+         "scenarios/python/eval.py?user=CMX" \
+         "scenarios/ruby/eval.rb?user=CMX" \
+         "scenarios/perl/eval.pl?user=CMX" \
+         "scenarios/lua/eval.lua?user=CMX"; do
+  printf '%-44s %s\n' "${u%%\?*}" "$(curl -s "http://127.0.0.1:8080/$u" | grep -c '<b>')"
+done
+```
+
+A `0` there means that page was served but its interpreter never ran - under `php -S`, or without
+the CGI handler for that extension. The JavaScript and Java scenarios answer on `8087` and `8088`
+instead.
 
 ## Using it with commix
 
