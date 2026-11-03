@@ -1,6 +1,3 @@
-<!-- Paste this into the repository description on hub.docker.com.
-     Docker Hub cannot resolve relative paths, so every image is an absolute raw.githubusercontent URL. -->
-
 <p align="center">
   <img alt="commix-testbed" src="https://raw.githubusercontent.com/commixproject/commix-testbed/master/img/testbed_header_logo.png" height="120" />
 </p>
@@ -13,8 +10,7 @@ Each scenario carries an explanation of what the code gets wrong and what the mi
 
 ![Screenshot](https://raw.githubusercontent.com/commixproject/commix-testbed/master/img/commix-testbed.png)
 
-> [!WARNING]
-> **These pages execute whatever they are given.** Keep the container on a network you control, and
+> **Warning - these pages execute whatever they are given.** Keep the container on a network you control, and
 > do not publish the port beyond your own machine.
 >
 > It is a target, not a demo you leave running.
@@ -24,46 +20,69 @@ Each scenario carries an explanation of what the code gets wrong and what the mi
     $ docker run --rm -p 8080:80 commixproject/commix-testbed
 
 Then open <http://127.0.0.1:8080> for the index, which lists every scenario alongside an
-explanation of the flaw behind it.
+explanation of the flaw behind it. Each page also says which commix option reaches it - several
+exist to exercise one option and cannot be found without it.
 
-Point commix at any of them:
+The commix wiki documents what to run against them: **[Usage](https://github.com/commixproject/commix/wiki/Usage)**,
+**[Usage examples](https://github.com/commixproject/commix/wiki/Usage-examples)**,
+**[Techniques](https://github.com/commixproject/commix/wiki/Techniques)** and
+**[Filters bypass examples](https://github.com/commixproject/commix/wiki/Filters-bypass-examples)**.
 
-    $ python3 commix.py --url="http://127.0.0.1:8080/scenarios/regular/GET/classic.php?addr=127.0.0.1"
+> **Note** - for the **file-based** technique, pass `--web-root=/var/www/html`. That is a dash-free symlink to
+> the real document root, which carries a `-` - and one scenario filters `-` out of the value, which
+> would corrupt the path along with the payload.
 
 ## What is inside
 
-* **Regular parameters** - `GET`, `POST` and `PUT` bodies, JSON and SOAP/XML documents, Base64 and hex encodings, single and double quoting, HTTP Basic and Digest authentication, and a page where only two of three parameters are validated.
-* **Code evaluation sinks** - `eval()`, `assert()`, `preg_replace()` with an attacker-controlled pattern, `create_function()`, and `str_replace()` sanitising into an evaluated string.
-* **Weak filters** - denylisted metacharacters, whitespace rejection, anchored patterns that constrain only one end, lax domain validation, and a command-name blocklist. Each one is wrong in a different way.
-* **HTTP headers** - `User-Agent`, `Cookie`, `Referer` and `X-Forwarded-Host`, plus a custom `X-Forwarded-For` header read for the access log.
-* **Python scenarios** - the same classic, blind and code-injection bugs written in Python and served as CGI, so a run is not only exercising PHP.
+Around 130 pages. Every one carries the same underlying bug and differs in everything around it.
+
+| Family | Pages | What they vary |
+|---|---|---|
+| Regular parameters | 49 | `GET`, `POST` and `PUT` bodies, JSON, GraphQL and SOAP/XML documents, Base64 and hex encodings, quoting, HTTP Basic and Digest auth |
+| Stateful and multi-step | 23 | things carried between requests: sessions, anti-CSRF tokens, nonces, second-order sinks, lockout, chunked bodies, an out-of-band-only sink |
+| Weak filters | 19 | denylisted metacharacters, whitespace rejection, anchored patterns, lax domain validation, command-name and function-name blocklists |
+| CTF challenges | 10 | real named challenges recreated faithfully, filter and language included |
+| HTTP headers | 15 | `User-Agent`, `Cookie`, `Referer`, `Host`, `X-Forwarded-Host` and a custom `X-Forwarded-For` |
+| Discovery | 5 | surfaces a scan cannot see: an unnamed parameter, routes only in a script, a published OpenAPI description |
+| Python / Ruby / Perl / Lua | 9 | the same sinks one language over, served as CGI |
 
 Scenarios are labelled with the injection type commix reports them as - classic or blind, command or
-code injection. See the
-**[techniques](https://github.com/commixproject/commix/wiki/Techniques)** wiki page for what those
-mean and which technique reaches each one.
+code injection, so all four combinations are covered.
 
 ## Tags
 
 | Tag | Contents |
 |---|---|
 | `latest` | Whatever the testbed currently is. Moves with every release, so a rebuild can bring new scenarios with it. |
-| `1.0` | The rebuilt testbed: 77 scenarios across PHP and Python, each carrying an explanation of the flaw behind it, on a web root the file-based technique can write to. Pinned, so it will not change under a run you are part-way through. |
+| `2.0` | The current testbed: around 130 scenarios across PHP, Python, Ruby, Perl and Lua, adding CTF recreations, discovery pages, stateful flows and the weak-filter set. Pinned. |
+| `1.0` | The earlier testbed: 77 scenarios across PHP and Python. Pinned, so it will not change under a run you are part-way through. |
 
-Pin `1.0` for anything repeatable - a workshop, a CI job, a tutorial someone follows months from
+Pin a number for anything repeatable - a workshop, a CI job, a tutorial someone follows months from
 now. Use `latest` to see what has been added since.
 
 ## What the image ships
 
-The image runs PHP 5.5 on Apache, and that is deliberate: `create_function()` was removed in PHP 8,
-the `e` regex modifier in PHP 7, and `assert()` stopped evaluating a string argument in PHP 8. On a
-modern interpreter four scenarios would load but could never be exploited. Here every one of them
-works.
+The image runs **PHP 5.5 on Apache**, and that is deliberate: `create_function()` was removed in PHP
+8, the `e` regex modifier in PHP 7, and `assert()` stopped evaluating a string argument in PHP 8. On
+a modern interpreter four scenarios would load but could never be exploited. Here every one works.
 
-`ping`, `python3` and the tools commix reaches for after it lands are present, the web root is
-writable so the **file-based** technique can write its output and read it back, and CGI is enabled
-for the Python scenarios. The **out-of-band** technique needs the container to be able to reach the
-internet.
+Also present: **Python 3**, **Ruby**, **Perl** and **Lua**, with CGI enabled for each of their
+directories, and **`ping`**, which most pages shell out to. The web root is writable so the
+**file-based** technique can write its output and read it back; the **out-of-band** technique needs
+the container to be able to reach the internet.
+
+## Two scenarios are not in this image
+
+The JavaScript (Node) and Java (Nashorn) pages run as servers of their own, because this image's
+base is Ubuntu 14.04 - chosen for that old PHP - and its glibc predates any Node build that still
+runs, while the newest JDK it can install is 7, which has no Nashorn.
+
+To bring up everything at once, use the compose file from the repository instead :
+
+    $ git clone https://github.com/commixproject/commix-testbed.git && cd commix-testbed
+    $ docker compose up -d
+
+That serves the site on `8080`, the JavaScript scenario on `8087` and the Java one on `8088`.
 
 ## Links
 
