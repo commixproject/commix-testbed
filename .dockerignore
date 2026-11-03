@@ -1,0 +1,8 @@
+.git
+.gitignore
+Dockerfile
+docker-compose.yml
+.dockerignore
+README.md
+img/commix-testbed.png
+**/.DS_Store
