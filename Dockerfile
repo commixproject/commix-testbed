@@ -49,7 +49,13 @@ RUN rm -rf /var/www/commix-testbed.com/public_html/.git \
  && find /var/www/commix-testbed.com/public_html -name .DS_Store -delete
 
 # COPY carries the permissions the files had on the build host, and Apache runs as www-data.
-RUN chmod -R a+rX /var/www/commix-testbed.com/public_html
+#
+# The document root itself is writable on top of that, which is what the file-based technique needs:
+# it writes its output into the web root and then reads it back over HTTP, so a root Apache can only
+# read leaves that technique with nowhere to put the file. Only this directory, as the published
+# image has always had it - the scenarios below it stay read-only.
+RUN chmod -R a+rX /var/www/commix-testbed.com/public_html \
+ && chmod a+rwx /var/www/commix-testbed.com/public_html
 
 # The signing keys the 'kid' scenario looks up. Outside the document root, as a real one would be -
 # the scenario names a file in here and resolves it through a shell, so it has to exist to resolve.

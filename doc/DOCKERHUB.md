@@ -55,9 +55,8 @@ code injection, so all four combinations are covered.
 |---|---|
 | `latest` | Whatever the testbed currently is. Moves with every release, so a rebuild can bring new scenarios with it. |
 | `2.0` | The current testbed: around 130 scenarios across PHP, Python, Ruby, Perl and Lua, adding CTF recreations, discovery pages, stateful flows and the weak-filter set. Pinned. |
-| `1.0` | The earlier testbed: 77 scenarios across PHP and Python. Pinned, so it will not change under a run you are part-way through. |
 
-Pin a number for anything repeatable - a workshop, a CI job, a tutorial someone follows months from
+Pin `2.0` for anything repeatable - a workshop, a CI job, a tutorial someone follows months from
 now. Use `latest` to see what has been added since.
 
 ## What the image ships
