@@ -14,8 +14,8 @@ $__tail = <<<'TESTBED_TAIL'
         <summary>Hint</summary>
         <p>These flags leave the fields that never change and the ones that arrive empty untested.</p>
         <table class="solve-glossary">
-          <tr><td><code>--skip-static</code></td><td>stops commix from skipping a parameter it believes is never dynamic</td></tr>
-          <tr><td><code>--skip-empty</code></td><td>stops commix from skipping a parameter whose value is empty</td></tr>
+          <tr><td><code>--skip-static</code></td><td>leaves a parameter untested where its value never changes</td></tr>
+          <tr><td><code>--skip-empty</code></td><td>leaves a parameter untested where its value arrives empty</td></tr>
         </table>
       </details>
       <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>

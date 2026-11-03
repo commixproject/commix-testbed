@@ -14,7 +14,7 @@ $__tail = <<<'TESTBED_TAIL'
         <summary>Hint</summary>
         <table class="solve-glossary">
           <tr><td><code>--eval=php</code></td><td>tells commix the sink evaluates PHP, not a shell command</td></tr>
-          <tr><td><code>--param-encoding=user=base64</code></td><td>encodes the named parameter's value (e.g. base64 or hex) before sending it</td></tr>
+          <tr><td><code>--param-encoding=user=base64</code></td><td>says the named parameter's value is carried in that encoding, so it is read out of it and written back into it</td></tr>
         </table>
       </details>
       <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#2-dynamic-code-evaluation">Classic code injection</a></b>.</p>

@@ -37,83 +37,114 @@ Each scenario carries an explanation of what the code gets wrong and what the mi
 * **Ruby scenarios** - the same `eval()`-on-the-value code injection, in Ruby.
 * **Perl scenario** - the same `eval()`-on-the-value code injection, in Perl, matching commix's own `--eval=perl` support.
 * **Lua scenario** - the same `eval()`-on-the-value code injection, in Lua, matching commix's own `--eval=lua` support.
-* **JavaScript scenario** - the same `eval()`-on-the-value code injection, in Node - run as its own standalone HTTP server rather than CGI under the main site, since the base image's glibc predates any Node build that would still run there. Start it with `docker run -d -p 8087:3000 -v "$PWD/scenarios/javascript:/app:ro" -w /app -e TESTBED_URL=http://localhost:8081 node:20-alpine node server.js`, alongside the main container.
-* **Java scenario** - the same bug again, evaluated through Java's own Nashorn engine rather than Node - run as its own standalone HTTP server, same reason as the JavaScript one. Start it with `docker run -d -p 8088:8088 -v "$PWD/scenarios/java:/app:ro" -w /app -e TESTBED_URL=http://localhost:8081 eclipse-temurin:11-jdk sh -c "javac Server.java Layout.java -d /tmp/out && java -cp /tmp/out Server"`, alongside the main container.
+* **JavaScript scenario** - the same `eval()`-on-the-value code injection, in Node, matching commix's own `--eval=javascript` support. Served by its own process rather than by the main site's Apache (see **[Running it](#running-it)**).
+* **Java scenario** - the same bug again, evaluated through Java's own Nashorn engine rather than Node, so the `javascript` grammar is exercised against a second engine. Served by its own process (see **[Running it](#running-it)**).
 * **Every reported type** - classic and blind, command and code injection, so all four combinations commix can report are covered.
 
 Scenarios are labelled with the type commix reports them as, and each page says which option reaches it - several exist to exercise one option and cannot be reached without it. See the **[techniques](https://github.com/commixproject/commix/wiki/Techniques)** wiki page for what those mean and which technique reaches each one.
 
-## Installation
+## Getting it
 
-You can download commix-testbed on any platform by cloning the official Git repository :
+Clone the repository, on any platform :
 
     $ git clone https://github.com/commixproject/commix-testbed.git commix-testbed
 
-Alternatively, you can use the [dockerized version](https://hub.docker.com/r/commixproject/commix-testbed) :
+## Running it
+
+### With Docker
+
+The published image already carries PHP, Python, Ruby, Perl and Lua, so one command gets you most of
+the collection :
 
     $ docker run --rm -p 8080:80 commixproject/commix-testbed
 
+Two scenarios are not in that image and run as servers of their own. To bring up everything at
+once, from a clone of the repository :
+
+    $ docker compose up -d
+
+| | Address |
+|---|---|
+| The site - every PHP, Python, Ruby, Perl and Lua scenario | <http://127.0.0.1:8080> |
+| JavaScript scenario (Node) | <http://127.0.0.1:8087> |
+| Java scenario (Nashorn) | <http://127.0.0.1:8088> |
+
 > [!NOTE]
-> **[PHP](https://www.php.net/downloads)** is required for running the testbed. There are no
-> dependencies and no build step. The pages parse on everything from **5.5** to **8.x**.
+> Those two are separate because of what the base image is. It is Ubuntu 14.04, chosen so the older
+> PHP scenarios stay exploitable - and its glibc predates any Node build that still runs, while the
+> newest JDK it can install is 7, which has no Nashorn.
 
-Serve it with PHP's built-in server :
+### Without Docker
 
-    $ php -S 127.0.0.1:8080
+Nothing here is built or packaged, so serving the files is enough - but "the files" are not only
+PHP, and a missing interpreter takes its own scenarios out while leaving the rest working.
 
-> [!NOTE]
-> Most scenarios shell out to `ping`, so the host serving them needs it installed - a bare
-> `php:apache` image does not have it. The **file-based** technique needs the web root to be
-> writable, and the **out-of-band** technique needs the host to be able to reach the internet.
+| Scenarios | What they need |
+|---|---|
+| Every PHP page - the bulk of the collection | **[PHP](https://www.php.net/downloads)** 5.5 to 8.x |
+| `scenarios/python`, and one CTF page | **Python 3**, run as CGI |
+| `scenarios/ruby`, and one CTF page | **Ruby**, run as CGI |
+| `scenarios/perl`, and one CTF page | **Perl**, run as CGI |
+| `scenarios/lua` | **Lua** - any version; the pages pick `loadstring`/`setfenv` on 5.1 and `load` on 5.2+ themselves |
+| `scenarios/javascript` | **Node**, as its own server on port `3000` |
+| `scenarios/java` | A **JDK between 8 and 14** - Nashorn arrived in 8 and was removed in 15 - as its own server on port `8088` |
+
+> [!IMPORTANT]
+> **PHP's built-in server runs none of the CGI pages.** `php -S` serves PHP and static files only,
+> so under it the Python, Ruby, Perl and Lua scenarios are downloaded as text instead of running.
+> For those you need a web server that can execute CGI - the published image uses Apache with
+> `mod_cgid`, `+ExecCGI` on each of those directories, and a handler bound to each extension.
 >
-> Four pages need an interpreter older than PHP 8 to be *exploitable*, though they load on any
-> version: `create_function()` was removed in PHP 8, the `e` regex modifier in PHP 7, and `assert()`
-> stopped evaluating a string argument in PHP 8. The published image ships PHP 5.5, so every
-> scenario works there.
+> For the PHP pages alone, `php -S 127.0.0.1:8080` is fine.
 
-## Usage
+Four PHP pages load on any version but are only *exploitable* on an older one: `create_function()`
+was removed in PHP 8, the `e` regex modifier in PHP 7, and `assert()` stopped evaluating a string
+argument in PHP 8. The published image ships PHP 5.5, so every scenario works there.
 
-Open <http://127.0.0.1:8080> for the index, which lists every scenario alongside an explanation of
-the flaw behind it.
+Three things the scenarios need from the host rather than from an interpreter :
 
-Point commix at any scenario :
+* **`ping`** - most pages shell out to it, and a bare `php:apache` image does not have it.
+* **A writable web root** - where the **file-based** technique writes its output.
+* **Outbound network access** - how the **out-of-band** technique hears back from the target.
 
-    $ python3 commix.py --url="http://127.0.0.1:8080/scenarios/regular/GET/classic.php?addr=127.0.0.1"
+And three the published image sets up, which a hand-rolled install has to repeat :
 
-Header-based scenarios are only reached at the right `--level` - `2` covers cookies, `3` covers the
-other headers :
+* `hidden/blind.php` is served from **outside the document root**, through an alias - the scenario
+  exists precisely so the path cannot be guessed from the URL.
+* The `kid` scenario resolves a filename against a **key directory outside the document root**
+  (`/var/www/keys`, holding `prod.pem` and `legacy.pem`), so those files have to exist.
+* The document root the file-based technique writes into must have **no `-` in its path**. One
+  scenario filters `-` out of the value, which would corrupt the path along with the payload.
 
-    $ python3 commix.py --url="http://127.0.0.1:8080/scenarios/user-agent/ua(classic).php" --level=3
+### Checking you have everything
 
-Where the value is evaluated as code rather than run by a shell, `--eval` names the language. In
-PHP :
+Run this from a clone to see what a local install is still missing :
 
-    $ python3 commix.py --url="http://127.0.0.1:8080/scenarios/regular/GET/eval.php?user=ancst" --eval=php
+```bash
+for c in php python3 ruby perl lua node java ping; do
+  printf '%-8s %s\n' "$c" "$(command -v $c || echo 'MISSING')"
+done
+```
 
-... and in Python :
+`php` alone is enough to start. Anything else missing costs you only the scenarios in the table
+above that name it.
 
-    $ python3 commix.py --url="http://127.0.0.1:8080/scenarios/python/eval.py?user=ancst" --eval=python
+## Using it with commix
 
-> [!NOTE]
-> A shell separator means nothing at an evaluated sink - the payload has to be valid code in the
-> language doing the evaluating, which is what `--eval` settles. The Python page concatenates the
-> value inside a quoted literal, and commix works that boundary out for itself.
+Open <http://127.0.0.1:8080> for the index, which lists every scenario with an explanation of the
+flaw behind it. Each page also says which commix option reaches it - several exist to exercise one
+option and cannot be found without it.
 
-Prove execution where the page gives nothing back, by timing :
+Rather than repeat them here, the commix wiki documents what to run :
 
-    $ python3 commix.py --url="http://127.0.0.1:8080/scenarios/regular/POST/blind.php" --data="addr=127.0.0.1" --technique=t
-
-... or out-of-band, where the proof arrives at a server of your own rather than in the response :
-
-    $ python3 commix.py --url="http://127.0.0.1:8080/scenarios/regular/POST/blind.php" --data="addr=127.0.0.1" --oob
-
-> [!NOTE]
-> `--oob` uses the public `oast.fun` interactsh server by default, so interaction metadata for your
-> target leaves your network. Point `--oob-server` at a self-hosted instance to keep it in-house,
-> and `--oob-transport=dns` where the target can resolve a name but not reach the internet over
-> HTTP.
-
-To get an overview of commix available options, switches and/or basic ideas on how to use commix, check **[usage](https://github.com/commixproject/commix/wiki/Usage)**, **[usage examples](https://github.com/commixproject/commix/wiki/Usage-examples)** and **[filters bypasses](https://github.com/commixproject/commix/wiki/Filters-bypass-examples)** wiki pages.
+* **[Usage](https://github.com/commixproject/commix/wiki/Usage)** - every option and switch, with a
+  worked example for each.
+* **[Usage examples](https://github.com/commixproject/commix/wiki/Usage-examples)** - whole runs
+  against real targets, this testbed included.
+* **[Techniques](https://github.com/commixproject/commix/wiki/Techniques)** - what the four
+  techniques are, and which one reaches which kind of page.
+* **[Filters bypass examples](https://github.com/commixproject/commix/wiki/Filters-bypass-examples)**
+  - the tamper scripts, against the weak-filter scenarios here.
 
 ## Bugs and Enhancements
 

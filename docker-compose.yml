@@ -1,0 +1,38 @@
+# Every scenario at once: the main site, plus the two that cannot be served from it.
+#
+# The JavaScript and Java pages run as standalone HTTP servers rather than as CGI under Apache,
+# because the base image is Ubuntu 14.04 - its glibc predates any Node build that still runs, and
+# the newest JDK it can install is 7, which has no Nashorn. Each one therefore brings its own
+# runtime and talks back to the main site only for its stylesheet.
+#
+#   docker compose up -d
+#
+services:
+  testbed:
+    build: .
+    ports:
+      - "8080:80"
+
+  javascript:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - ./scenarios/javascript:/app:ro
+    environment:
+      # Where the main site is, so the page's stylesheet and favicon resolve against it.
+      TESTBED_URL: http://localhost:8080
+    command: node server.js
+    ports:
+      - "8087:3000"
+
+  java:
+    # Nashorn ships with the JDK from 8 to 14 and was removed in 15, so the tag is not interchangeable.
+    image: eclipse-temurin:11-jdk
+    working_dir: /app
+    volumes:
+      - ./scenarios/java:/app:ro
+    environment:
+      TESTBED_URL: http://localhost:8080
+    command: sh -c "javac Server.java Layout.java -d /tmp/out && java -cp /tmp/out Server"
+    ports:
+      - "8088:8088"

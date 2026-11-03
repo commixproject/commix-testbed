@@ -12,8 +12,10 @@ $__tail = <<<'TESTBED_TAIL'
       <p class="lesson">The pattern itself is user input, which hands over far more than the text being matched: a regex carries modifiers, and PHP's e modifier evaluated the replacement as code. It was removed in PHP 7, so this page needs an older interpreter - but the shape of the mistake outlives the feature. Never let a request supply the pattern to a matching function.</p>
       <details class="solve">
         <summary>Hint</summary>
+        <p>Nothing is evaluated unless the pattern carries the <code>/e</code> modifier, which is what makes the replacement run as code - so the request has to hold one before there is anything to find.</p>
         <table class="solve-glossary">
           <tr><td><code>--eval=php</code></td><td>tells commix the sink evaluates PHP, not a shell command</td></tr>
+          <tr><td><code>replace=/.+/e</code></td><td>the pattern's own modifier, sent as the parameter's value</td></tr>
         </table>
       </details>
       <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#2-dynamic-code-evaluation">Classic code injection</a></b>.</p>

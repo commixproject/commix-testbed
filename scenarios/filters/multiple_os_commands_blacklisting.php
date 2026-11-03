@@ -12,8 +12,10 @@ $__tail = <<<'TESTBED_TAIL'
       <p class="lesson">Blocking command names rather than metacharacters, which fails for a different reason: the regex matches literal text, while the shell sees the string only after its own expansions have run. Anything that breaks up the letters on the way to the shell defeats the match without changing what executes. There are also far more ways to read a file than the six names on this list.</p>
       <details class="solve">
         <summary>Hint</summary>
-        <p>No extra flags needed.</p>
-        <p>Commix already falls back to <code>printf</code> where <code>echo</code> is blocked.</p>
+        <p>The blacklist names the words commix's own payloads are built from, so they have to be spelled another way.</p>
+        <table class="solve-glossary">
+          <tr><td><code>--tamper=printfoctal</code></td><td>spells command names via printf's own octal escapes, working even on dash</td></tr>
+        </table>
       </details>
       <p class="verdict">Identified by commix as <b><a href="https://github.com/commixproject/commix/wiki/Techniques#1-results-based-classic-command-injection">Classic command injection</a></b>.</p>
       <details class="src">

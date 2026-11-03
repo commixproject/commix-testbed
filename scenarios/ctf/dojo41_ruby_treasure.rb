@@ -89,6 +89,7 @@ body = <<-HTML
         <p class="lesson">A value like <code>"|cmd\\nx"</code> passes validation - line 2, <code>"x"</code>, matches - and then runs as a shell command, since line 1 starts with <code>|</code>. Two Ruby-specific behaviors, neither a bug on its own, that only add up to one together.</p>
               <details class="solve">
                 <summary>Hint</summary>
+                <p>The pipe has to be the value's own first character, so the field is tested empty - a value left in front of it is read as a filename and nothing runs.</p>
                 <table class="solve-glossary">
                   <tr><td><code>--suffix=$'\nx'</code></td><td>appends this text after every payload, closing whatever the application wraps around the value</td></tr>
                   <tr><td><code>--technique=r</code></td><td>limits the run to the results-based (classic) technique</td></tr>

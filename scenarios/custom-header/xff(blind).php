@@ -12,6 +12,7 @@ $__tail = <<<'TESTBED_TAIL'
       <p class="lesson">The same custom header with no output reflected.</p>
       <details class="solve">
         <summary>Hint</summary>
+        <p>Naming a custom header this way also raises the injection level it needs.</p>
         <table class="solve-glossary">
           <tr><td><code>-H</code></td><td>adds this HTTP header to every request</td></tr>
           <tr><td><code>-p</code></td><td>tells commix which parameter(s) to test</td></tr>

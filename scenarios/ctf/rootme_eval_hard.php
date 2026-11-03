@@ -13,6 +13,7 @@ $__tail = <<<'TESTBED_TAIL'
       <details class="solve">
         <summary>Hint</summary>
         <table class="solve-glossary">
+          <tr><td><code>--eval=php</code></td><td>tells commix the sink evaluates PHP, not a shell command</td></tr>
           <tr><td><code>--tamper=phpnoletters</code></td><td>reaches PHP's own functions through octal-escaped names, with no ASCII letter in the payload</td></tr>
         </table>
       </details>
