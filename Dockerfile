@@ -136,5 +136,24 @@ RUN printf '<Directory /var/www/commix-testbed.com/public_html/scenarios/lua>\n\
 RUN rm -rf /var/www/html \
  && ln -s /var/www/commix-testbed.com/public_html /var/www/html
 
+# Both defects that reached a published image left every page serving, so a smoke test cleared them:
+# a web root www-data could not write to, which leaves the file-based technique nowhere to put its
+# output, and a missing php5-cli, which only the scenarios shelling out to the interpreter reach.
+# Asserted here, after the symlink above, so a build carrying either one fails instead of shipping.
+RUN su -s /bin/sh www-data -c 'touch /var/www/html/.build-check' \
+ && rm /var/www/html/.build-check \
+ && for bin in php python3 ruby perl lua5.1 ping; do \
+      command -v "$bin" > /dev/null || { echo "build-check: '$bin' is missing"; exit 1; }; \
+    done
+
+# The mode above is set once, at build time, which is where it was lost: a build host's own umask, a
+# 'COPY --chmod' or a volume mounted over the document root all land a read-only web root on an image
+# whose Dockerfile asks for a writable one. Re-applied on every start, so what the file-based
+# technique needs holds however the image was built or is run - and only on this directory.
+RUN printf '#!/bin/sh\nchmod a+rwx /var/www/commix-testbed.com/public_html\nexec "$@"\n' \
+      > /usr/local/bin/testbed-entrypoint \
+ && chmod 755 /usr/local/bin/testbed-entrypoint
+
 EXPOSE 80
+ENTRYPOINT ["/usr/local/bin/testbed-entrypoint"]
 CMD ["apache2ctl", "-D", "FOREGROUND"]

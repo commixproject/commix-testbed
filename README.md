@@ -108,7 +108,11 @@ argument in PHP 8. The published image ships PHP 5.5, so every scenario works th
 Three things the scenarios need from the host rather than from an interpreter :
 
 * **`ping`** - most pages shell out to it, and a bare `php:apache` image does not have it.
-* **A writable web root** - where the **file-based** technique writes its output.
+* **A writable web root** - where the **file-based** technique writes its output. The container
+  re-applies this on every start, so a volume mounted over the document root does not take it
+  away; a hand-rolled install has to grant it. Where the server user cannot write there, the
+  technique falls back to `/tmp/` and still reports the scenario as found, so a scan that looks
+  like a pass may never have exercised it at all.
 * **Outbound network access** - how the **out-of-band** technique hears back from the target.
 
 And three the published image sets up, which a hand-rolled install has to repeat :

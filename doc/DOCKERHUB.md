@@ -67,8 +67,9 @@ a modern interpreter four scenarios would load but could never be exploited. Her
 
 Also present: **Python 3**, **Ruby**, **Perl** and **Lua**, with CGI enabled for each of their
 directories, and **`ping`**, which most pages shell out to. The web root is writable so the
-**file-based** technique can write its output and read it back; the **out-of-band** technique needs
-the container to be able to reach the internet.
+**file-based** technique can write its output and read it back - re-applied on every start, so
+mounting a volume over the document root does not quietly take it away; the **out-of-band**
+technique needs the container to be able to reach the internet.
 
 ## Two scenarios are not in this image
 
