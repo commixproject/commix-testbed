@@ -121,10 +121,10 @@ And three the published image sets up, which a hand-rolled install has to repeat
   exists precisely so the path cannot be guessed from the URL.
 * The `kid` scenario resolves a filename against a **key directory outside the document root**
   (`/var/www/keys`, holding `prod.pem` and `legacy.pem`), so those files have to exist.
-* The document root the file-based technique writes into must have **no `-` in its path**. One
-  scenario filters `-` out of the value, which would corrupt the path along with the payload. In the
-  published image that is what `/var/www/html` is for - a dash-free symlink to the real root, which
-  does carry one - so pass `--web-root=/var/www/html` rather than the path it resolves to.
+* The document root is `/var/www/commix-testbed.com/public_html`, and the file-based technique
+  writes there as it stands. One scenario filters `-` out of the value, though, which would corrupt
+  that path along with the payload - so the published image also carries `/var/www/html`, a dash-free
+  symlink to the same directory. `--web-root=/var/www/html` covers every scenario, that one included.
 
 ### Checking you have everything
 

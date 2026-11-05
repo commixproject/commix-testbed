@@ -28,9 +28,10 @@ The commix wiki documents what to run against them: **[Usage](https://github.com
 **[Techniques](https://github.com/commixproject/commix/wiki/Techniques)** and
 **[Filters bypass examples](https://github.com/commixproject/commix/wiki/Filters-bypass-examples)**.
 
-> **Note** - for the **file-based** technique, pass `--web-root=/var/www/html`. That is a dash-free symlink to
-> the real document root, which carries a `-` - and one scenario filters `-` out of the value, which
-> would corrupt the path along with the payload.
+> **Note** - the document root is `/var/www/commix-testbed.com/public_html`, and the **file-based**
+> technique writes there as it stands. `/var/www/html` is a dash-free symlink to the same directory:
+> pass `--web-root=/var/www/html` for the one scenario that filters `-` out of the value, which
+> would otherwise corrupt that path along with the payload.
 
 ## What is inside
 
